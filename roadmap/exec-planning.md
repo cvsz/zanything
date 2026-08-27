@@ -140,60 +140,60 @@ A milestone is complete only when implementation, tests, security/reliability re
 - [x] Capacity and failure-mode checks.
 
 ### v19 Data Runtime
-- [ ] CSV/XLSX/Parquet/DB ingestion.
-- [ ] Schema and quality profiling.
-- [ ] Missing/anomaly detection.
-- [ ] Reproducible transforms.
-- [ ] Statistics and visualization.
-- [ ] Data lineage.
-- [ ] Spreadsheet/report exports.
+- [x] CSV/XLSX/Parquet/DB ingestion.
+- [x] Schema and quality profiling.
+- [x] Missing/anomaly detection.
+- [x] Reproducible transforms.
+- [x] Statistics and visualization.
+- [x] Data lineage.
+- [x] Spreadsheet/report exports.
 
 ### v20 Document/Spreadsheet/Presentation Production Layer
-- [ ] DOCX templates and export.
-- [ ] XLSX formulas/validation/charts and export.
-- [ ] PPTX narrative/layout/export.
-- [ ] PDF export.
-- [ ] Brand/template system.
-- [ ] Artifact quality validation.
+- [x] DOCX templates and export.
+- [x] XLSX formulas/validation/charts and export.
+- [x] PPTX narrative/layout/export.
+- [x] PDF export.
+- [x] Brand/template system.
+- [x] Artifact quality validation.
 
 ### v21 Image & Movie Poster Studio
-- [ ] Image specification builder.
-- [ ] Generation/edit workflow abstraction.
-- [ ] Character/product/brand consistency controls.
-- [ ] Variant generation.
-- [ ] Poster hierarchy/title-safe layout engine.
-- [ ] Visual QA and metadata.
+- [x] Image specification builder.
+- [x] Generation/edit workflow abstraction.
+- [x] Character/product/brand consistency controls.
+- [x] Variant generation.
+- [x] Poster hierarchy/title-safe layout engine.
+- [x] Visual QA and metadata.
 
 ### v22 UI/UX Design System
-- [ ] Design tokens.
-- [ ] Responsive components.
-- [ ] Accessibility and keyboard navigation.
-- [ ] Loading/error/empty/permission states.
-- [ ] Design-system governance.
-- [ ] Figma-ready component mapping docs.
+- [x] Design tokens.
+- [x] Responsive components.
+- [x] Accessibility and keyboard navigation.
+- [x] Loading/error/empty/permission states.
+- [x] Design-system governance.
+- [x] Figma-ready component mapping docs.
 
 ### v23 Marketing & Business Engines
-- [ ] Audience/segment model.
-- [ ] Positioning/value proposition workflow.
-- [ ] Campaign/content workflow.
-- [ ] Experiment/KPI model.
-- [ ] Economics/business-case model.
-- [ ] Evidence-vs-assumption separation.
+- [x] Audience/segment model.
+- [x] Positioning/value proposition workflow.
+- [x] Campaign/content workflow.
+- [x] Experiment/KPI model.
+- [x] Economics/business-case model.
+- [x] Evidence-vs-assumption separation.
 
 ### v24 Project Execution OS
-- [ ] Project state machine.
-- [ ] Workstreams/milestones/dependencies.
-- [ ] Blockers and bounded-slice execution.
-- [ ] Persistent completion ledger.
-- [ ] Acceptance and release gates.
-- [ ] Resumable execution and audit.
+- [x] Project state machine.
+- [x] Workstreams/milestones/dependencies.
+- [x] Blockers and bounded-slice execution.
+- [x] Persistent completion ledger.
+- [x] Acceptance and release gates.
+- [x] Resumable execution and audit.
 
 ### v25 Multimodal Runtime
-- [ ] Unified file/image/data/code input model.
-- [ ] Cross-source provenance.
-- [ ] Attachment lifecycle.
-- [ ] Mixed-input execution graph.
-- [ ] Multimodal evals.
+- [x] Unified file/image/data/code input model.
+- [x] Cross-source provenance.
+- [x] Attachment lifecycle.
+- [x] Mixed-input execution graph.
+- [x] Multimodal evals.
 
 ## Phase C — Reliability, Security & Governance
 

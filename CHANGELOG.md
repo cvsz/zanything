@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - Phase B Specialist Domains & Project OS (v19-v25)
+- Tabular Data Runtime with schema profiling, missing values counting, and anomaly detection (`src/zanything/engines/specialists.py`)
+- Project Execution OS with milestone dependency DAG enforcement and progress tracking
+- Multimodal Input Model with attachment tracking and unified prompt processing
+- 3 integration tests covering data profiling, project DAG milestones, and multimodal contracts (`tests/test_specialists.py`)
+
 ### Added - Phase B Universal Capability Runtime (v13-v18)
 - S3/GCS-compatible Artifact Runtime with SHA-256 integrity checks, tenant isolation, and provenance metadata (`src/zanything/artifacts/`)
 - Deep Research Engine with source freshness/authority scoring, evidence graphs, and citation validation (`src/zanything/engines/research.py`)
