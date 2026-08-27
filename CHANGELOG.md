@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - Phase D & E Platform Engineering, Distribution & GA Release Gates (v41-v66)
+- Enterprise Entitlement Policy with Tier limits (`FeatureTier.ENTERPRISE`, worker limits, allowed providers) (`src/zanything/distribution/`)
+- Support `DiagnosticBundle` for incident troubleshooting and sanitized system state
+- `GoldMasterReleaseGate` formal sign-off evaluator enforcing 100% green tests, clean security audits, SBOM generation, and DR drill verification
+- 3 integration tests covering entitlement quotas, support diagnostics, and Gold Master release gates (`tests/test_distribution.py`)
+
 ### Added - Phase C Reliability, Security & Governance (v26-v40)
 - Real-time Service Level Objective (`SLOMonitor`) calculating availability percentages and error budget consumption (`src/zanything/governance/`)
 - `ChaosHarness` runtime for programmatic fault injection, partition testing, and resilience verification

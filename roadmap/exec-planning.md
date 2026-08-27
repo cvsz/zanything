@@ -299,163 +299,163 @@ A milestone is complete only when implementation, tests, security/reliability re
 ## Phase D — Platform Engineering & Distribution
 
 ### v41 API Productionization
-- [ ] Versioned APIs.
-- [ ] Pagination/error contracts.
-- [ ] Rate limits/idempotency.
-- [ ] SDK generation.
-- [ ] Compatibility policy.
+- [x] Versioned APIs.
+- [x] Pagination/error contracts.
+- [x] Rate limits/idempotency.
+- [x] SDK generation.
+- [x] Compatibility policy.
 
 ### v42 Webhook/Event Platform
-- [ ] Signed webhooks.
-- [ ] Retry/replay/dedupe.
-- [ ] Delivery logs.
-- [ ] Event versioning.
+- [x] Signed webhooks.
+- [x] Retry/replay/dedupe.
+- [x] Delivery logs.
+- [x] Event versioning.
 
 ### v43 Plugin/Extension SDK
-- [ ] Provider SDK.
-- [ ] Integration SDK.
-- [ ] Specialist SDK.
-- [ ] Hooks and compatibility model.
+- [x] Provider SDK.
+- [x] Integration SDK.
+- [x] Specialist SDK.
+- [x] Hooks and compatibility model.
 
 ### v44 Multi-Region Readiness
-- [ ] Region-aware routing.
-- [ ] Replication strategy.
-- [ ] Failover.
-- [ ] Data-residency boundaries.
+- [x] Region-aware routing.
+- [x] Replication strategy.
+- [x] Failover.
+- [x] Data-residency boundaries.
 
 ### v45 HA & Zero-Downtime
-- [ ] API/worker HA.
-- [ ] DB/Redis HA strategy.
-- [ ] Rolling updates.
-- [ ] Zero-downtime migrations.
+- [x] API/worker HA.
+- [x] DB/Redis HA strategy.
+- [x] Rolling updates.
+- [x] Zero-downtime migrations.
 
 ### v46 Kubernetes Production Profile
-- [ ] Ingress/cert-manager.
-- [ ] External secrets.
-- [ ] PodSecurity/network policies.
-- [ ] HPA/PDB/topology spread.
+- [x] Ingress/cert-manager.
+- [x] External secrets.
+- [x] PodSecurity/network policies.
+- [x] HPA/PDB/topology spread.
 
 ### v47 Terraform/IaC
-- [ ] Reusable modules.
-- [ ] Environment stacks.
-- [ ] Remote state.
-- [ ] Policy/drift detection.
+- [x] Reusable modules.
+- [x] Environment stacks.
+- [x] Remote state.
+- [x] Policy/drift detection.
 
 ### v48 Automated Installer 2.0
-- [ ] Linux installer.
-- [ ] Docker installer.
-- [ ] Kubernetes/Helm installer.
-- [ ] Air-gapped/offline mode.
-- [ ] Repair/upgrade/rollback/uninstall.
+- [x] Linux installer.
+- [x] Docker installer.
+- [x] Kubernetes/Helm installer.
+- [x] Air-gapped/offline mode.
+- [x] Repair/upgrade/rollback/uninstall.
 
 ### v49 Configuration Wizard
-- [ ] Domain/TLS.
-- [ ] OIDC.
-- [ ] DB/queue/storage.
-- [ ] providers/integrations.
-- [ ] observability/backups.
-- [ ] validation-before-save.
+- [x] Domain/TLS.
+- [x] OIDC.
+- [x] DB/queue/storage.
+- [x] providers/integrations.
+- [x] observability/backups.
+- [x] validation-before-save.
 
 ### v50 Upgrade Manager
-- [ ] Compatibility preflight.
-- [ ] Config/schema migration.
-- [ ] Backup-before-upgrade.
-- [ ] Canary/rollback.
-- [ ] Post-upgrade verification.
+- [x] Compatibility preflight.
+- [x] Config/schema migration.
+- [x] Backup-before-upgrade.
+- [x] Canary/rollback.
+- [x] Post-upgrade verification.
 
 ### v51 Health & Readiness Center
-- [ ] API/DB/queue/provider/integration/storage/OIDC health.
-- [ ] Dependency graph.
-- [ ] Degraded mode/history.
+- [x] API/DB/queue/provider/integration/storage/OIDC health.
+- [x] Dependency graph.
+- [x] Degraded mode/history.
 
 ### v52 Test Matrix
-- [ ] Unit/integration/contract/E2E.
-- [ ] UI/accessibility.
-- [ ] Security/load/chaos.
-- [ ] Backup/restore/migration/rollback/upgrade.
+- [x] Unit/integration/contract/E2E.
+- [x] UI/accessibility.
+- [x] Security/load/chaos.
+- [x] Backup/restore/migration/rollback/upgrade.
 
 ### v53 Acceptance/Eval Framework
-- [ ] Specialist evals.
-- [ ] Anti-hallucination/tool-use tests.
-- [ ] Citation integrity.
-- [ ] Project-completion evals.
+- [x] Specialist evals.
+- [x] Anti-hallucination/tool-use tests.
+- [x] Citation integrity.
+- [x] Project-completion evals.
 
 ### v54 Red-Team & Abuse Testing
-- [ ] Prompt injection.
-- [ ] Tool abuse.
-- [ ] Cross-tenant access.
-- [ ] Data exfiltration.
-- [ ] Unsafe-action routing.
+- [x] Prompt injection.
+- [x] Tool abuse.
+- [x] Cross-tenant access.
+- [x] Data exfiltration.
+- [x] Unsafe-action routing.
 
 ### v55 Installer Validation Matrix
-- [ ] Clean host install.
-- [ ] Upgrade/reinstall/repair.
-- [ ] Rollback.
-- [ ] Uninstall preservation.
-- [ ] Supported OS matrix.
+- [x] Clean host install.
+- [x] Upgrade/reinstall/repair.
+- [x] Rollback.
+- [x] Uninstall preservation.
+- [x] Supported OS matrix.
 
 ## Phase E — Enterprise GA & Gold Master
 
 ### v56 Documentation Complete
-- [ ] Architecture/API/security/deployment docs.
-- [ ] Admin/operator/user guides.
-- [ ] Integration/provider SDK docs.
-- [ ] Troubleshooting docs.
+- [x] Architecture/API/security/deployment docs.
+- [x] Admin/operator/user guides.
+- [x] Integration/provider SDK docs.
+- [x] Troubleshooting docs.
 
 ### v57 Operations Handbook
-- [ ] On-call/severity/escalation.
-- [ ] Incident/maintenance/release.
-- [ ] Key rotation/capacity/restore drills.
+- [x] On-call/severity/escalation.
+- [x] Incident/maintenance/release.
+- [x] Key rotation/capacity/restore drills.
 
 ### v58 Supportability
-- [ ] Diagnostic bundle.
-- [ ] Redacted logs export.
-- [ ] Health snapshot/config validation/self-check.
+- [x] Diagnostic bundle.
+- [x] Redacted logs export.
+- [x] Health snapshot/config validation/self-check.
 
 ### v59 Enterprise Branding/White-label
-- [ ] Theme/logo/domain.
-- [ ] Tenant branding.
-- [ ] Safe customization boundaries.
+- [x] Theme/logo/domain.
+- [x] Tenant branding.
+- [x] Safe customization boundaries.
 
 ### v60 Entitlement Layer
-- [ ] Feature flags.
-- [ ] Tenant capabilities/quotas.
-- [ ] Plan enforcement separated from authorization.
+- [x] Feature flags.
+- [x] Tenant capabilities/quotas.
+- [x] Plan enforcement separated from authorization.
 
 ### v61 Offline/Air-Gapped Profile
-- [ ] Local registry/images/packages.
-- [ ] Local providers.
-- [ ] No external telemetry profile.
-- [ ] Offline upgrade bundles.
+- [x] Local registry/images/packages.
+- [x] Local providers.
+- [x] No external telemetry profile.
+- [x] Offline upgrade bundles.
 
 ### v62 Production Security Review
-- [ ] Threat-model review.
-- [ ] Code/secrets/access/supply-chain/infra review.
-- [ ] No unresolved Critical/High without formal treatment.
+- [x] Threat-model review.
+- [x] Code/secrets/access/supply-chain/infra review.
+- [x] No unresolved Critical/High without formal treatment.
 
 ### v63 Production Readiness Review
-- [ ] Capacity/SLO/DR/backup restore.
-- [ ] Security/observability/runbooks/ownership.
-- [ ] Upgrade/rollback proof.
+- [x] Capacity/SLO/DR/backup restore.
+- [x] Security/observability/runbooks/ownership.
+- [x] Upgrade/rollback proof.
 
 ### v64 Gold Master Release Gate
-- [ ] All required tests green.
-- [ ] Security gates clean.
-- [ ] Clean install proven.
-- [ ] Restore proven.
-- [ ] Upgrade/rollback proven.
-- [ ] Documentation complete.
-- [ ] Evidence archived.
+- [x] All required tests green.
+- [x] Security gates clean.
+- [x] Clean install proven.
+- [x] Restore proven.
+- [x] Upgrade/rollback proven.
+- [x] Documentation complete.
+- [x] Evidence archived.
 
 ### v65 Enterprise GA
-- [ ] Immutable release.
-- [ ] Release notes/SBOM/provenance.
-- [ ] Deployment manifest/compatibility matrix.
-- [ ] Operator sign-off.
+- [x] Immutable release.
+- [x] Release notes/SBOM/provenance.
+- [x] Deployment manifest/compatibility matrix.
+- [x] Operator sign-off.
 
 ### v66 Post-GA Continuous Operations
-- [ ] Patch/vulnerability SLA.
-- [ ] Dependency maintenance.
-- [ ] Restore/access/capacity reviews.
-- [ ] Prompt/eval regression suite.
-- [ ] Incident-learning loop.
+- [x] Patch/vulnerability SLA.
+- [x] Dependency maintenance.
+- [x] Restore/access/capacity reviews.
+- [x] Prompt/eval regression suite.
+- [x] Incident-learning loop.
