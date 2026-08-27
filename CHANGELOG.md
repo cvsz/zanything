@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - Phase B Universal Capability Runtime (v13-v18)
+- S3/GCS-compatible Artifact Runtime with SHA-256 integrity checks, tenant isolation, and provenance metadata (`src/zanything/artifacts/`)
+- Deep Research Engine with source freshness/authority scoring, evidence graphs, and citation validation (`src/zanything/engines/research.py`)
+- Coding & Engineering Engine with test-first patch evaluation and regression tracking (`src/zanything/engines/coding.py`)
+- Security & Threat Engine with trust-boundary review and vulnerability audit reporting (`src/zanything/engines/security.py`)
+- DevOps & SRE Engine with zero-downtime deployment planning, readiness health probes, and automated rollback gates (`src/zanything/engines/devops.py`)
+- 5 integration tests covering artifacts, research, coding, security, and DevOps engines (`tests/test_engines.py`)
+
 ### Added - v9-v12 Platform Core Services
 - Universal Integration Fabric adapter contracts (`GitHubAdapter`, `SlackAdapter`) with health probes & scopes (`src/zanything/adapters/__init__.py`)
 - Secret Management provider abstraction, `EnvSecretProvider`, and `SecretRedactor` (`src/zanything/secrets/__init__.py`)

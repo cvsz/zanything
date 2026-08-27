@@ -85,59 +85,59 @@ A milestone is complete only when implementation, tests, security/reliability re
 ## Phase B — Universal Capability Runtime
 
 ### v13 Universal Operator GUI
-- [ ] Research workspace.
-- [ ] Coding/debugging workspace.
-- [ ] Data workspace.
-- [ ] Document/spreadsheet/presentation workspace.
-- [ ] Image/movie-poster studio.
-- [ ] UI/UX workspace.
-- [ ] Project cockpit.
-- [ ] Multimodal upload and artifact preview.
+- [x] Research workspace.
+- [x] Coding/debugging workspace.
+- [x] Data workspace.
+- [x] Document/spreadsheet/presentation workspace.
+- [x] Image/movie-poster studio.
+- [x] UI/UX workspace.
+- [x] Project cockpit.
+- [x] Multimodal upload and artifact preview.
 
 ### v14 Artifact Runtime
-- [ ] Object-storage abstraction.
-- [ ] Tenant-isolated artifact metadata.
-- [ ] Versioning/checksums/provenance.
-- [ ] Retention/deletion/export policy.
-- [ ] Artifact preview/download authorization.
-- [ ] Backup/restore coverage.
+- [x] Object-storage abstraction.
+- [x] Tenant-isolated artifact metadata.
+- [x] Versioning/checksums/provenance.
+- [x] Retention/deletion/export policy.
+- [x] Artifact preview/download authorization.
+- [x] Backup/restore coverage.
 
 ### v15 Research & Deep Research Engine
-- [ ] Research-plan model.
-- [ ] Source freshness and authority scoring.
-- [ ] Primary-source preference.
-- [ ] Source dedupe.
-- [ ] Contradiction detection.
-- [ ] Provenance/evidence graph.
-- [ ] Citation integrity validation.
-- [ ] Deep-research report renderer.
-- [ ] Research eval suite.
+- [x] Research-plan model.
+- [x] Source freshness and authority scoring.
+- [x] Primary-source preference.
+- [x] Source dedupe.
+- [x] Contradiction detection.
+- [x] Provenance/evidence graph.
+- [x] Citation integrity validation.
+- [x] Deep-research report renderer.
+- [x] Research eval suite.
 
 ### v16 Coding & Debugging Engine
-- [ ] Repository/workspace abstraction.
-- [ ] Branch/worktree isolation.
-- [ ] Test-first bounded execution.
-- [ ] Build/lint/typecheck/test orchestration.
-- [ ] Security scan orchestration.
-- [ ] CI evidence ingestion.
-- [ ] Regression proof and patch artifact output.
+- [x] Repository/workspace abstraction.
+- [x] Branch/worktree isolation.
+- [x] Test-first bounded execution.
+- [x] Build/lint/typecheck/test orchestration.
+- [x] Security scan orchestration.
+- [x] CI evidence ingestion.
+- [x] Regression proof and patch artifact output.
 
 ### v17 Architecture & Security Engine
-- [ ] Trust-boundary model.
-- [ ] Threat-model workflow.
-- [ ] ADR generator.
-- [ ] Auth/tenant boundary review.
-- [ ] Injection/SSRF/path/XSS/CSRF/secrets/supply-chain checks.
-- [ ] Security evidence and severity calibration.
+- [x] Trust-boundary model.
+- [x] Threat-model workflow.
+- [x] ADR generator.
+- [x] Auth/tenant boundary review.
+- [x] Injection/SSRF/path/XSS/CSRF/secrets/supply-chain checks.
+- [x] Security evidence and severity calibration.
 
 ### v18 DevOps/SRE Engine
-- [ ] Docker/Compose execution planner.
-- [ ] Kubernetes/Helm execution planner.
-- [ ] IaC/Terraform planner.
-- [ ] Migration and rollout gates.
-- [ ] Health/readiness verification.
-- [ ] Rollback/DR orchestration.
-- [ ] Capacity and failure-mode checks.
+- [x] Docker/Compose execution planner.
+- [x] Kubernetes/Helm execution planner.
+- [x] IaC/Terraform planner.
+- [x] Migration and rollout gates.
+- [x] Health/readiness verification.
+- [x] Rollback/DR orchestration.
+- [x] Capacity and failure-mode checks.
 
 ### v19 Data Runtime
 - [ ] CSV/XLSX/Parquet/DB ingestion.
