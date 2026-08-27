@@ -9,11 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <!-- Lucide Icons Standard -->
 <script src="https://unpkg.com/lucide@latest"></script>
+<!-- Chart.js for High-End Animated Analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Canvas Confetti for Stage Completion Celebrations -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+<!-- Toastify for Modern Non-blocking Alerts -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <style>
 :root {
   color-scheme: dark;
-  --bg: #07090e;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0d121f 40%, #07090e 80%);
+  --bg: #06090f;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0d121f 40%, #06090f 80%);
   --panel: rgba(15, 23, 42, 0.75);
   --panel-solid: #0f172a;
   --panel-hover: rgba(30, 41, 59, 0.85);
@@ -604,6 +611,16 @@ pre#output {
         <div class="controls-row">
           <button class="btn btn-primary" onclick="runSLO()"><i data-lucide="calculator" style="width:18px; height:18px;"></i> Calculate SLO & Budget</button>
         </div>
+        
+        <!-- Live Animated SLO Chart Container -->
+        <div style="margin-top:24px; padding:16px; background:rgba(8,13,24,0.6); border-radius:14px; border:1px solid var(--line);">
+          <div style="font-size:0.88rem; font-weight:700; color:var(--text-muted); margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+            <i data-lucide="pie-chart" style="width:16px; height:16px; color:var(--primary);"></i> Error Budget vs Consumption Ratio
+          </div>
+          <div style="max-height:220px; display:flex; justify-content:center;">
+            <canvas id="sloChart" style="max-height:200px;"></canvas>
+          </div>
+        </div>
       </div>
 
       <!-- Admin Tab -->
@@ -660,12 +677,31 @@ pre#output {
 
 <script>
 let currentTab = 'execute';
+let sloChartInstance = null;
 
 const API_KEYS = {
   admin: "zany-admin-demo-key",
   auditor: "zany-auditor-demo-key",
   anonymous: ""
 };
+
+function showNotification(msg, isSuccess = true) {
+  if (window.Toastify) {
+    Toastify({
+      text: msg,
+      duration: 3500,
+      gravity: "top",
+      position: "right",
+      style: {
+        background: isSuccess ? "linear-gradient(135deg, #059669 0%, #10b981 100%)" : "linear-gradient(135deg, #dc2626 0%, #ef4444 100%)",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+        fontWeight: "600",
+        fontFamily: "'Plus Jakarta Sans', sans-serif"
+      }
+    }).showToast();
+  }
+}
 
 function getAuthHeaders() {
   const role = document.getElementById("auth-role-select").value;
@@ -680,6 +716,7 @@ function getAuthHeaders() {
 function updateAuthHeader() {
   const role = document.getElementById("auth-role-select").value;
   document.getElementById("tenant-display").textContent = role === "anonymous" ? "default" : "zeaz-enterprise";
+  showNotification(`Active Identity switched to: ${role.toUpperCase()}`);
   checkCurrentPrincipal();
 }
 
@@ -726,6 +763,7 @@ async function showCapabilities() {
   const res = await fetch("/v1/capabilities");
   const data = await res.json();
   document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  showNotification("System Capabilities retrieved");
 }
 
 function renderTimelineItem(text, isActive = false, isDone = false) {
@@ -746,6 +784,7 @@ async function runExecuteStream() {
   const timeline = document.getElementById("timeline-container");
   timeline.innerHTML = "";
   document.getElementById("output").textContent = "Opening SSE telemetry stream...\n";
+  showNotification("Streaming Execution Pipeline started");
 
   const payload = {
     objective,
@@ -797,12 +836,23 @@ async function runExecuteStream() {
           } else if (data.event === "finished") {
             renderTimelineItem(`🏁 Pipeline execution successfully finished!`, false, true);
             document.getElementById("output").textContent += "\n=== Final Execution Summary ===\n" + JSON.stringify(data.result, null, 2);
+            
+            // Trigger Festive Confetti for successful delivery
+            if (window.confetti) {
+              confetti({
+                particleCount: 120,
+                spread: 80,
+                origin: { y: 0.6 }
+              });
+            }
+            showNotification("🚀 Pipeline Objective Fully Delivered!");
           }
         }
       }
     }
   } catch (err) {
     document.getElementById("output").textContent += "\nStream error: " + String(err);
+    showNotification("Stream error encountered", false);
   }
 }
 
@@ -835,6 +885,7 @@ async function runExecute() {
     if (data.workflow) {
       document.getElementById("workflow-container").innerHTML = data.workflow.map(w => `<span class="dag-node">${w}</span>`).join("");
     }
+    showNotification("Objective Routed & Planned");
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }
@@ -859,6 +910,7 @@ async function runResearch() {
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    showNotification("Deep Research Report Synthesized");
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }
@@ -877,6 +929,7 @@ async function runDevops() {
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    showNotification("Deployment Plan Generated");
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }
@@ -895,16 +948,18 @@ async function runSecurity() {
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    showNotification("Security Audit Completed");
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }
 }
 
 async function runSLO() {
-  const total = document.getElementById("slo-total").value.trim() || "10000";
-  const failed = document.getElementById("slo-failed").value.trim() || "4";
-  const target = document.getElementById("slo-target").value.trim() || "99.9";
+  const total = parseInt(document.getElementById("slo-total").value.trim() || "10000", 10);
+  const failed = parseInt(document.getElementById("slo-failed").value.trim() || "4", 10);
+  const target = parseFloat(document.getElementById("slo-target").value.trim() || "99.9");
   const start = performance.now();
+  
   try {
     const res = await fetch(`/v1/governance/slo?total_requests=${encodeURIComponent(total)}&failed_requests=${encodeURIComponent(failed)}&target_pct=${encodeURIComponent(target)}`, {
       headers: getAuthHeaders()
@@ -912,6 +967,36 @@ async function runSLO() {
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    showNotification("SLO Metric Evaluated");
+
+    // Render / Update Chart.js
+    const ctx = document.getElementById('sloChart');
+    if (ctx && window.Chart) {
+      if (sloChartInstance) {
+        sloChartInstance.destroy();
+      }
+      const successful = total - failed;
+      sloChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Successful Requests', 'Failed Requests (Error Budget Spent)'],
+          datasets: [{
+            data: [successful, failed],
+            backgroundColor: ['#10b981', '#ef4444'],
+            borderColor: ['#0f172a', '#0f172a'],
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: { color: '#94a3b8', font: { family: 'Plus Jakarta Sans', weight: 600 } }
+            }
+          }
+        }
+      });
+    }
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }
@@ -924,6 +1009,7 @@ async function runAdminRoles() {
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    showNotification("RBAC Hierarchy Retrieved");
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }
@@ -936,6 +1022,7 @@ async function runDiagnostics() {
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    showNotification("Diagnostic Bundle Exported");
   } catch (err) {
     document.getElementById("output").textContent = String(err);
   }

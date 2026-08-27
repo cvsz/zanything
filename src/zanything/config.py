@@ -84,7 +84,10 @@ class Settings(BaseSettings):
         if self.allow_anonymous:
             raise ValueError("ZANYTHING_ALLOW_ANONYMOUS must be false in production")
 
-        if self.jwt_secret_key and "dev-secret-key-do-not-use-in-prod" in self.jwt_secret_key:
+        if (
+            self.jwt_secret_key
+            and "dev-secret-key-do-not-use-in-prod" in self.jwt_secret_key
+        ):
             raise ValueError("development JWT secret must not be used in production")
 
         demo_keys = {
@@ -93,9 +96,13 @@ class Settings(BaseSettings):
             "zany-auditor-demo-key",
         }
         if demo_keys.intersection(self.service_account_api_keys):
-            raise ValueError("demo service-account API keys must not be used in production")
+            raise ValueError(
+                "demo service-account API keys must not be used in production"
+            )
 
-        oidc_ready = bool(self.oidc_issuer and self.oidc_audience and self.oidc_jwks_uri)
+        oidc_ready = bool(
+            self.oidc_issuer and self.oidc_audience and self.oidc_jwks_uri
+        )
         cf_ready = bool(
             self.cloudflare_access_enabled
             and self.cloudflare_access_issuer
@@ -106,12 +113,14 @@ class Settings(BaseSettings):
 
         if not (oidc_ready or cf_ready or service_accounts_ready):
             raise ValueError(
-                "production requires OIDC, verified Cloudflare Access, or configured service-account authentication"
+                "production requires OIDC, verified Cloudflare Access, "
+                "or configured service-account authentication"
             )
 
         if self.cloudflare_access_enabled and not cf_ready:
             raise ValueError(
-                "Cloudflare Access requires issuer, audience, and JWKS URI in production"
+                "Cloudflare Access requires issuer, audience, "
+                "and JWKS URI in production"
             )
 
         return self
