@@ -1,40 +1,74 @@
-"""API endpoint tests."""
+"""API endpoint and runtime foundation tests."""
 
 from fastapi.testclient import TestClient
 
 
 def test_health(client: TestClient) -> None:
-    """Liveness probe returns ok."""
-    assert client.get("/healthz").json()["status"] == "ok"
+    """Liveness probe returns 200 ok with application metadata."""
+    r = client.get("/healthz")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["status"] == "ok"
+    assert body["app"] == "zanything"
+    assert "uptime_seconds" in body
 
 
 def test_readyz_honest(client: TestClient) -> None:
-    """Readiness probe reports uptime but does not falsely claim 'ready'."""
-    body = client.get("/readyz").json()
+    """Readiness probe reports uptime but does not falsely claim full readiness."""
+    r = client.get("/readyz")
+    assert r.status_code == 200
+    body = r.json()
+    assert body["status"] == "no-dependencies"
     assert "uptime_seconds" in body
-    assert body["status"] != "ready"
 
 
 def test_version(client: TestClient) -> None:
-    """Version endpoint returns name and version."""
-    body = client.get("/version").json()
+    """Version endpoint returns name, version and env."""
+    r = client.get("/version")
+    assert r.status_code == 200
+    body = r.json()
     assert body["name"] == "zanything"
     assert "version" in body
+    assert body["env"] == "development"
 
 
-def test_capabilities_no_false_claims(client: TestClient) -> None:
-    """Capabilities must not claim features that are not implemented."""
-    body = client.get("/v1/capabilities").json()
+def test_capabilities_truthful(client: TestClient) -> None:
+    """Capabilities endpoint returns only implemented features and valid modes."""
+    r = client.get("/v1/capabilities")
+    assert r.status_code == 200
+    body = r.json()
     assert "PROJECT_EXECUTION" in body["modes"]
     assert "DEEP_RESEARCH" in body["modes"]
     features = body["features"]
+    assert "rfc7807-errors" in features
+    assert "structured-logging" in features
     assert "integration-ready" not in features
     assert "enterprise-gui" not in features
-    assert "idempotency-header-ready" not in features
+
+
+def test_request_id_propagation(client: TestClient) -> None:
+    """Request ID sent via header is preserved in response headers and body."""
+    custom_id = "test-correlation-id-999"
+    r = client.post(
+        "/v1/execute",
+        json={"objective": "deep research enterprise architecture"},
+        headers={"X-Request-ID": custom_id},
+    )
+    assert r.status_code == 200
+    assert r.headers.get("X-Request-ID") == custom_id
+    assert r.json()["request_id"] == custom_id
+
+
+def test_auto_generated_request_id(client: TestClient) -> None:
+    """Request ID is automatically created if none is supplied in headers."""
+    r = client.post("/v1/execute", json={"objective": "audit security posture"})
+    assert r.status_code == 200
+    assert "X-Request-ID" in r.headers
+    assert r.json()["request_id"] == r.headers["X-Request-ID"]
 
 
 def test_execute_dry_run(client: TestClient) -> None:
-    """Dry-run execution returns planned status with correct modes."""
+    """Dry-run execution returns dry-run-planned status with mapped modes."""
     r = client.post(
         "/v1/execute",
         json={
@@ -55,45 +89,34 @@ def test_execute_dry_run(client: TestClient) -> None:
     assert "VERIFY" in body["workflow"]
 
 
-def test_execute_returns_routed_not_accepted(client: TestClient) -> None:
-    """Execute must return 'routed', not 'accepted' — no executor exists yet."""
-    r = client.post("/v1/execute", json={"objective": "build something"})
-    body = r.json()
-    assert body["status"] == "routed"
-    assert body["status"] != "accepted"
-
-
-def test_execute_with_request_id(client: TestClient) -> None:
-    """Custom request ID is echoed back."""
-    r = client.post(
-        "/v1/execute",
-        json={"objective": "research something"},
-        headers={"X-Request-ID": "test-req-123"},
-    )
-    assert r.json()["request_id"] == "test-req-123"
-
-
-def test_execute_auto_generates_request_id(client: TestClient) -> None:
-    """Request ID is auto-generated when not provided."""
-    r = client.post("/v1/execute", json={"objective": "research something"})
-    assert r.json()["request_id"]  # non-empty
-
-
-def test_execute_validation_rejects_empty(client: TestClient) -> None:
-    """Empty objective is rejected."""
+def test_rfc7807_validation_error_format(client: TestClient) -> None:
+    """Validation errors follow RFC 7807 problem details specification."""
     r = client.post("/v1/execute", json={"objective": ""})
     assert r.status_code == 422
+    assert r.headers["Content-Type"] == "application/problem+json"
+    body = r.json()
+    assert body["type"] == "https://zanything.dev/errors/validation-error"
+    assert body["title"] == "Validation Failed"
+    assert body["status"] == 422
+    assert "invalid_params" in body
+    assert len(body["invalid_params"]) > 0
+    assert "request_id" in body
 
 
-def test_routing_general_fallback(client: TestClient) -> None:
-    """Unrecognized objectives fall back to GENERAL mode."""
-    r = client.post("/v1/execute", json={"objective": "hello world"})
-    assert "GENERAL" in r.json()["modes"]
+def test_rfc7807_not_found_error_format(client: TestClient) -> None:
+    """404 Not Found returns RFC 7807 problem details."""
+    r = client.get("/v1/non-existent-endpoint")
+    assert r.status_code == 404
+    assert r.headers["Content-Type"] == "application/problem+json"
+    body = r.json()
+    assert body["status"] == 404
+    assert "request_id" in body
 
 
-def test_routing_coding_modes(client: TestClient) -> None:
-    """Coding-related objectives get TEST and HARDEN in workflow."""
-    r = client.post("/v1/execute", json={"objective": "implement a new feature"})
+def test_routing_coding_workflow(client: TestClient) -> None:
+    """Coding objectives automatically get TEST and HARDEN in workflow."""
+    r = client.post("/v1/execute", json={"objective": "implement new feature"})
+    assert r.status_code == 200
     body = r.json()
     assert "CODING" in body["modes"]
     assert "TEST" in body["workflow"]

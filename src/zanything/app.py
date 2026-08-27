@@ -1,116 +1,192 @@
-"""zanything — FastAPI application.
+"""zanything — Enterprise Universal AI Operator FastAPI Application."""
 
-This is the main application entry point. Currently implements:
-- Keyword-based intent routing (no real execution)
-- Health check (basic, no dependency verification)
-- Capability listing (honest about current state)
-"""
-
-import os
 import time
 import uuid
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI, Header
+from fastapi import FastAPI, Header, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from zanything.models import ExecuteRequest, ExecuteResponse
+from zanything.config import Settings, get_settings
+from zanything.errors import ProblemDetails, register_exception_handlers
+from zanything.logging import (
+    configure_logging,
+    get_logger,
+    request_id_ctx,
+    tenant_id_ctx,
+)
+from zanything.models import (
+    CapabilityResponse,
+    ExecuteRequest,
+    ExecuteResponse,
+    HealthResponse,
+)
 from zanything.routing import MODE_RULES, route_modes, workflow_for
 
-APP_NAME = "zanything"
-APP_VERSION = "0.1.0"
-STARTED = time.time()
-
-# GUI directory is adjacent to this file
+STARTED_AT = time.time()
 GUI_DIR = Path(__file__).resolve().parent / "gui"
-
-app = FastAPI(title=APP_NAME, version=APP_VERSION)
-
-origins = [
-    x.strip()
-    for x in os.getenv("ZANYTHING_ALLOWED_ORIGINS", "http://localhost:8080").split(",")
-    if x.strip()
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=False,
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type", "X-Request-ID", "Idempotency-Key"],
-)
-
-if GUI_DIR.exists():
-    app.mount("/static", StaticFiles(directory=str(GUI_DIR)), name="static")
+logger = get_logger("zanything.app")
 
 
-@app.get("/", response_model=None)
-def index() -> dict[str, str] | FileResponse:
-    """Serve GUI if available, otherwise return service info."""
-    p = GUI_DIR / "index.html"
-    if p.exists():
-        return FileResponse(str(p))
-    return {"name": APP_NAME, "version": APP_VERSION}
-
-
-@app.get("/healthz")
-def healthz() -> dict[str, str]:
-    """Basic liveness probe. Does not verify dependencies."""
-    return {"status": "ok"}
-
-
-@app.get("/readyz")
-def readyz() -> dict[str, object]:
-    """Readiness probe.
-
-    Currently only reports uptime. Real dependency checks (database,
-    queue, providers) will be added as those dependencies are implemented.
-    """
-    return {
-        "status": "no-dependencies",
-        "uptime_seconds": round(time.time() - STARTED, 2),
-    }
-
-
-@app.get("/version")
-def version() -> dict[str, str]:
-    """Return service name and version."""
-    return {"name": APP_NAME, "version": APP_VERSION}
-
-
-@app.get("/v1/capabilities")
-def capabilities() -> dict[str, object]:
-    """List available routing modes and implemented features."""
-    return {
-        "modes": list(MODE_RULES.keys()),
-        "features": [
-            "keyword-routing",
-            "dry-run",
-            "request-ids",
-        ],
-    }
-
-
-@app.post("/v1/execute", response_model=ExecuteResponse)
-def execute(
-    req: ExecuteRequest,
-    x_request_id: str | None = Header(default=None),
-    idempotency_key: str | None = Header(default=None),
-) -> ExecuteResponse:
-    """Route an objective to modes and generate a workflow plan.
-
-    This endpoint currently performs keyword-based routing only.
-    No actual execution, queuing, or processing occurs.
-    """
-    request_id = x_request_id or str(uuid.uuid4())
-    modes = req.requested_modes or route_modes(req.objective)
-    return ExecuteResponse(
-        request_id=request_id,
-        status="dry-run-planned" if req.dry_run else "routed",
-        objective=req.objective,
-        modes=modes,
-        workflow=workflow_for(modes),
-        dry_run=req.dry_run,
-        verification_required=req.require_verification,
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """Application lifecycle management for startup and graceful shutdown."""
+    settings = get_settings()
+    configure_logging(level=settings.log_level, json_format=settings.log_json)
+    logger.info(
+        f"Starting {settings.app_name} v{settings.app_version} in [{settings.env}] mode"
     )
+    yield
+    logger.info(f"Shutting down {settings.app_name} gracefully")
+
+
+def create_app(settings: Settings | None = None) -> FastAPI:
+    """Application factory for zanything."""
+    active_settings = settings or get_settings()
+
+    app = FastAPI(
+        title=active_settings.app_name,
+        version=active_settings.app_version,
+        lifespan=lifespan,
+        docs_url="/docs",
+        redoc_url="/redoc",
+        responses={
+            422: {"model": ProblemDetails, "description": "Validation Error"},
+            500: {"model": ProblemDetails, "description": "Internal Server Error"},
+        },
+    )
+
+    # CORS Middleware
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=active_settings.allowed_origins,
+        allow_credentials=False,
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=[
+            "Content-Type",
+            "X-Request-ID",
+            "X-Tenant-ID",
+            "Idempotency-Key",
+        ],
+    )
+
+    # Request Context & Correlation ID Middleware
+    @app.middleware("http")
+    async def request_context_middleware(
+        request: Request, call_next: object
+    ) -> Response:
+        req_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+        tenant_id = request.headers.get("X-Tenant-ID") or "default"
+
+        request_id_ctx.set(req_id)
+        tenant_id_ctx.set(tenant_id)
+
+        start_time = time.perf_counter()
+        logger.info(f"Incoming request {request.method} {request.url.path}")
+
+        response: Response = await call_next(request)  # type: ignore[operator]
+
+        duration_ms = round((time.perf_counter() - start_time) * 1000, 2)
+        response.headers["X-Request-ID"] = req_id
+        logger.info(
+            f"Completed {request.method} {request.url.path} "
+            f"[{response.status_code}] in {duration_ms}ms"
+        )
+        return response
+
+    # Register RFC 7807 Exception Handlers
+    register_exception_handlers(app)
+
+    # Static GUI Mount
+    if GUI_DIR.exists():
+        app.mount("/static", StaticFiles(directory=str(GUI_DIR)), name="static")
+
+    # Routes
+    @app.get("/", response_model=None, include_in_schema=False)
+    def index() -> dict[str, str] | FileResponse:
+        """Serve operator GUI if available, otherwise return API info."""
+        index_path = GUI_DIR / "index.html"
+        if index_path.exists():
+            return FileResponse(str(index_path))
+        return {
+            "name": active_settings.app_name,
+            "version": active_settings.app_version,
+        }
+
+    @app.get("/healthz", response_model=HealthResponse, tags=["Observability"])
+    def healthz() -> HealthResponse:
+        """Liveness probe: verifies process is alive and responsive."""
+        cfg = get_settings()
+        return HealthResponse(
+            status="ok",
+            app=cfg.app_name,
+            version=cfg.app_version,
+            uptime_seconds=round(time.time() - STARTED_AT, 2),
+        )
+
+    @app.get("/readyz", response_model=HealthResponse, tags=["Observability"])
+    def readyz() -> HealthResponse:
+        """Readiness probe: reports dependency health and runtime readiness."""
+        cfg = get_settings()
+        return HealthResponse(
+            status="no-dependencies",
+            app=cfg.app_name,
+            version=cfg.app_version,
+            uptime_seconds=round(time.time() - STARTED_AT, 2),
+            dependencies={},
+        )
+
+    @app.get("/version", tags=["Observability"])
+    def version() -> dict[str, str]:
+        """Return application name and version metadata."""
+        cfg = get_settings()
+        return {"name": cfg.app_name, "version": cfg.app_version, "env": cfg.env}
+
+    @app.get(
+        "/v1/capabilities", response_model=CapabilityResponse, tags=["Capabilities"]
+    )
+    def capabilities() -> CapabilityResponse:
+        """List verified active capability modes and runtime features."""
+        return CapabilityResponse(
+            modes=list(MODE_RULES.keys()),
+            features=[
+                "keyword-routing",
+                "dry-run",
+                "request-context",
+                "rfc7807-errors",
+                "structured-logging",
+            ],
+        )
+
+    @app.post("/v1/execute", response_model=ExecuteResponse, tags=["Execution"])
+    def execute(
+        req: ExecuteRequest,
+        x_request_id: str | None = Header(default=None),
+        idempotency_key: str | None = Header(default=None),
+    ) -> ExecuteResponse:
+        """Analyze and route an objective into specialist modes."""
+        req_id = x_request_id or request_id_ctx.get()
+        modes = req.requested_modes or route_modes(req.objective)
+        workflow = workflow_for(modes)
+
+        logger.info(f"Routed objective to modes: {modes} with workflow: {workflow}")
+
+        return ExecuteResponse(
+            request_id=req_id,
+            status="dry-run-planned" if req.dry_run else "routed",
+            objective=req.objective,
+            modes=modes,
+            workflow=workflow,
+            dry_run=req.dry_run,
+            verification_required=req.require_verification,
+        )
+
+    return app
+
+
+# Default singleton instance
+app = create_app()

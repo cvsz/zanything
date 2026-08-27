@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added
+- Enterprise runtime configuration model with Pydantic `BaseSettings` (`src/zanything/config.py`)
+- RFC 7807 Problem Details compliant error handling & exception contracts (`src/zanything/errors.py`)
+- Structured JSON logging with `ContextVar` correlation ID & tenant tracking (`src/zanything/logging.py`)
+- Request context middleware propagating `X-Request-ID` and timing latency
+- Application factory pattern `create_app()` with async `lifespan` management
+
 ## [0.1.0] — 2026-08-27
 
 ### Added
