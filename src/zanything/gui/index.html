@@ -3,245 +3,473 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>zanything — Universal AI Operator</title>
+<title>zanything — Enterprise Universal AI Operator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
-  --bg: #0b0f17;
-  --panel: #131b26;
-  --panel-hover: #192433;
-  --line: #222e3f;
+  --bg: #090d16;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #172554 0%, #090d16 65%);
+  --panel: rgba(19, 27, 46, 0.75);
+  --panel-solid: #111827;
+  --panel-hover: rgba(30, 41, 59, 0.85);
+  --line: rgba(51, 65, 85, 0.6);
+  --line-highlight: rgba(56, 189, 248, 0.35);
+  
   --primary: #38bdf8;
+  --primary-glow: rgba(56, 189, 248, 0.25);
   --primary-hover: #0ea5e9;
-  --accent: #a855f7;
+  
+  --accent-purple: #a855f7;
+  --accent-pink: #ec4899;
+  --gradient-canva: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
+  --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+  
   --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.25);
   --warning: #f59e0b;
   --danger: #ef4444;
   --text: #f8fafc;
-  --muted: #94a3b8;
+  --text-muted: #94a3b8;
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
 }
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
   background: var(--bg);
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  line-height: 1.5;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
 }
+
 header {
-  height: 64px;
-  padding: 0 28px;
+  height: 72px;
+  padding: 0 32px;
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #0f172a;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
-.brand {
+
+.brand-wrapper {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  gap: 14px;
 }
-.tag {
-  background: #1e293b;
-  color: var(--primary);
-  font-size: 0.75rem;
-  padding: 2px 8px;
-  border-radius: 6px;
-  font-weight: 600;
-}
-main {
-  max-width: 1380px;
-  margin: auto;
-  padding: 28px 24px;
-}
-.tabs {
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--gradient-canva);
   display: flex;
-  gap: 8px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 24px;
-  padding-bottom: 8px;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.5);
+}
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #fff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.tag-badge {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--primary);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+main {
+  max-width: 1440px;
+  margin: auto;
+  padding: 32px 28px;
+}
+
+/* Quick Metrics Row */
+.metrics-banner {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.metric-card {
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.metric-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-highlight);
+}
+.metric-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--line);
+}
+.metric-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.metric-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Modern Tab Navigation */
+.tabs-container {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  display: inline-flex;
+  gap: 6px;
+  margin-bottom: 28px;
   overflow-x: auto;
+  max-width: 100%;
 }
 .tab-btn {
   background: transparent;
-  color: var(--muted);
+  color: var(--text-muted);
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.2s;
+  font-size: 0.92rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
 }
 .tab-btn:hover {
-  background: var(--panel-hover);
   color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
 }
 .tab-btn.active {
-  background: #1e293b;
-  color: var(--primary);
+  background: var(--gradient-canva);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
 }
-.grid {
+
+/* Dashboard Grid */
+.dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(340px, 1fr);
-  gap: 24px;
+  grid-template-columns: minmax(0, 2.2fr) minmax(360px, 1fr);
+  gap: 28px;
 }
-.card {
+.glass-card {
   background: var(--panel);
+  background-image: var(--gradient-card);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
 }
-h2, h3 {
-  margin-top: 0;
-  font-weight: 700;
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0 0 8px 0;
   letter-spacing: -0.01em;
 }
-.muted { color: var(--muted); }
+h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+.desc-text {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-bottom: 20px;
+}
+
+/* Forms & Inputs */
 textarea, input[type="text"] {
   width: 100%;
-  background: #090e17;
+  background: rgba(9, 14, 26, 0.85);
   color: var(--text);
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 14px;
+  padding: 16px 18px;
   font-family: inherit;
   font-size: 0.95rem;
-  resize: vertical;
+  transition: all 0.2s ease;
 }
 textarea:focus, input[type="text"]:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+  background: #090e1a;
 }
-button.btn {
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s;
-  font-size: 0.95rem;
+textarea {
+  min-height: 110px;
+  resize: vertical;
 }
-.btn-primary { background: var(--primary); color: #090e17; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-secondary { background: #1e293b; color: var(--text); }
-.btn-secondary:hover { background: #334155; }
-.btn-stream { background: #10b981; color: #090e17; }
-.btn-stream:hover { background: #059669; }
-.row {
+
+/* Action Controls */
+.controls-row {
   display: flex;
   gap: 12px;
   align-items: center;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
-.badge {
+.checkbox-pill {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  gap: 8px;
+  background: rgba(30, 41, 59, 0.6);
   border: 1px solid var(--line);
-  border-radius: 9999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  background: #1e293b;
-  color: var(--primary);
-}
-.step {
-  display: inline-flex;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: #0f172a;
-  border: 1px solid var(--line);
+  padding: 8px 14px;
+  border-radius: 10px;
   font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.checkbox-pill:hover {
+  background: rgba(51, 65, 85, 0.6);
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #090e17;
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 4px 16px var(--primary-glow);
+  transform: translateY(-1px);
+}
+.btn-stream {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+}
+.btn-stream:hover {
+  box-shadow: 0 4px 16px var(--success-glow);
+  transform: translateY(-1px);
+}
+.btn-secondary {
+  background: rgba(30, 41, 59, 0.8);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.btn-secondary:hover {
+  background: rgba(51, 65, 85, 0.8);
+}
+
+/* DAG Steps Container */
+.dag-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.dag-node {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--line);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 0.25s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dag-node.active {
+  background: rgba(14, 165, 233, 0.2);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 14px var(--primary-glow);
+}
+.dag-node.done {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--success);
+  color: #6ee7b7;
+}
+
+/* Real-time Timeline */
+.timeline-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-top: 12px;
+}
+.stream-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: 0.86rem;
   transition: all 0.2s ease;
 }
-.step.active {
-  background: #0369a1;
-  color: #fff;
-  border-color: #38bdf8;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+.stream-item.active {
+  border-color: var(--primary);
+  background: rgba(14, 165, 233, 0.1);
 }
-.step.done {
-  background: #064e3b;
-  color: #a7f3d0;
-  border-color: #10b981;
-}
-pre {
-  margin: 0;
-  background: #090e17;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 16px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: #e2e8f0;
-  font-family: "JetBrains Mono", Consolas, Monaco, "Liberation Mono", monospace;
-  font-size: 0.88rem;
-  max-height: 480px;
-  overflow-y: auto;
-}
-.status-indicator {
-  display: inline-block;
+.pulse-indicator {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  margin-right: 6px;
-}
-.status-online { background: var(--success); }
-.status-offline { background: var(--danger); }
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
-}
-.timeline-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: #090e17;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  font-size: 0.88rem;
-}
-.timeline-item.active {
-  border-color: var(--primary);
-  background: #0f172a;
-}
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
   background: var(--primary);
-  animation: pulse 1.2s infinite;
+  box-shadow: 0 0 8px var(--primary);
+  animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
-@keyframes pulse {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.6; }
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.8; }
 }
-@media (max-width: 960px) {
-  .grid { grid-template-columns: 1fr; }
+
+/* Telemetry Output */
+pre#output {
+  margin: 0;
+  background: rgba(6, 10, 20, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #e2e8f0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.88rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-online { background: var(--success); box-shadow: 0 0 8px var(--success); }
+.status-offline { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+@media (max-width: 1024px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">
-    <span>zanything</span>
-    <span class="tag">Enterprise Universal AI Operator</span>
+  <div class="brand-wrapper">
+    <div class="brand-logo">Z</div>
+    <div>
+      <div class="brand-title">zanything Operator Console</div>
+    </div>
+    <span class="tag-badge">Enterprise v1.0.0</span>
   </div>
-  <div class="row">
-    <span id="health-dot" class="status-indicator status-online"></span>
-    <span id="health-text" class="muted" style="font-size: 0.9rem;">Connecting…</span>
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div style="display:flex; align-items:center; gap:8px; background:rgba(30,41,59,0.5); padding:6px 14px; border-radius:9999px; border:1px solid var(--line);">
+      <span id="health-dot" class="status-dot status-online"></span>
+      <span id="health-text" style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">Connecting…</span>
+    </div>
   </div>
 </header>
+
 <main>
-  <div class="tabs">
+  <!-- Summary Stat Badges -->
+  <section class="metrics-banner">
+    <div class="metric-card">
+      <div class="metric-icon" style="color:var(--primary);">⚡</div>
+      <div>
+        <div class="metric-val">Universal Operator</div>
+        <div class="metric-label">Execution Engine</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="color:var(--accent-purple);">🛡️</div>
+      <div>
+        <div class="metric-val">RFC 7807 + OIDC</div>
+        <div class="metric-label">Security & RBAC</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="color:var(--success);">📊</div>
+      <div>
+        <div class="metric-val">99.9% Target</div>
+        <div class="metric-label">SLO Availability</div>
+      </div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon" style="color:var(--accent-pink);">🔬</div>
+      <div>
+        <div class="metric-val">Multi-Source</div>
+        <div class="metric-label">Deep Research</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs-container">
     <button class="tab-btn active" onclick="switchTab('execute')">🎯 Realtime Execute</button>
     <button class="tab-btn" onclick="switchTab('research')">🔬 Deep Research</button>
     <button class="tab-btn" onclick="switchTab('devops')">🚀 DevOps Planner</button>
@@ -249,15 +477,16 @@ pre {
     <button class="tab-btn" onclick="switchTab('slo')">📊 SLO & Metrics</button>
   </div>
 
-  <div class="grid">
-    <section class="card">
+  <div class="dashboard-grid">
+    <!-- Main Interactive Workspace -->
+    <section class="glass-card">
       <div id="panel-execute">
-        <h2>Realtime Objective Execution</h2>
-        <p class="muted">Live streaming orchestration across Coding, Security, Data, DevOps, Research, and Project OS.</p>
+        <h2>⚡ Realtime Objective Orchestrator</h2>
+        <p class="desc-text">Stream autonomous execution across Coding, Security, Data, DevOps, Research, and Project OS.</p>
         <textarea id="objective" placeholder="Describe the goal or system to execute (e.g. Build and deploy real-time analytics streaming engine)..."></textarea>
-        <div class="row" style="margin-top: 16px;">
-          <label style="font-size: 0.9rem;"><input id="dry" type="checkbox"> Dry run / plan only</label>
-          <label style="font-size: 0.9rem;"><input id="verify" type="checkbox" checked> Require verification</label>
+        <div class="controls-row">
+          <label class="checkbox-pill"><input id="dry" type="checkbox"> Dry run / plan only</label>
+          <label class="checkbox-pill"><input id="verify" type="checkbox" checked> Require verification</label>
           <button class="btn btn-stream" onclick="runExecuteStream()">⚡ Realtime Stream</button>
           <button class="btn btn-primary" onclick="runExecute()">Execute</button>
           <button class="btn btn-secondary" onclick="showCapabilities()">Capabilities</button>
@@ -265,70 +494,72 @@ pre {
       </div>
 
       <div id="panel-research" style="display:none;">
-        <h2>Deep Research Engine</h2>
-        <p class="muted">Multi-source synthesis with authority scoring, freshness validation, and citation integrity.</p>
+        <h2>🔬 Deep Research Synthesis</h2>
+        <p class="desc-text">Multi-source synthesis with authority scoring, freshness validation, and citation integrity.</p>
         <input type="text" id="research-topic" placeholder="Research topic (e.g. Post-Quantum Cryptography Enterprise Strategy)">
-        <div class="row" style="margin-top: 16px;">
+        <div class="controls-row">
           <button class="btn btn-primary" onclick="runResearch()">Synthesize Report</button>
         </div>
       </div>
 
       <div id="panel-devops" style="display:none;">
-        <h2>DevOps & SRE Planner</h2>
-        <p class="muted">Zero-downtime deployment orchestration with automated rollback gates.</p>
-        <div class="row">
-          <input type="text" id="devops-target" value="kubernetes" style="flex:1;" placeholder="Target (kubernetes / docker_compose / helm)">
-          <input type="text" id="devops-version" value="1.0.0" style="flex:1;" placeholder="App version">
+        <h2>🚀 DevOps & SRE Planner</h2>
+        <p class="desc-text">Zero-downtime deployment orchestration with automated verification gates.</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <input type="text" id="devops-target" value="kubernetes" placeholder="Target (kubernetes / docker_compose / helm)">
+          <input type="text" id="devops-version" value="1.0.0" placeholder="App version">
         </div>
-        <div class="row" style="margin-top: 16px;">
+        <div class="controls-row">
           <button class="btn btn-primary" onclick="runDevops()">Generate Deployment Plan</button>
         </div>
       </div>
 
       <div id="panel-security" style="display:none;">
-        <h2>Security & Threat Engine</h2>
-        <p class="muted">Automated trust-boundary review and vulnerability audit reporting.</p>
-        <div class="row" style="margin-top: 16px;">
+        <h2>🛡️ Security & Threat Engine</h2>
+        <p class="desc-text">Automated trust-boundary review and vulnerability audit reporting.</p>
+        <div class="controls-row">
           <button class="btn btn-primary" onclick="runSecurity()">Run Baseline Security Audit</button>
         </div>
       </div>
 
       <div id="panel-slo" style="display:none;">
-        <h2>SLO & Reliability Monitor</h2>
-        <p class="muted">Real-time Service Level Objective (SLO) availability and Error Budget calculations.</p>
-        <div class="row" style="margin-top: 16px;">
+        <h2>📊 SLO & Reliability Monitor</h2>
+        <p class="desc-text">Real-time Service Level Objective (SLO) availability and Error Budget calculations.</p>
+        <div class="controls-row">
           <button class="btn btn-primary" onclick="runSLO()">Check Availability SLO</button>
         </div>
       </div>
     </section>
 
-    <aside class="card">
-      <h3>Active Context & DAG</h3>
-      <div style="margin-bottom: 16px;">
-        <span class="muted" style="font-size: 0.85rem;">Tenant ID:</span>
-        <div id="tenant-display" style="font-weight: 600;">default</div>
+    <!-- Context & Pipeline DAG Sidebar -->
+    <aside class="glass-card">
+      <h3>Active Context & Telemetry</h3>
+      <div style="margin-bottom: 20px;">
+        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Tenant Context</span>
+        <div id="tenant-display" style="font-weight:700; font-size:1.05rem; color:#fff; margin-top:2px;">default</div>
       </div>
-      <div style="margin-bottom: 16px;">
-        <span class="muted" style="font-size: 0.85rem;">Detected Modes:</span>
-        <div id="modes-container" style="margin-top: 6px;"><span class="muted">Waiting for input…</span></div>
+      <div style="margin-bottom: 20px;">
+        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Detected Specialist Modes</span>
+        <div id="modes-container" style="margin-top: 6px;"><span style="color:var(--text-muted); font-size:0.9rem;">Waiting for input…</span></div>
       </div>
-      <div style="margin-bottom: 16px;">
-        <span class="muted" style="font-size: 0.85rem;">Workflow Pipeline:</span>
-        <div id="workflow-container" style="margin-top: 6px;"><span class="muted">Idle</span></div>
+      <div style="margin-bottom: 20px;">
+        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Workflow Pipeline DAG</span>
+        <div id="workflow-container" class="dag-track"><span style="color:var(--text-muted); font-size:0.9rem;">Idle</span></div>
       </div>
       <div>
-        <span class="muted" style="font-size: 0.85rem;">Live Execution Stream:</span>
-        <div id="timeline-container" class="timeline"></div>
+        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Live Stage Stream</span>
+        <div id="timeline-container" class="timeline-stream"></div>
       </div>
     </aside>
   </div>
 
-  <section class="card" style="margin-top: 24px;">
-    <div class="row" style="justify-content: space-between; margin-bottom: 12px;">
-      <h3 style="margin: 0;">Execution Telemetry & Output</h3>
-      <span id="latency-tag" class="badge">0 ms</span>
+  <!-- Raw Output Terminal -->
+  <section class="glass-card" style="margin-top: 28px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+      <h3 style="margin:0;">System Telemetry Output</h3>
+      <span id="latency-tag" class="tag-badge">0 ms</span>
     </div>
-    <pre id="output">System initialized and ready.</pre>
+    <pre id="output">zanything Operator Console initialized. Ready for objective execution.</pre>
   </section>
 </main>
 
@@ -351,11 +582,11 @@ async function checkHealth() {
     const res = await fetch("/healthz");
     const data = await res.json();
     const lat = Math.round(performance.now() - start);
-    document.getElementById("health-text").textContent = `Healthy (${lat}ms)`;
-    document.getElementById("health-dot").className = "status-indicator status-online";
+    document.getElementById("health-text").textContent = `Online (${lat}ms)`;
+    document.getElementById("health-dot").className = "status-dot status-online";
   } catch (err) {
     document.getElementById("health-text").textContent = "Offline";
-    document.getElementById("health-dot").className = "status-indicator status-offline";
+    document.getElementById("health-dot").className = "status-dot status-offline";
   }
 }
 
@@ -368,8 +599,9 @@ async function showCapabilities() {
 function renderTimelineItem(text, isActive = false, isDone = false) {
   const container = document.getElementById("timeline-container");
   const div = document.createElement("div");
-  div.className = "timeline-item" + (isActive ? " active" : "");
-  div.innerHTML = `<span class="${isActive ? 'pulse-dot' : 'badge'}" style="${isDone ? 'background:#10b981;color:#000;border:none;' : ''}"></span> <span>${text}</span>`;
+  div.className = "stream-item" + (isActive ? " active" : "");
+  const icon = isActive ? '<span class="pulse-indicator"></span>' : (isDone ? '✅' : '🔹');
+  div.innerHTML = `${icon} <span>${text}</span>`;
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
@@ -381,7 +613,7 @@ async function runExecuteStream() {
   
   const timeline = document.getElementById("timeline-container");
   timeline.innerHTML = "";
-  document.getElementById("output").textContent = "Opening SSE stream to operator runtime...\n";
+  document.getElementById("output").textContent = "Opening SSE telemetry stream...\n";
 
   const payload = {
     objective,
@@ -419,20 +651,20 @@ async function runExecuteStream() {
           if (data.event === "started") {
             renderTimelineItem(`Target: ${data.objective.slice(0, 35)}...`, true);
           } else if (data.event === "intent_routed") {
-            document.getElementById("modes-container").innerHTML = data.modes.map(m => `<span class="badge">${m}</span>`).join(" ");
-            document.getElementById("workflow-container").innerHTML = data.workflow.map(w => `<span id="step-${w}" class="step">${w}</span>`).join(" &rarr; ");
-            renderTimelineItem(`Modes identified: [${data.modes.join(", ")}]`);
+            document.getElementById("modes-container").innerHTML = data.modes.map(m => `<span class="tag-badge">${m}</span>`).join(" ");
+            document.getElementById("workflow-container").innerHTML = data.workflow.map(w => `<span id="step-${w}" class="dag-node">${w}</span>`).join("");
+            renderTimelineItem(`Modes routed: [${data.modes.join(", ")}]`);
           } else if (data.event === "stage_active") {
             const el = document.getElementById(`step-${data.stage}`);
-            if (el) el.className = "step active";
-            renderTimelineItem(`Step ${data.step}/${data.total}: Running ${data.stage}`, true);
+            if (el) el.className = "dag-node active";
+            renderTimelineItem(`Running Stage ${data.step}/${data.total}: ${data.stage}`, true);
           } else if (data.event === "stage_completed") {
             const el = document.getElementById(`step-${data.stage}`);
-            if (el) el.className = "step done";
+            if (el) el.className = "dag-node done";
             renderTimelineItem(`Completed ${data.stage}`, false, true);
           } else if (data.event === "finished") {
             renderTimelineItem(`🏁 Pipeline execution successfully finished!`, false, true);
-            document.getElementById("output").textContent += "\n=== Final Result Summary ===\n" + JSON.stringify(data.result, null, 2);
+            document.getElementById("output").textContent += "\n=== Final Execution Summary ===\n" + JSON.stringify(data.result, null, 2);
           }
         }
       }
@@ -466,10 +698,10 @@ async function runExecute() {
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
 
     if (data.modes) {
-      document.getElementById("modes-container").innerHTML = data.modes.map(m => `<span class="badge">${m}</span>`).join(" ");
+      document.getElementById("modes-container").innerHTML = data.modes.map(m => `<span class="tag-badge">${m}</span>`).join(" ");
     }
     if (data.workflow) {
-      document.getElementById("workflow-container").innerHTML = data.workflow.map(w => `<span class="step">${w}</span>`).join(" &rarr; ");
+      document.getElementById("workflow-container").innerHTML = data.workflow.map(w => `<span class="dag-node">${w}</span>`).join("");
     }
   } catch (err) {
     document.getElementById("output").textContent = String(err);
