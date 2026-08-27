@@ -95,7 +95,7 @@ def test_rfc7807_validation_error_format(client: TestClient) -> None:
     assert r.status_code == 422
     assert r.headers["Content-Type"] == "application/problem+json"
     body = r.json()
-    assert body["type"] == "https://zanything.dev/errors/validation-error"
+    assert body["type"] == "https://zany.zeaz.dev/errors/validation-error"
     assert body["title"] == "Validation Failed"
     assert body["status"] == 422
     assert "invalid_params" in body

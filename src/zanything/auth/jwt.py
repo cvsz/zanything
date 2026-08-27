@@ -22,7 +22,7 @@ class AuthenticationError(AppException):
             status_code=401,
             title="Authentication Failed",
             detail=detail,
-            error_type="https://zanything.dev/errors/auth/unauthorized",
+            error_type="https://zany.zeaz.dev/errors/auth/unauthorized",
         )
 
 
@@ -36,7 +36,7 @@ class ForbiddenError(AppException):
             status_code=403,
             title="Access Forbidden",
             detail=detail,
-            error_type="https://zanything.dev/errors/auth/forbidden",
+            error_type="https://zany.zeaz.dev/errors/auth/forbidden",
         )
 
 

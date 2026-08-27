@@ -62,7 +62,7 @@ class NotFoundException(AppException):
             status_code=status.HTTP_404_NOT_FOUND,
             title="Resource Not Found",
             detail=f"{resource} with identifier '{identifier}' was not found.",
-            error_type="https://zanything.dev/errors/not-found",
+            error_type="https://zany.zeaz.dev/errors/not-found",
         )
 
 
@@ -74,7 +74,7 @@ class ValidationException(AppException):
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             title="Validation Error",
             detail=detail,
-            error_type="https://zanything.dev/errors/validation-error",
+            error_type="https://zany.zeaz.dev/errors/validation-error",
             invalid_params=invalid_params,
         )
 
@@ -122,7 +122,7 @@ def register_exception_handlers(app: FastAPI) -> None:
             f"Request validation failed on {request.url.path}: {len(errors)} error(s)"
         )
         problem = ProblemDetails(
-            type="https://zanything.dev/errors/validation-error",
+            type="https://zany.zeaz.dev/errors/validation-error",
             title="Validation Failed",
             status=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="The request body or parameters failed schema validation.",
@@ -162,7 +162,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         req_id = request_id_ctx.get()
         logger.error(f"Unhandled exception on {request.url.path}: {exc}", exc_info=True)
         problem = ProblemDetails(
-            type="https://zanything.dev/errors/internal-server-error",
+            type="https://zany.zeaz.dev/errors/internal-server-error",
             title="Internal Server Error",
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An internal error occurred. Please refer to request_id.",
