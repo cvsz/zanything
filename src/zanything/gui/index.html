@@ -169,32 +169,56 @@ main {
   font-weight: 600;
 }
 
-/* Modern Tab Navigation */
-.tabs-container {
+/* Organized Navigation Bar */
+.nav-organizer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background: rgba(15, 23, 42, 0.75);
   backdrop-filter: blur(16px);
-  padding: 6px;
+  padding: 8px 12px;
   border-radius: 20px;
   border: 1px solid var(--line);
-  display: inline-flex;
-  gap: 6px;
   margin-bottom: 28px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.nav-category-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   overflow-x: auto;
-  max-width: 100%;
+}
+.nav-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--line);
+  margin: 0 4px;
+}
+.nav-cat-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .tab-btn {
   background: transparent;
   color: var(--text-muted);
   border: none;
-  padding: 10px 18px;
-  border-radius: 14px;
+  padding: 9px 16px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   white-space: nowrap;
 }
 .tab-btn:hover {
@@ -474,7 +498,7 @@ code#output {
     <div>
       <div class="brand-title">zanything Operator Console</div>
     </div>
-    <span class="tag-badge">Enterprise v1.0.0</span>
+    <span class="tag-badge">Enterprise v1.0.1</span>
   </div>
   <div style="display:flex; align-items:center; gap:16px;">
     <!-- Active Identity Selector -->
@@ -535,19 +559,37 @@ code#output {
     </div>
   </section>
 
-  <!-- Navigation Tabs -->
-  <div class="tabs-container">
-    <button class="tab-btn active" onclick="switchTab('execute')"><i data-lucide="play-circle" style="width:18px; height:18px;"></i> Realtime Execute</button>
-    <button class="tab-btn" onclick="switchTab('history')"><i data-lucide="history" style="width:18px; height:18px;"></i> Task History</button>
-    <button class="tab-btn" onclick="switchTab('ai_models')"><i data-lucide="cpu" style="width:18px; height:18px;"></i> Multi-AI Connectors</button>
-    <button class="tab-btn" onclick="switchTab('research')"><i data-lucide="search" style="width:18px; height:18px;"></i> Deep Research</button>
-    <button class="tab-btn" onclick="switchTab('devops')"><i data-lucide="rocket" style="width:18px; height:18px;"></i> DevOps Planner</button>
-    <button class="tab-btn" onclick="switchTab('security')"><i data-lucide="shield-alert" style="width:18px; height:18px;"></i> Security Audit</button>
-    <button class="tab-btn" onclick="switchTab('slo')"><i data-lucide="bar-chart-2" style="width:18px; height:18px;"></i> SLO & Metrics</button>
-    <button class="tab-btn" onclick="switchTab('metrics')"><i data-lucide="activity" style="width:18px; height:18px;"></i> Prometheus</button>
-    <button class="tab-btn" onclick="switchTab('admin')"><i data-lucide="users" style="width:18px; height:18px;"></i> Admin & Roles</button>
-    <button class="tab-btn" onclick="switchTab('diagnostics')"><i data-lucide="stethoscope" style="width:18px; height:18px;"></i> Diagnostics</button>
-  </div>
+  <!-- Organized Categorized Navigation Bar -->
+  <nav class="nav-organizer">
+    <!-- Category 1: Orchestration & AI -->
+    <div class="nav-category-group">
+      <span class="nav-cat-badge"><i data-lucide="cpu" style="width:14px; height:14px;"></i> Core AI</span>
+      <button class="tab-btn active" onclick="switchTab('execute')"><i data-lucide="play-circle" style="width:16px; height:16px;"></i> Orchestrator</button>
+      <button class="tab-btn" onclick="switchTab('history')"><i data-lucide="history" style="width:16px; height:16px;"></i> Task History</button>
+      <button class="tab-btn" onclick="switchTab('ai_models')"><i data-lucide="bot" style="width:16px; height:16px;"></i> Multi-AI Router</button>
+      <button class="tab-btn" onclick="switchTab('research')"><i data-lucide="search" style="width:16px; height:16px;"></i> Deep Research</button>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <!-- Category 2: DevOps & Cloud -->
+    <div class="nav-category-group">
+      <span class="nav-cat-badge"><i data-lucide="cloud" style="width:14px; height:14px;"></i> Delivery</span>
+      <button class="tab-btn" onclick="switchTab('devops')"><i data-lucide="rocket" style="width:16px; height:16px;"></i> DevOps Planner</button>
+      <button class="tab-btn" onclick="switchTab('security')"><i data-lucide="shield-alert" style="width:16px; height:16px;"></i> Security Audit</button>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <!-- Category 3: Observability & Admin -->
+    <div class="nav-category-group">
+      <span class="nav-cat-badge"><i data-lucide="activity" style="width:14px; height:14px;"></i> Governance</span>
+      <button class="tab-btn" onclick="switchTab('slo')"><i data-lucide="bar-chart-2" style="width:16px; height:16px;"></i> SLO & Budget</button>
+      <button class="tab-btn" onclick="switchTab('metrics')"><i data-lucide="gauge" style="width:16px; height:16px;"></i> Prometheus</button>
+      <button class="tab-btn" onclick="switchTab('admin')"><i data-lucide="users" style="width:16px; height:16px;"></i> RBAC Roles</button>
+      <button class="tab-btn" onclick="switchTab('diagnostics')"><i data-lucide="stethoscope" style="width:16px; height:16px;"></i> Diagnostics</button>
+    </div>
+  </nav>
 
   <div class="dashboard-grid">
     <!-- Main Interactive Workspace -->
@@ -821,7 +863,10 @@ function updateAuthHeader() {
 function switchTab(tabId) {
   currentTab = tabId;
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  event.target.closest('.tab-btn').classList.add('active');
+  if (event && event.target) {
+    const btn = event.target.closest('.tab-btn');
+    if (btn) btn.classList.add('active');
+  }
   ['execute', 'history', 'ai_models', 'metrics', 'research', 'devops', 'security', 'slo', 'admin', 'diagnostics'].forEach(t => {
     const el = document.getElementById('panel-' + t);
     if (el) el.style.display = (t === tabId) ? 'block' : 'none';
