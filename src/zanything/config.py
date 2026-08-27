@@ -49,7 +49,19 @@ class Settings(BaseSettings):
                 "tenant_id": "tenant-corp-a",
                 "roles": ["admin", "operator"],
                 "scopes": ["*"],
-            }
+            },
+            "zany-admin-demo-key": {
+                "subject": "admin-operator",
+                "tenant_id": "zeaz-enterprise",
+                "roles": ["admin", "operator", "auditor", "viewer"],
+                "scopes": ["*"],
+            },
+            "zany-auditor-demo-key": {
+                "subject": "security-auditor",
+                "tenant_id": "zeaz-enterprise",
+                "roles": ["auditor", "viewer"],
+                "scopes": ["read", "audit"],
+            },
         }
     )
 

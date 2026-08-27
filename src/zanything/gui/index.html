@@ -6,35 +6,35 @@
 <title>zanything — Enterprise Universal AI Operator</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
-  --bg: #090d16;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #172554 0%, #090d16 65%);
-  --panel: rgba(19, 27, 46, 0.75);
-  --panel-solid: #111827;
+  --bg: #070a13;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0c1222 45%, #070a13 85%);
+  --panel: rgba(15, 23, 42, 0.72);
+  --panel-solid: #0f172a;
   --panel-hover: rgba(30, 41, 59, 0.85);
-  --line: rgba(51, 65, 85, 0.6);
-  --line-highlight: rgba(56, 189, 248, 0.35);
+  --line: rgba(51, 65, 85, 0.55);
+  --line-highlight: rgba(56, 189, 248, 0.4);
   
   --primary: #38bdf8;
-  --primary-glow: rgba(56, 189, 248, 0.25);
+  --primary-glow: rgba(56, 189, 248, 0.28);
   --primary-hover: #0ea5e9;
   
   --accent-purple: #a855f7;
   --accent-pink: #ec4899;
+  --accent-cyan: #06b6d4;
   --gradient-canva: linear-gradient(135deg, #06b6d4 0%, #3b82f6 50%, #8b5cf6 100%);
-  --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
+  --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.8) 100%);
   
   --success: #10b981;
-  --success-glow: rgba(16, 185, 129, 0.25);
+  --success-glow: rgba(16, 185, 129, 0.28);
   --warning: #f59e0b;
   --danger: #ef4444;
   --text: #f8fafc;
   --text-muted: #94a3b8;
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-  --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.15);
+  --shadow-lg: 0 16px 36px -8px rgba(0, 0, 0, 0.5), 0 8px 16px -6px rgba(0, 0, 0, 0.4);
 }
 
 * { box-sizing: border-box; }
@@ -56,8 +56,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(16px);
+  background: rgba(11, 17, 32, 0.85);
+  backdrop-filter: blur(18px);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -69,23 +69,23 @@ header {
   gap: 14px;
 }
 .brand-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   background: var(--gradient-canva);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: #fff;
-  box-shadow: 0 0 16px rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.55);
 }
 .brand-title {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(90deg, #fff 0%, #cbd5e1 100%);
+  background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -93,7 +93,7 @@ header {
   background: rgba(56, 189, 248, 0.12);
   color: var(--primary);
   border: 1px solid rgba(56, 189, 248, 0.3);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   padding: 3px 10px;
   border-radius: 9999px;
   font-weight: 700;
@@ -116,46 +116,49 @@ main {
 }
 .metric-card {
   background: var(--panel);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 16px 20px;
+  border-radius: 16px;
+  padding: 18px 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  transition: transform 0.2s, border-color 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 .metric-card:hover {
   transform: translateY(-2px);
   border-color: var(--line-highlight);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.12);
 }
 .metric-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  background: rgba(30, 41, 59, 0.8);
+  font-size: 1.4rem;
+  background: rgba(30, 41, 59, 0.7);
   border: 1px solid var(--line);
 }
 .metric-val {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.2;
 }
 .metric-label {
   font-size: 0.8rem;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* Modern Tab Navigation */
 .tabs-container {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(14px);
   padding: 6px;
-  border-radius: 16px;
+  border-radius: 18px;
   border: 1px solid var(--line);
   display: inline-flex;
   gap: 6px;
@@ -167,12 +170,12 @@ main {
   background: transparent;
   color: var(--text-muted);
   border: none;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.92rem;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -180,12 +183,12 @@ main {
 }
 .tab-btn:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
 }
 .tab-btn.active {
   background: var(--gradient-canva);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.45);
 }
 
 /* Dashboard Grid */
@@ -197,29 +200,28 @@ main {
 .glass-card {
   background: var(--panel);
   background-image: var(--gradient-card);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 28px;
   box-shadow: var(--shadow-lg);
   position: relative;
-  overflow: hidden;
 }
 .glass-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
 }
 
 h2 {
   font-size: 1.35rem;
   font-weight: 800;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
   letter-spacing: -0.01em;
 }
 h3 {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   margin: 0 0 16px 0;
 }
@@ -230,18 +232,18 @@ h3 {
 }
 
 /* Forms & Inputs */
-textarea, input[type="text"] {
+textarea, input[type="text"], select {
   width: 100%;
-  background: rgba(9, 14, 26, 0.85);
+  background: rgba(8, 13, 24, 0.85);
   color: var(--text);
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 16px 18px;
+  padding: 14px 16px;
   font-family: inherit;
   font-size: 0.95rem;
   transition: all 0.2s ease;
 }
-textarea:focus, input[type="text"]:focus {
+textarea:focus, input[type="text"]:focus, select:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 4px var(--primary-glow);
@@ -282,9 +284,9 @@ textarea {
 .btn {
   border: none;
   border-radius: 12px;
-  padding: 12px 24px;
+  padding: 12px 22px;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: inline-flex;
@@ -329,8 +331,8 @@ textarea {
   border-radius: 8px;
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid var(--line);
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--text-muted);
   transition: all 0.25s;
   display: inline-flex;
@@ -338,13 +340,13 @@ textarea {
   gap: 6px;
 }
 .dag-node.active {
-  background: rgba(14, 165, 233, 0.2);
+  background: rgba(14, 165, 233, 0.25);
   border-color: var(--primary);
   color: var(--primary);
   box-shadow: 0 0 14px var(--primary-glow);
 }
 .dag-node.done {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.18);
   border-color: var(--success);
   color: #6ee7b7;
 }
@@ -364,7 +366,7 @@ textarea {
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
-  background: rgba(9, 14, 26, 0.7);
+  background: rgba(9, 14, 26, 0.75);
   border: 1px solid var(--line);
   border-radius: 10px;
   font-size: 0.86rem;
@@ -372,7 +374,7 @@ textarea {
 }
 .stream-item.active {
   border-color: var(--primary);
-  background: rgba(14, 165, 233, 0.1);
+  background: rgba(14, 165, 233, 0.12);
 }
 .pulse-indicator {
   width: 10px;
@@ -388,10 +390,22 @@ textarea {
   100% { transform: scale(0.9); opacity: 0.8; }
 }
 
+/* Auth Selector Pill */
+.auth-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
 /* Telemetry Output */
 pre#output {
   margin: 0;
-  background: rgba(6, 10, 20, 0.9);
+  background: rgba(6, 10, 20, 0.95);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 20px;
@@ -428,6 +442,15 @@ pre#output {
     <span class="tag-badge">Enterprise v1.0.0</span>
   </div>
   <div style="display:flex; align-items:center; gap:16px;">
+    <!-- Active Identity Selector -->
+    <div class="auth-bar">
+      <span style="color:var(--text-muted); font-weight:600;">🔑 Identity:</span>
+      <select id="auth-role-select" onchange="updateAuthHeader()" style="padding:4px 8px; width:auto; font-size:0.85rem; border-radius:8px;">
+        <option value="admin">Administrator (Admin Key)</option>
+        <option value="auditor">Security Auditor (Auditor Key)</option>
+        <option value="anonymous">Anonymous (Public Viewer)</option>
+      </select>
+    </div>
     <div style="display:flex; align-items:center; gap:8px; background:rgba(30,41,59,0.5); padding:6px 14px; border-radius:9999px; border:1px solid var(--line);">
       <span id="health-dot" class="status-dot status-online"></span>
       <span id="health-text" style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">Connecting…</span>
@@ -448,8 +471,8 @@ pre#output {
     <div class="metric-card">
       <div class="metric-icon" style="color:var(--accent-purple);">🛡️</div>
       <div>
-        <div class="metric-val">RFC 7807 + OIDC</div>
-        <div class="metric-label">Security & RBAC</div>
+        <div class="metric-val">RFC 7807 + RBAC</div>
+        <div class="metric-label">Zero-Trust Guard</div>
       </div>
     </div>
     <div class="metric-card">
@@ -475,11 +498,14 @@ pre#output {
     <button class="tab-btn" onclick="switchTab('devops')">🚀 DevOps Planner</button>
     <button class="tab-btn" onclick="switchTab('security')">🛡️ Security Audit</button>
     <button class="tab-btn" onclick="switchTab('slo')">📊 SLO & Metrics</button>
+    <button class="tab-btn" onclick="switchTab('admin')">👑 Admin & Roles</button>
+    <button class="tab-btn" onclick="switchTab('diagnostics')">🩺 Diagnostics</button>
   </div>
 
   <div class="dashboard-grid">
     <!-- Main Interactive Workspace -->
     <section class="glass-card">
+      <!-- Execute Tab -->
       <div id="panel-execute">
         <h2>⚡ Realtime Objective Orchestrator</h2>
         <p class="desc-text">Stream autonomous execution across Coding, Security, Data, DevOps, Research, and Project OS.</p>
@@ -493,40 +519,91 @@ pre#output {
         </div>
       </div>
 
+      <!-- Research Tab -->
       <div id="panel-research" style="display:none;">
         <h2>🔬 Deep Research Synthesis</h2>
         <p class="desc-text">Multi-source synthesis with authority scoring, freshness validation, and citation integrity.</p>
-        <input type="text" id="research-topic" placeholder="Research topic (e.g. Post-Quantum Cryptography Enterprise Strategy)">
+        <input type="text" id="research-topic" value="Post-Quantum Cryptography Enterprise Strategy" placeholder="Research topic">
         <div class="controls-row">
           <button class="btn btn-primary" onclick="runResearch()">Synthesize Report</button>
         </div>
       </div>
 
+      <!-- DevOps Tab -->
       <div id="panel-devops" style="display:none;">
         <h2>🚀 DevOps & SRE Planner</h2>
         <p class="desc-text">Zero-downtime deployment orchestration with automated verification gates.</p>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
-          <input type="text" id="devops-target" value="kubernetes" placeholder="Target (kubernetes / docker_compose / helm)">
-          <input type="text" id="devops-version" value="1.0.0" placeholder="App version">
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Target Platform</label>
+            <select id="devops-target">
+              <option value="kubernetes">Kubernetes (k8s)</option>
+              <option value="docker_compose">Docker Compose</option>
+              <option value="helm">Helm Chart</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Release Version</label>
+            <input type="text" id="devops-version" value="1.0.0">
+          </div>
         </div>
         <div class="controls-row">
           <button class="btn btn-primary" onclick="runDevops()">Generate Deployment Plan</button>
         </div>
       </div>
 
+      <!-- Security Tab -->
       <div id="panel-security" style="display:none;">
         <h2>🛡️ Security & Threat Engine</h2>
-        <p class="desc-text">Automated trust-boundary review and vulnerability audit reporting.</p>
+        <p class="desc-text">Automated trust-boundary review, role auditing, and vulnerability check.</p>
+        <div style="margin-bottom:16px;">
+          <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Target Service</label>
+          <input type="text" id="security-target" value="zanything-core">
+        </div>
         <div class="controls-row">
           <button class="btn btn-primary" onclick="runSecurity()">Run Baseline Security Audit</button>
         </div>
       </div>
 
+      <!-- SLO Tab -->
       <div id="panel-slo" style="display:none;">
         <h2>📊 SLO & Reliability Monitor</h2>
         <p class="desc-text">Real-time Service Level Objective (SLO) availability and Error Budget calculations.</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px;">
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Total Requests</label>
+            <input type="text" id="slo-total" value="10000">
+          </div>
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Failed Requests</label>
+            <input type="text" id="slo-failed" value="4">
+          </div>
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Target (%)</label>
+            <input type="text" id="slo-target" value="99.9">
+          </div>
+        </div>
         <div class="controls-row">
-          <button class="btn btn-primary" onclick="runSLO()">Check Availability SLO</button>
+          <button class="btn btn-primary" onclick="runSLO()">Calculate SLO & Budget</button>
+        </div>
+      </div>
+
+      <!-- Admin Tab -->
+      <div id="panel-admin" style="display:none;">
+        <h2>👑 Enterprise RBAC & Roles</h2>
+        <p class="desc-text">Inspect role definitions, permission hierarchies, and active access rules.</p>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="runAdminRoles()">Inspect RBAC Hierarchy</button>
+          <button class="btn btn-secondary" onclick="checkCurrentPrincipal()">View Current Identity (/v1/me)</button>
+        </div>
+      </div>
+
+      <!-- Diagnostics Tab -->
+      <div id="panel-diagnostics" style="display:none;">
+        <h2>🩺 Support & Diagnostic Bundle</h2>
+        <p class="desc-text">Generate sanitized enterprise diagnostics for troubleshooting and root-cause analysis.</p>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="runDiagnostics()">Export Diagnostic Bundle</button>
         </div>
       </div>
     </section>
@@ -534,20 +611,20 @@ pre#output {
     <!-- Context & Pipeline DAG Sidebar -->
     <aside class="glass-card">
       <h3>Active Context & Telemetry</h3>
-      <div style="margin-bottom: 20px;">
-        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Tenant Context</span>
-        <div id="tenant-display" style="font-weight:700; font-size:1.05rem; color:#fff; margin-top:2px;">default</div>
+      <div style="margin-bottom: 18px;">
+        <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Tenant Context</span>
+        <div id="tenant-display" style="font-weight:700; font-size:1.05rem; color:#fff; margin-top:2px;">zeaz-enterprise</div>
       </div>
-      <div style="margin-bottom: 20px;">
-        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Detected Specialist Modes</span>
+      <div style="margin-bottom: 18px;">
+        <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Detected Specialist Modes</span>
         <div id="modes-container" style="margin-top: 6px;"><span style="color:var(--text-muted); font-size:0.9rem;">Waiting for input…</span></div>
       </div>
-      <div style="margin-bottom: 20px;">
-        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Workflow Pipeline DAG</span>
+      <div style="margin-bottom: 18px;">
+        <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Workflow Pipeline DAG</span>
         <div id="workflow-container" class="dag-track"><span style="color:var(--text-muted); font-size:0.9rem;">Idle</span></div>
       </div>
       <div>
-        <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">Live Stage Stream</span>
+        <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Live Stage Stream</span>
         <div id="timeline-container" class="timeline-stream"></div>
       </div>
     </aside>
@@ -556,7 +633,7 @@ pre#output {
   <!-- Raw Output Terminal -->
   <section class="glass-card" style="margin-top: 28px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <h3 style="margin:0;">System Telemetry Output</h3>
+      <h3 style="margin:0;">System Telemetry & RFC 7807 Stream Output</h3>
       <span id="latency-tag" class="tag-badge">0 ms</span>
     </div>
     <pre id="output">zanything Operator Console initialized. Ready for objective execution.</pre>
@@ -566,11 +643,33 @@ pre#output {
 <script>
 let currentTab = 'execute';
 
+const API_KEYS = {
+  admin: "zany-admin-demo-key",
+  auditor: "zany-auditor-demo-key",
+  anonymous: ""
+};
+
+function getAuthHeaders() {
+  const role = document.getElementById("auth-role-select").value;
+  const key = API_KEYS[role];
+  const headers = { "Content-Type": "application/json", "X-Request-ID": crypto.randomUUID() };
+  if (key) {
+    headers["X-API-Key"] = key;
+  }
+  return headers;
+}
+
+function updateAuthHeader() {
+  const role = document.getElementById("auth-role-select").value;
+  document.getElementById("tenant-display").textContent = role === "anonymous" ? "default" : "zeaz-enterprise";
+  checkCurrentPrincipal();
+}
+
 function switchTab(tabId) {
   currentTab = tabId;
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   event.target.classList.add('active');
-  ['execute', 'research', 'devops', 'security', 'slo'].forEach(t => {
+  ['execute', 'research', 'devops', 'security', 'slo', 'admin', 'diagnostics'].forEach(t => {
     const el = document.getElementById('panel-' + t);
     if (el) el.style.display = (t === tabId) ? 'block' : 'none';
   });
@@ -587,6 +686,18 @@ async function checkHealth() {
   } catch (err) {
     document.getElementById("health-text").textContent = "Offline";
     document.getElementById("health-dot").className = "status-dot status-offline";
+  }
+}
+
+async function checkCurrentPrincipal() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/v1/me", { headers: getAuthHeaders() });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
   }
 }
 
@@ -624,7 +735,7 @@ async function runExecuteStream() {
   try {
     const res = await fetch("/v1/execute/stream", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "X-Request-ID": crypto.randomUUID() },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload)
     });
 
@@ -689,7 +800,7 @@ async function runExecute() {
   try {
     const res = await fetch("/v1/execute", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "X-Request-ID": crypto.randomUUID() },
+      headers: getAuthHeaders(),
       body: JSON.stringify(payload)
     });
     const data = await res.json();
@@ -709,7 +820,7 @@ async function runExecute() {
 }
 
 async function runResearch() {
-  const topic = document.getElementById("research-topic").value.trim() || "Enterprise AI Governance";
+  const topic = document.getElementById("research-topic").value.trim() || "Post-Quantum Cryptography Enterprise Strategy";
   const start = performance.now();
   document.getElementById("output").textContent = `Synthesizing research for: ${topic}…`;
 
@@ -721,7 +832,7 @@ async function runResearch() {
   try {
     const res = await fetch(`/v1/research/synthesize?topic=${encodeURIComponent(topic)}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(),
       body: JSON.stringify(sources)
     });
     const data = await res.json();
@@ -739,7 +850,8 @@ async function runDevops() {
 
   try {
     const res = await fetch(`/v1/devops/plan?target=${encodeURIComponent(target)}&app_version=${encodeURIComponent(version)}`, {
-      method: "POST"
+      method: "POST",
+      headers: getAuthHeaders()
     });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
@@ -750,12 +862,13 @@ async function runDevops() {
 }
 
 async function runSecurity() {
+  const target = document.getElementById("security-target").value.trim() || "zanything-core";
   const start = performance.now();
   const checks = [{ allow_anonymous: "false", env: "production" }];
   try {
-    const res = await fetch("/v1/security/audit?target_service=zanything-core", {
+    const res = await fetch(`/v1/security/audit?target_service=${encodeURIComponent(target)}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(),
       body: JSON.stringify(checks)
     });
     const data = await res.json();
@@ -767,9 +880,38 @@ async function runSecurity() {
 }
 
 async function runSLO() {
+  const total = document.getElementById("slo-total").value.trim() || "10000";
+  const failed = document.getElementById("slo-failed").value.trim() || "4";
+  const target = document.getElementById("slo-target").value.trim() || "99.9";
   const start = performance.now();
   try {
-    const res = await fetch("/v1/governance/slo?total_requests=10000&failed_requests=3&target_pct=99.9");
+    const res = await fetch(`/v1/governance/slo?total_requests=${encodeURIComponent(total)}&failed_requests=${encodeURIComponent(failed)}&target_pct=${encodeURIComponent(target)}`, {
+      headers: getAuthHeaders()
+    });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
+async function runAdminRoles() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/v1/admin/roles", { headers: getAuthHeaders() });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
+async function runDiagnostics() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/v1/distribution/diagnostics", { headers: getAuthHeaders() });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     document.getElementById("output").textContent = JSON.stringify(data, null, 2);
