@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - v7 Queue & Worker Fabric
+- Durable Queue backend interface & `AsyncMemoryQueue` with Priority scheduling (`CRITICAL`, `HIGH`, `NORMAL`, `LOW`) (`src/zanything/queue/backend.py`)
+- Exponential retry policies and Dead Letter Queue (DLQ) isolation
+- Async `Worker` pool with concurrency limits and `WorkerHeartbeat` saturation metrics (`src/zanything/queue/worker.py`)
+- 4 integration tests verifying queue priority, worker execution, retries, DLQ, and heartbeats (`tests/test_queue.py`)
+
 ### Added - v6 Durable Data Runtime
 - Async SQLAlchemy 2.0 database engine & session manager with connection pooling (`src/zanything/db/__init__.py`)
 - Persistent models for Tasks, Idempotency Keys, and Audit Events with tenant index scoping (`src/zanything/db/models.py`)

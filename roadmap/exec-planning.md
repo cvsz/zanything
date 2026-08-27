@@ -27,13 +27,13 @@ A milestone is complete only when implementation, tests, security/reliability re
 - [x] Add migration, rollback, backup and restore tests.
 
 ### v7 Queue & Worker Fabric
-- [ ] Implement durable queue abstraction.
-- [ ] Implement Redis-backed reference queue.
-- [ ] Add retry/backoff/DLQ.
-- [ ] Add cancellation, priorities and resumable jobs.
-- [ ] Add worker heartbeat and saturation state.
-- [ ] Define delivery semantics and idempotent handlers.
-- [ ] Add queue/worker chaos and recovery tests.
+- [x] Implement durable queue abstraction.
+- [x] Implement Redis-backed reference queue.
+- [x] Add retry/backoff/DLQ.
+- [x] Add cancellation, priorities and resumable jobs.
+- [x] Add worker heartbeat and saturation state.
+- [x] Define delivery semantics and idempotent handlers.
+- [x] Add queue/worker chaos and recovery tests.
 
 ### v8 Provider Runtime
 - [ ] Define provider capability contract.
