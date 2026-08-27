@@ -1,31 +1,27 @@
-# Roadmap
+# zanything Roadmap
 
-This template is intended to stay generic while providing production-grade repository foundations.
+This repository is the implementation home for the Anything Enterprise Universal Operator.
 
-## Foundation
+## Canonical roadmap
 
-- [x] Repository documentation baseline
-- [x] Security and contribution policies
-- [x] Issue and pull request templates
-- [x] CI and security workflow baseline
-- [x] Dependabot configuration
-- [x] Release workflow
-- [x] Docker and task-runner placeholders
-- [x] Architecture and development documentation structure
+The canonical delivery sequence is maintained in:
 
-## Future optional modules
+- `exec-planning.md` — bounded implementation ledger
+- `ROADMAP-TO-GOLD-MASTER.md` — v5 → v66 release roadmap
+- `GOLD-MASTER-CHECKLIST.md` — final Production/Enterprise Gold Master exit gates
 
-- [ ] Language-specific starter packs
-- [ ] Infrastructure-as-code starter packs
-- [ ] Kubernetes and Helm starter packs
-- [ ] SBOM and provenance workflows
-- [ ] Release signing and artifact attestation
-- [ ] OpenSSF Scorecard workflow
-- [ ] Container vulnerability scanning
-- [ ] Documentation site starter
-- [ ] Monorepo profile
-- [ ] Service/API profile
-- [ ] Web application profile
-- [ ] Library/SDK profile
+## Current milestone structure
 
-Generated repositories should adopt only the modules appropriate to their stack and threat model.
+- **v5–v12 — Platform Core**
+- **v13–v25 — Universal Capability Runtime**
+- **v26–v40 — Reliability, Security & Governance**
+- **v41–v55 — Platform Engineering & Distribution**
+- **v56–v66 — Enterprise GA & Gold Master**
+
+## Execution policy
+
+Work the highest-priority incomplete bounded item with satisfied dependencies. A milestone is complete only when implementation, tests, security/reliability review, docs/runbooks, migration/rollback notes where applicable, and release evidence are complete.
+
+## Release principle
+
+Planning or scaffolding alone is not production readiness. Production/Enterprise Gold Master status requires evidence for the gates in `GOLD-MASTER-CHECKLIST.md`.
