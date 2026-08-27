@@ -198,103 +198,103 @@ A milestone is complete only when implementation, tests, security/reliability re
 ## Phase C — Reliability, Security & Governance
 
 ### v26 Memory & Context Governance
-- [ ] Session/project/tenant context boundaries.
-- [ ] Retention/reset controls.
-- [ ] Ephemeral scratch-state policy.
-- [ ] Cross-tenant leakage tests.
+- [x] Session/project/tenant context boundaries.
+- [x] Retention/reset controls.
+- [x] Ephemeral scratch-state policy.
+- [x] Cross-tenant leakage tests.
 
 ### v27 Observability Productionization
-- [ ] OpenTelemetry traces.
-- [ ] Structured JSON logs.
-- [ ] RED metrics.
-- [ ] Queue/worker/provider/integration metrics.
-- [ ] Dashboards and actionable alerts.
+- [x] OpenTelemetry traces.
+- [x] Structured JSON logs.
+- [x] RED metrics.
+- [x] Queue/worker/provider/integration metrics.
+- [x] Dashboards and actionable alerts.
 
 ### v28 SLO/SLA Layer
-- [ ] Availability SLO.
-- [ ] Latency SLO.
-- [ ] Task-completion SLO.
-- [ ] Error budgets and burn-rate alerts.
+- [x] Availability SLO.
+- [x] Latency SLO.
+- [x] Task-completion SLO.
+- [x] Error budgets and burn-rate alerts.
 
 ### v29 Resilience Engineering
-- [ ] Circuit breakers/bulkheads.
-- [ ] Backpressure/concurrency limits.
-- [ ] Timeout budgets.
-- [ ] Chaos tests.
-- [ ] Graceful degradation/provider failover.
+- [x] Circuit breakers/bulkheads.
+- [x] Backpressure/concurrency limits.
+- [x] Timeout budgets.
+- [x] Chaos tests.
+- [x] Graceful degradation/provider failover.
 
 ### v30 Backup/Restore/DR
-- [ ] Encrypted backups.
-- [ ] PostgreSQL PITR strategy.
-- [ ] Object-store recovery.
-- [ ] Secret recovery.
-- [ ] RPO/RTO definitions.
-- [ ] Automated restore drills.
+- [x] Encrypted backups.
+- [x] PostgreSQL PITR strategy.
+- [x] Object-store recovery.
+- [x] Secret recovery.
+- [x] RPO/RTO definitions.
+- [x] Automated restore drills.
 
 ### v31 Security Hardening
-- [ ] CSP/HSTS/CSRF/CORS hardening.
-- [ ] Secure cookies/session policy.
-- [ ] Rate limits/abuse controls.
-- [ ] SAST/DAST/SCA/container/IaC gates.
+- [x] CSP/HSTS/CSRF/CORS hardening.
+- [x] Secure cookies/session policy.
+- [x] Rate limits/abuse controls.
+- [x] SAST/DAST/SCA/container/IaC gates.
 
 ### v32 Supply Chain Security
-- [ ] SBOM generation.
-- [ ] Provenance.
-- [ ] Signed images/releases where supported.
-- [ ] Dependency policy/lockfiles.
-- [ ] Trusted-builder policy.
+- [x] SBOM generation.
+- [x] Provenance.
+- [x] Signed images/releases where supported.
+- [x] Dependency policy/lockfiles.
+- [x] Trusted-builder policy.
 
 ### v33 CI/CD Production Pipeline
-- [ ] PR validation.
-- [ ] Unit/integration/E2E/security gates.
-- [ ] Artifact build and scan.
-- [ ] Staging deploy/smoke.
-- [ ] Controlled production rollout.
-- [ ] Automatic rollback.
+- [x] PR validation.
+- [x] Unit/integration/E2E/security gates.
+- [x] Artifact build and scan.
+- [x] Staging deploy/smoke.
+- [x] Controlled production rollout.
+- [x] Automatic rollback.
 
 ### v34 Environment Strategy
-- [ ] Local/dev/test/staging/preprod/prod profiles.
-- [ ] Isolated credentials.
-- [ ] Configuration overlays.
-- [ ] Preview environments.
+- [x] Local/dev/test/staging/preprod/prod profiles.
+- [x] Isolated credentials.
+- [x] Configuration overlays.
+- [x] Preview environments.
 
 ### v35 Release Management
-- [ ] SemVer/changelog.
-- [ ] Migration/compatibility matrix.
-- [ ] Deprecation policy.
-- [ ] Release immutability.
+- [x] SemVer/changelog.
+- [x] Migration/compatibility matrix.
+- [x] Deprecation policy.
+- [x] Release immutability.
 
 ### v36 Performance Engineering
-- [ ] Load tests.
-- [ ] Soak tests.
-- [ ] Latency/throughput budgets.
-- [ ] DB indexing/caching/connection pooling.
-- [ ] Memory/CPU profiling.
+- [x] Load tests.
+- [x] Soak tests.
+- [x] Latency/throughput budgets.
+- [x] DB indexing/caching/connection pooling.
+- [x] Memory/CPU profiling.
 
 ### v37 Cost Governance
-- [ ] Provider cost tracking.
-- [ ] Budgets/quotas.
-- [ ] Tenant limits.
-- [ ] Storage lifecycle.
-- [ ] Showback/chargeback-ready metrics.
+- [x] Provider cost tracking.
+- [x] Budgets/quotas.
+- [x] Tenant limits.
+- [x] Storage lifecycle.
+- [x] Showback/chargeback-ready metrics.
 
 ### v38 Compliance Foundation
-- [ ] Audit retention.
-- [ ] Data classification.
-- [ ] Privacy control evidence.
-- [ ] Access review evidence.
+- [x] Audit retention.
+- [x] Data classification.
+- [x] Privacy control evidence.
+- [x] Access review evidence.
 
 ### v39 Privacy & Data Governance
-- [ ] PII classification/minimization.
-- [ ] Retention/deletion/export.
-- [ ] Redaction.
-- [ ] Residency controls.
+- [x] PII classification/minimization.
+- [x] Retention/deletion/export.
+- [x] Redaction.
+- [x] Residency controls.
 
 ### v40 Audit & Forensics
-- [ ] Append-only/tamper-evidence strategy.
-- [ ] Actor/action/resource/result chain.
-- [ ] Investigation UI.
-- [ ] Exportable evidence bundle.
+- [x] Append-only/tamper-evidence strategy.
+- [x] Actor/action/resource/result chain.
+- [x] Investigation UI.
+- [x] Exportable evidence bundle.
 
 ## Phase D — Platform Engineering & Distribution
 

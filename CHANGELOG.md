@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - Phase C Reliability, Security & Governance (v26-v40)
+- Real-time Service Level Objective (`SLOMonitor`) calculating availability percentages and error budget consumption (`src/zanything/governance/`)
+- `ChaosHarness` runtime for programmatic fault injection, partition testing, and resilience verification
+- Tamper-evident `AuditEvidenceBundle` compliance generator supporting SOC2/ISO-27001 audit trails
+- 3 integration tests covering SLO calculations, chaos fault injection, and compliance evidence bundles (`tests/test_governance.py`)
+
 ### Added - Phase B Specialist Domains & Project OS (v19-v25)
 - Tabular Data Runtime with schema profiling, missing values counting, and anomaly detection (`src/zanything/engines/specialists.py`)
 - Project Execution OS with milestone dependency DAG enforcement and progress tracking
