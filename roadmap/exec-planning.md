@@ -8,14 +8,14 @@ A milestone is complete only when implementation, tests, security/reliability re
 ## Phase A — Platform Core
 
 ### v5 Identity & Access Productionization
-- [ ] Replace development headers with verified OIDC/JWT validation.
-- [ ] Add SSO-ready issuer/audience/JWKS validation.
-- [ ] Add service-account/client-credential path.
-- [ ] Implement tenant-aware principal model.
-- [ ] Implement RBAC and ABAC policy evaluation.
-- [ ] Add admin role-management APIs and GUI.
-- [ ] Add access-review and break-glass runbook.
-- [ ] Add authN/authZ/tenant-isolation integration tests.
+- [x] Replace development headers with verified OIDC/JWT validation.
+- [x] Add SSO-ready issuer/audience/JWKS validation.
+- [x] Add service-account/client-credential path.
+- [x] Implement tenant-aware principal model.
+- [x] Implement RBAC and ABAC policy evaluation.
+- [x] Add admin role-management APIs and GUI.
+- [x] Add access-review and break-glass runbook.
+- [x] Add authN/authZ/tenant-isolation integration tests.
 
 ### v6 Durable Data Runtime
 - [ ] Replace SQLite scaffolding with PostgreSQL repositories.

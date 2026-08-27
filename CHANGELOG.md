@@ -6,7 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
-### Added
+### Added - v5 Identity & Access Productionization
+- Real OIDC / JWT verification with JWKS and symmetric/asymmetric support (`src/zanything/auth/jwt.py`)
+- Tenant-aware principal model (`src/zanything/auth/__init__.py`)
+- RBAC and ABAC policy evaluation and role guard dependencies (`src/zanything/auth/dependencies.py`)
+- Service account API Key authentication pathway (`X-API-Key`)
+- Admin role management API `/v1/admin/roles` and identity inspector `/v1/me`
+- Access-review and emergency break-glass runbook (`docs/runbooks/access-review-breakglass.md`)
+- 9 AuthN/AuthZ/Tenant integration tests (`tests/test_auth.py`)
+
+### Added - NEXT-002 Runtime Foundation
 - Enterprise runtime configuration model with Pydantic `BaseSettings` (`src/zanything/config.py`)
 - RFC 7807 Problem Details compliant error handling & exception contracts (`src/zanything/errors.py`)
 - Structured JSON logging with `ContextVar` correlation ID & tenant tracking (`src/zanything/logging.py`)

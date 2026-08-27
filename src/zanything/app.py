@@ -5,12 +5,15 @@ import uuid
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
+from typing import Any
 
-from fastapi import FastAPI, Header, Request, Response
+from fastapi import Depends, FastAPI, Header, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from zanything.auth import Principal, Role
+from zanything.auth.dependencies import get_current_principal, require_role
 from zanything.config import Settings, get_settings
 from zanything.errors import ProblemDetails, register_exception_handlers
 from zanything.logging import (
@@ -55,6 +58,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc",
         responses={
+            401: {"model": ProblemDetails, "description": "Unauthorized"},
+            403: {"model": ProblemDetails, "description": "Forbidden"},
             422: {"model": ProblemDetails, "description": "Validation Error"},
             500: {"model": ProblemDetails, "description": "Internal Server Error"},
         },
@@ -68,6 +73,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_methods=["GET", "POST", "OPTIONS"],
         allow_headers=[
             "Content-Type",
+            "Authorization",
+            "X-API-Key",
             "X-Request-ID",
             "X-Tenant-ID",
             "Idempotency-Key",
@@ -159,12 +166,21 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 "request-context",
                 "rfc7807-errors",
                 "structured-logging",
+                "oidc-jwt-auth",
+                "rbac-abac-security",
+                "service-accounts",
             ],
         )
+
+    @app.get("/v1/me", response_model=Principal, tags=["Identity"])
+    def me(principal: Principal = Depends(get_current_principal)) -> Principal:
+        """Return current authenticated principal context with tenant and roles."""
+        return principal
 
     @app.post("/v1/execute", response_model=ExecuteResponse, tags=["Execution"])
     def execute(
         req: ExecuteRequest,
+        principal: Principal = Depends(get_current_principal),
         x_request_id: str | None = Header(default=None),
         idempotency_key: str | None = Header(default=None),
     ) -> ExecuteResponse:
@@ -173,7 +189,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         modes = req.requested_modes or route_modes(req.objective)
         workflow = workflow_for(modes)
 
-        logger.info(f"Routed objective to modes: {modes} with workflow: {workflow}")
+        logger.info(
+            f"Principal '{principal.subject}' (tenant: {principal.tenant_id}) "
+            f"routed objective to modes: {modes}"
+        )
 
         return ExecuteResponse(
             request_id=req_id,
@@ -184,6 +203,22 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             dry_run=req.dry_run,
             verification_required=req.require_verification,
         )
+
+    # Admin Management API (Protected by Role.ADMIN)
+    @app.get("/v1/admin/roles", tags=["Admin"])
+    def list_roles(
+        _principal: Principal = Depends(require_role(Role.ADMIN)),
+    ) -> dict[str, Any]:
+        """List enterprise roles and permission hierarchy."""
+        return {
+            "roles": [r.value for r in Role],
+            "descriptions": {
+                Role.ADMIN: "Full system administration and policy management",
+                Role.OPERATOR: "Execute workflows, manage jobs, and configure adapters",
+                Role.VIEWER: "Read-only access to status and executions",
+                Role.AUDITOR: "Read-only access to audit logs and compliance evidence",
+            },
+        }
 
     return app
 

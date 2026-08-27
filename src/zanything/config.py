@@ -1,7 +1,7 @@
 """Application configuration and environment settings."""
 
 from functools import lru_cache
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -27,6 +27,27 @@ class Settings(BaseSettings):
     port: int = 8080
     allowed_origins: list[str] = Field(
         default_factory=lambda: ["http://localhost:8080"]
+    )
+
+    # Security & Authentication (OIDC / JWT)
+    allow_anonymous: bool = (
+        True  # Allows unauthenticated requests to public endpoints if enabled
+    )
+    jwt_secret_key: str | None = "dev-secret-key-do-not-use-in-prod-1234567890123456"
+    oidc_issuer: str | None = None
+    oidc_audience: str | None = None
+    oidc_jwks_uri: str | None = None
+
+    # Service Account API Keys registry mapping key to subject, roles & scopes
+    service_account_api_keys: dict[str, dict[str, Any]] = Field(
+        default_factory=lambda: {
+            "test-sa-key-123": {
+                "subject": "ci-service-account",
+                "tenant_id": "tenant-corp-a",
+                "roles": ["admin", "operator"],
+                "scopes": ["*"],
+            }
+        }
     )
 
     # Security & Execution limits
