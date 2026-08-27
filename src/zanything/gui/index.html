@@ -16,11 +16,18 @@
 <!-- Toastify for Modern Non-blocking Alerts -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<!-- Prism.js for Syntax Highlighted Code & Telemetry -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<!-- Mermaid.js for Dynamic Architecture & Pipeline DAG Diagrams -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
 :root {
   color-scheme: dark;
-  --bg: #06090f;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0d121f 40%, #06090f 80%);
+  --bg: #050811;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0c1222 40%, #050811 80%);
   --panel: rgba(15, 23, 42, 0.75);
   --panel-solid: #0f172a;
   --panel-hover: rgba(30, 41, 59, 0.85);
@@ -419,19 +426,20 @@ textarea {
 }
 
 /* Telemetry Output */
-pre#output {
+pre#output-container {
   margin: 0;
   background: rgba(6, 10, 20, 0.95);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 20px;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: #e2e8f0;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.88rem;
   max-height: 500px;
   overflow-y: auto;
+}
+code#output {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.88rem;
 }
 
 .status-dot {
@@ -442,6 +450,17 @@ pre#output {
 }
 .status-online { background: var(--success); box-shadow: 0 0 8px var(--success); }
 .status-offline { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+
+/* Architecture Diagram Frame */
+.diagram-frame {
+  background: rgba(11, 17, 32, 0.7);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 16px;
+  overflow-x: auto;
+  text-align: center;
+}
 
 @media (max-width: 1024px) {
   .dashboard-grid { grid-template-columns: 1fr; }
@@ -557,10 +576,10 @@ pre#output {
       <!-- DevOps Tab -->
       <div id="panel-devops" style="display:none;">
         <h2><i data-lucide="rocket" style="color:var(--primary);"></i> DevOps & SRE Planner</h2>
-        <p class="desc-text">Zero-downtime deployment orchestration with automated verification gates.</p>
+        <p class="desc-text">Zero-downtime deployment orchestration across 13 Cloud-Native and Infrastructure platforms.</p>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
           <div>
-            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Target Platform</label>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Target Platform (13 Stacks)</label>
             <select id="devops-target">
               <option value="kubernetes">Kubernetes (k8s)</option>
               <option value="helm">Helm Chart</option>
@@ -672,16 +691,30 @@ pre#output {
         <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">Live Stage Stream</span>
         <div id="timeline-container" class="timeline-stream"></div>
       </div>
+      
+      <!-- Live Mermaid Visualizer -->
+      <div style="margin-top:20px;">
+        <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">System Architecture DAG</span>
+        <div id="mermaid-diagram" class="diagram-frame">
+          <pre class="mermaid" style="background:transparent; margin:0;">
+          graph LR
+            Client["Console UI"] --> Gateway["Cloudflare / Caddy"]
+            Gateway --> App["zanything Engine"]
+            App --> DB[("PostgreSQL / SQLite")]
+            App --> Specialists["Specialist Engines"]
+          </pre>
+        </div>
+      </div>
     </aside>
   </div>
 
-  <!-- Raw Output Terminal -->
+  <!-- Raw Output Terminal with Prism.js -->
   <section class="glass-card" style="margin-top: 28px;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
       <h3 style="margin:0;"><i data-lucide="code" style="color:var(--primary);"></i> System Telemetry & RFC 7807 Stream Output</h3>
       <span id="latency-tag" class="tag-badge">0 ms</span>
     </div>
-    <pre id="output">zanything Operator Console initialized. Ready for objective execution.</pre>
+    <pre id="output-container"><code id="output" class="language-json">{ "status": "initialized", "message": "zanything Operator Console ready." }</code></pre>
   </section>
 </main>
 
@@ -710,6 +743,15 @@ function showNotification(msg, isSuccess = true) {
         fontFamily: "'Plus Jakarta Sans', sans-serif"
       }
     }).showToast();
+  }
+}
+
+function updateOutputCode(content, lang = 'json') {
+  const codeEl = document.getElementById("output");
+  codeEl.className = `language-${lang}`;
+  codeEl.textContent = typeof content === 'object' ? JSON.stringify(content, null, 2) : String(content);
+  if (window.Prism) {
+    Prism.highlightElement(codeEl);
   }
 }
 
@@ -763,16 +805,16 @@ async function checkCurrentPrincipal() {
     const res = await fetch("/v1/me", { headers: getAuthHeaders() });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
 async function showCapabilities() {
   const res = await fetch("/v1/capabilities");
   const data = await res.json();
-  document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  updateOutputCode(data, 'json');
   showNotification("System Capabilities retrieved");
 }
 
@@ -793,7 +835,9 @@ async function runExecuteStream() {
   
   const timeline = document.getElementById("timeline-container");
   timeline.innerHTML = "";
-  document.getElementById("output").textContent = "Opening SSE telemetry stream...\n";
+  const codeEl = document.getElementById("output");
+  codeEl.className = "language-bash";
+  codeEl.textContent = "Opening SSE telemetry stream...\n";
   showNotification("Streaming Execution Pipeline started");
 
   const payload = {
@@ -827,7 +871,7 @@ async function runExecuteStream() {
           const data = JSON.parse(raw);
           const elapsed = Math.round(performance.now() - start);
           document.getElementById("latency-tag").textContent = `${elapsed} ms`;
-          document.getElementById("output").textContent += `[+${elapsed}ms] ${data.event}: ` + (data.detail || JSON.stringify(data)) + "\n";
+          codeEl.textContent += `[+${elapsed}ms] ${data.event}: ` + (data.detail || JSON.stringify(data)) + "\n";
 
           if (data.event === "started") {
             renderTimelineItem(`Target: ${data.objective.slice(0, 35)}...`, true);
@@ -845,7 +889,10 @@ async function runExecuteStream() {
             renderTimelineItem(`Completed ${data.stage}`, false, true);
           } else if (data.event === "finished") {
             renderTimelineItem(`🏁 Pipeline execution successfully finished!`, false, true);
-            document.getElementById("output").textContent += "\n=== Final Execution Summary ===\n" + JSON.stringify(data.result, null, 2);
+            codeEl.textContent += "\n=== Final Execution Summary ===\n" + JSON.stringify(data.result, null, 2);
+            if (window.Prism) {
+              Prism.highlightElement(codeEl);
+            }
             
             // Trigger Festive Confetti for successful delivery
             if (window.confetti) {
@@ -861,7 +908,7 @@ async function runExecuteStream() {
       }
     }
   } catch (err) {
-    document.getElementById("output").textContent += "\nStream error: " + String(err);
+    codeEl.textContent += "\nStream error: " + String(err);
     showNotification("Stream error encountered", false);
   }
 }
@@ -870,7 +917,7 @@ async function runExecute() {
   const objective = document.getElementById("objective").value.trim();
   if (!objective) return;
   const start = performance.now();
-  document.getElementById("output").textContent = "Routing and planning objective…";
+  updateOutputCode("Routing and planning objective…", 'bash');
 
   const payload = {
     objective,
@@ -887,7 +934,7 @@ async function runExecute() {
     const data = await res.json();
     const lat = Math.round(performance.now() - start);
     document.getElementById("latency-tag").textContent = `${lat} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
 
     if (data.modes) {
       document.getElementById("modes-container").innerHTML = data.modes.map(m => `<span class="tag-badge">${m}</span>`).join(" ");
@@ -897,14 +944,14 @@ async function runExecute() {
     }
     showNotification("Objective Routed & Planned");
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
 async function runResearch() {
   const topic = document.getElementById("research-topic").value.trim() || "Post-Quantum Cryptography Enterprise Strategy";
   const start = performance.now();
-  document.getElementById("output").textContent = `Synthesizing research for: ${topic}…`;
+  updateOutputCode(`Synthesizing research for: ${topic}…`, 'bash');
 
   const sources = [
     { url: "https://csrc.nist.gov/publications", title: "NIST Cybersecurity Framework", authority_score: 0.98, freshness_score: 0.95, is_primary: true, excerpt: "Security controls standard" },
@@ -919,10 +966,10 @@ async function runResearch() {
     });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
     showNotification("Deep Research Report Synthesized");
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
@@ -938,10 +985,10 @@ async function runDevops() {
     });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-    showNotification("Deployment Plan Generated");
+    updateOutputCode(data, 'json');
+    showNotification(`Deployment Plan Generated for ${target}`);
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
@@ -957,10 +1004,10 @@ async function runSecurity() {
     });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
     showNotification("Security Audit Completed");
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
@@ -976,7 +1023,7 @@ async function runSLO() {
     });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
     showNotification("SLO Metric Evaluated");
 
     // Render / Update Chart.js
@@ -1008,7 +1055,7 @@ async function runSLO() {
       });
     }
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
@@ -1018,10 +1065,10 @@ async function runAdminRoles() {
     const res = await fetch("/v1/admin/roles", { headers: getAuthHeaders() });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
     showNotification("RBAC Hierarchy Retrieved");
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
@@ -1031,16 +1078,22 @@ async function runDiagnostics() {
     const res = await fetch("/v1/distribution/diagnostics", { headers: getAuthHeaders() });
     const data = await res.json();
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
-    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    updateOutputCode(data, 'json');
     showNotification("Diagnostic Bundle Exported");
   } catch (err) {
-    document.getElementById("output").textContent = String(err);
+    updateOutputCode({ error: String(err) }, 'json');
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.lucide) {
     lucide.createIcons();
+  }
+  if (window.mermaid) {
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+  }
+  if (window.Prism) {
+    Prism.highlightAll();
   }
   checkHealth();
   setInterval(checkHealth, 15000);
