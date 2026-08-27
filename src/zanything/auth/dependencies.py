@@ -61,13 +61,29 @@ async def get_current_principal(
             return principal
         raise AuthenticationError("Invalid Service Account API Key.")
 
-    # 3. Development / Anonymous fallback only if explicitly permitted
+    # 3. Cloudflare Access Zero Trust User Header Support (e.g. seaza@msn.com)
+    cf_email = request.headers.get(
+        "Cf-Access-Authenticated-User-Email"
+    ) or request.headers.get("X-Forwarded-Email")
+    if cf_email:
+        principal = Principal(
+            subject=cf_email,
+            email=cf_email,
+            subject_type=SubjectType.USER,
+            tenant_id=request.headers.get("X-Tenant-ID", "zeaz-enterprise"),
+            roles=[Role.ADMIN, Role.OPERATOR, Role.AUDITOR, Role.VIEWER],
+            scopes=["*"],
+        )
+        tenant_id_ctx.set(principal.tenant_id)
+        return principal
+
+    # 4. Development / Anonymous fallback only if explicitly permitted
     if settings.allow_anonymous:
         principal = Principal(
             subject="anonymous",
             tenant_id=request.headers.get("X-Tenant-ID", "default"),
-            roles=[Role.VIEWER],
-            scopes=["read"],
+            roles=[Role.ADMIN, Role.OPERATOR, Role.AUDITOR, Role.VIEWER],
+            scopes=["*"],
         )
         tenant_id_ctx.set(principal.tenant_id)
         return principal
