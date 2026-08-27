@@ -31,7 +31,9 @@ from zanything.models import (
 from zanything.routing import MODE_RULES, route_modes, workflow_for
 
 STARTED_AT = time.time()
-GUI_DIR = Path(__file__).resolve().parent / "gui"
+_pkg_gui = Path(__file__).resolve().parent / "gui"
+_app_gui = Path("/app/src/zanything/gui")
+GUI_DIR = _pkg_gui if _pkg_gui.exists() else _app_gui
 logger = get_logger("zanything.app")
 
 
