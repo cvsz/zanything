@@ -23,23 +23,39 @@ def get_token_verifier(settings: Settings = Depends(get_settings)) -> TokenVerif
     )
 
 
+def get_cloudflare_token_verifier(
+    settings: Settings = Depends(get_settings),
+) -> TokenVerifier:
+    """Create a verifier for Cloudflare Access JWT assertions."""
+    return TokenVerifier(
+        issuer=settings.cloudflare_access_issuer,
+        audience=settings.cloudflare_access_audience,
+        jwks_uri=settings.cloudflare_access_jwks_uri,
+        secret_key=None,
+        algorithms=["RS256"],
+    )
+
+
 async def get_current_principal(
     request: Request,
     credentials: HTTPAuthorizationCredentials | None = Depends(http_bearer),
     api_key: str | None = Header(default=None, alias="X-API-Key"),
     verifier: TokenVerifier = Depends(get_token_verifier),
+    cloudflare_verifier: TokenVerifier = Depends(get_cloudflare_token_verifier),
     settings: Settings = Depends(get_settings),
 ) -> Principal:
-    """Authenticate request and extract verified Principal.
+    """Authenticate request and extract a verified Principal.
 
-    Accepts:
+    Accepted production authentication paths:
     1. Authorization: Bearer <jwt_token>
-    2. X-API-Key: <api_key> (Service Accounts)
+    2. X-API-Key: <api_key> for configured service accounts
+    3. Cf-Access-Jwt-Assertion: <verified Cloudflare Access JWT> when enabled
+
+    Forwarded identity headers by themselves are never trusted.
     """
     # 1. Bearer Token Authentication (OIDC / JWT)
     if credentials and credentials.credentials:
         principal = verifier.verify_token(credentials.credentials)
-        # Update context variable for tenant isolation in logging
         tenant_id_ctx.set(principal.tenant_id)
         return principal
 
@@ -61,35 +77,44 @@ async def get_current_principal(
             return principal
         raise AuthenticationError("Invalid Service Account API Key.")
 
-    # 3. Cloudflare Access Zero Trust User Header Support (e.g. seaza@msn.com)
-    cf_email = request.headers.get(
-        "Cf-Access-Authenticated-User-Email"
-    ) or request.headers.get("X-Forwarded-Email")
-    if cf_email:
-        principal = Principal(
-            subject=cf_email,
-            email=cf_email,
-            subject_type=SubjectType.USER,
-            tenant_id=request.headers.get("X-Tenant-ID", "zeaz-enterprise"),
-            roles=[Role.ADMIN, Role.OPERATOR, Role.AUDITOR, Role.VIEWER],
-            scopes=["*"],
-        )
+    # 3. Cloudflare Access: trust only a cryptographically verified assertion.
+    cf_assertion = request.headers.get("Cf-Access-Jwt-Assertion")
+    if cf_assertion:
+        if not settings.cloudflare_access_enabled:
+            raise AuthenticationError("Cloudflare Access authentication is disabled.")
+        principal = cloudflare_verifier.verify_token(cf_assertion)
+        forwarded_email = request.headers.get(
+            "Cf-Access-Authenticated-User-Email"
+        ) or request.headers.get("X-Forwarded-Email")
+        if forwarded_email and principal.email and forwarded_email != principal.email:
+            raise AuthenticationError(
+                "Cloudflare Access identity header does not match verified assertion."
+            )
         tenant_id_ctx.set(principal.tenant_id)
         return principal
 
-    # 4. Development / Anonymous fallback only if explicitly permitted
+    # Explicitly reject spoofable forwarding headers without a verified assertion.
+    if request.headers.get("Cf-Access-Authenticated-User-Email") or request.headers.get(
+        "X-Forwarded-Email"
+    ):
+        raise AuthenticationError(
+            "Forwarded identity headers require a verified Cloudflare Access assertion."
+        )
+
+    # 4. Development/test anonymous fallback, always least-privileged.
     if settings.allow_anonymous:
         principal = Principal(
             subject="anonymous",
-            tenant_id=request.headers.get("X-Tenant-ID", "default"),
-            roles=[Role.ADMIN, Role.OPERATOR, Role.AUDITOR, Role.VIEWER],
-            scopes=["*"],
+            subject_type=SubjectType.USER,
+            tenant_id="default",
+            roles=[Role.VIEWER],
+            scopes=["read"],
         )
         tenant_id_ctx.set(principal.tenant_id)
         return principal
 
     raise AuthenticationError(
-        "Missing Bearer Token or X-API-Key authentication header."
+        "Missing Bearer Token, X-API-Key, or verified Cloudflare Access assertion."
     )
 
 
