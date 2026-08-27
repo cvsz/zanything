@@ -36,13 +36,13 @@ A milestone is complete only when implementation, tests, security/reliability re
 - [x] Add queue/worker chaos and recovery tests.
 
 ### v8 Provider Runtime
-- [ ] Define provider capability contract.
-- [ ] Implement provider registry and policy-based routing.
-- [ ] Add timeout/rate-limit/circuit-breaker behavior.
-- [ ] Add fallback and degraded-mode strategy.
-- [ ] Add token/cost metrics.
-- [ ] Add provider health and admin GUI.
-- [ ] Add provider contract tests.
+- [x] Define provider capability contract.
+- [x] Implement provider registry and policy-based routing.
+- [x] Add timeout/rate-limit/circuit-breaker behavior.
+- [x] Add fallback and degraded-mode strategy.
+- [x] Add token/cost metrics.
+- [x] Add provider health and admin GUI.
+- [x] Add provider contract tests.
 
 ### v9 Integration Fabric
 - [ ] Finalize universal integration adapter contract.

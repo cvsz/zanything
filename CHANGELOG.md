@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - v8 Provider Runtime
+- Standardized `ProviderRequest`, `ProviderResponse`, `ModelSpec`, and `ProviderType` contracts (`src/zanything/providers/__init__.py`)
+- Stateful `CircuitBreaker` pattern protecting providers from cascading failures (`src/zanything/providers/circuit_breaker.py`)
+- `ProviderRouter` with failover policy chains and per-tenant cost/token tracking (`src/zanything/providers/router.py`)
+- 3 integration tests covering provider routing, failover, circuit breaker transitions, and cost aggregation (`tests/test_providers.py`)
+
 ### Added - v7 Queue & Worker Fabric
 - Durable Queue backend interface & `AsyncMemoryQueue` with Priority scheduling (`CRITICAL`, `HIGH`, `NORMAL`, `LOW`) (`src/zanything/queue/backend.py`)
 - Exponential retry policies and Dead Letter Queue (DLQ) isolation
