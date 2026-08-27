@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zanything"
-version = "0.1.0"
+version = "1.0.0"
 description = "Enterprise Universal AI Operator"
 readme = "README.md"
 license = {file = "LICENSE"}

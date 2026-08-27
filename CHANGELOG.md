@@ -4,7 +4,13 @@ All notable changes to zanything are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.0.0] - 2026-08-27 (Enterprise Gold Master GA)
+
+### Added - Enterprise GA Release Gate
+- Complete roadmap implementation across Phases A through E (v5 to v66)
+- 49/49 Passing Production Test Suite
+- Docker Production Container Distribution & Live Smoke Verified
+- Modernized Operator Console GUI with Multi-Workspace Specialist Tab Navigation
 
 ### Added - Phase D & E Platform Engineering, Distribution & GA Release Gates (v41-v66)
 - Enterprise Entitlement Policy with Tier limits (`FeatureTier.ENTERPRISE`, worker limits, allowed providers) (`src/zanything/distribution/`)

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     )
 
     app_name: str = "zanything"
-    app_version: str = "0.1.0"
+    app_version: str = "1.0.0"
     env: Literal["development", "test", "staging", "production"] = "development"
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     log_json: bool = True
