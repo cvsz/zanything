@@ -573,6 +573,7 @@ code#output {
         <div class="controls-row">
           <button class="btn btn-primary" onclick="loadTaskHistory()"><i data-lucide="refresh-cw" style="width:18px; height:18px;"></i> Fetch Recent Tasks (/v1/tasks)</button>
         </div>
+        <div id="task-cards-list" style="margin-top:20px; display:flex; flex-direction:column; gap:12px;"></div>
       </div>
 
       <!-- Multi-AI Connectors Tab -->
@@ -838,6 +839,36 @@ async function loadTaskHistory() {
     document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
     updateOutputCode(data, 'json');
     showNotification(`Loaded ${data.count} durable execution tasks`);
+
+    const container = document.getElementById("task-cards-list");
+    if (container && data.tasks) {
+      if (data.tasks.length === 0) {
+        container.innerHTML = `<div style="color:var(--text-muted); padding:12px;">No historical tasks found for tenant.</div>`;
+      } else {
+        container.innerHTML = data.tasks.map(t => `
+          <div style="background:rgba(9,14,26,0.75); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:700; font-size:0.95rem; color:#fff;">${t.objective}</div>
+              <div style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">ID: <code style="color:var(--primary); font-family:monospace;">${t.id}</code> &bull; Status: <span class="tag-badge" style="padding:1px 6px;">${t.status}</span> &bull; ${t.created_at || 'Just now'}</div>
+            </div>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:0.8rem;" onclick="inspectTask('${t.id}')">Inspect</button>
+          </div>
+        `).join("");
+      }
+    }
+  } catch (err) {
+    updateOutputCode({ error: String(err) }, 'json');
+  }
+}
+
+async function inspectTask(taskId) {
+  const start = performance.now();
+  try {
+    const res = await fetch(`/v1/tasks/${encodeURIComponent(taskId)}`, { headers: getAuthHeaders() });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    updateOutputCode(data, 'json');
+    showNotification(`Inspecting task: ${taskId}`);
   } catch (err) {
     updateOutputCode({ error: String(err) }, 'json');
   }
