@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - v9-v12 Platform Core Services
+- Universal Integration Fabric adapter contracts (`GitHubAdapter`, `SlackAdapter`) with health probes & scopes (`src/zanything/adapters/__init__.py`)
+- Secret Management provider abstraction, `EnvSecretProvider`, and `SecretRedactor` (`src/zanything/secrets/__init__.py`)
+- Policy & Confirmation Engine with `ActionClass` risk categorization (`READ_ONLY`, `REVERSIBLE_WRITE`, `HIGH_IMPACT`) and `PolicyEngine` evaluator (`src/zanything/policy/__init__.py`)
+- 4 integration tests covering integration execution, secret redaction, env secret resolution, and policy evaluation (`tests/test_platform.py`)
+
 ### Added - v8 Provider Runtime
 - Standardized `ProviderRequest`, `ProviderResponse`, `ModelSpec`, and `ProviderType` contracts (`src/zanything/providers/__init__.py`)
 - Stateful `CircuitBreaker` pattern protecting providers from cascading failures (`src/zanything/providers/circuit_breaker.py`)

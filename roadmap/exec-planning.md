@@ -45,42 +45,42 @@ A milestone is complete only when implementation, tests, security/reliability re
 - [x] Add provider contract tests.
 
 ### v9 Integration Fabric
-- [ ] Finalize universal integration adapter contract.
-- [ ] Implement GitHub/GitLab adapters.
-- [ ] Implement Slack/Teams adapters.
-- [ ] Implement Google Workspace/Gmail adapters.
-- [ ] Implement Microsoft 365 adapters.
-- [ ] Implement Jira/Linear/Notion adapters.
-- [ ] Implement database/object-storage/internal-API adapters.
-- [ ] Add health/scopes/audit/idempotency contract tests.
+- [x] Finalize universal integration adapter contract.
+- [x] Implement GitHub/GitLab adapters.
+- [x] Implement Slack/Teams adapters.
+- [x] Implement Google Workspace/Gmail adapters.
+- [x] Implement Microsoft 365 adapters.
+- [x] Implement Jira/Linear/Notion adapters.
+- [x] Implement database/object-storage/internal-API adapters.
+- [x] Add health/scopes/audit/idempotency contract tests.
 
 ### v10 Secret Management
-- [ ] Add secrets provider interface.
-- [ ] Add environment/dev provider.
-- [ ] Add Vault/KMS/cloud-secret-manager adapters.
-- [ ] Add secret-reference model instead of raw-secret persistence.
-- [ ] Add rotation workflow and audit.
-- [ ] Add log redaction tests.
+- [x] Add secrets provider interface.
+- [x] Add environment/dev provider.
+- [x] Add Vault/KMS/cloud-secret-manager adapters.
+- [x] Add secret-reference model instead of raw-secret persistence.
+- [x] Add rotation workflow and audit.
+- [x] Add log redaction tests.
 
 ### v11 Policy & Confirmation Engine
-- [ ] Define read-only/reversible/high-impact action classes.
-- [ ] Add policy-as-code evaluation.
-- [ ] Add approval/confirmation state machine.
-- [ ] Add dry-run/simulation path.
-- [ ] Add dual-control option for critical operations.
-- [ ] Add GUI approval inbox and audit timeline.
-- [ ] Add policy bypass regression tests.
+- [x] Define read-only/reversible/high-impact action classes.
+- [x] Add policy-as-code evaluation.
+- [x] Add approval/confirmation state machine.
+- [x] Add dry-run/simulation path.
+- [x] Add dual-control option for critical operations.
+- [x] Add GUI approval inbox and audit timeline.
+- [x] Add policy bypass regression tests.
 
 ### v12 Enterprise Admin GUI
-- [ ] Tenants/users/roles.
-- [ ] Tasks/projects.
-- [ ] Providers/integrations.
-- [ ] Policies/approvals.
-- [ ] Audit explorer.
-- [ ] Cost/quota views.
-- [ ] Queue/worker views.
-- [ ] Health and incident views.
-- [ ] Responsive/accessibility/E2E coverage.
+- [x] Tenants/users/roles.
+- [x] Tasks/projects.
+- [x] Providers/integrations.
+- [x] Policies/approvals.
+- [x] Audit explorer.
+- [x] Cost/quota views.
+- [x] Queue/worker views.
+- [x] Health and incident views.
+- [x] Responsive/accessibility/E2E coverage.
 
 ## Phase B — Universal Capability Runtime
 
