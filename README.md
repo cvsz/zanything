@@ -1,89 +1,63 @@
-# zAnything Enterprise — Gold Master Roadmap Pack
+# Anything v2 — Universal AI Operator
 
-Contents:
+Anything v2 is a production-oriented Custom GPT master system designed to route arbitrary user goals into the right combination of reasoning, research, tools, specialist modes, execution loops, and deliverables.
 
-- `anything-enterprise-universal-full.zip` — current enterprise universal package.
-- `ROADMAP-TO-GOLD-MASTER.md` — v5 → v66 implementation ledger.
-- `GOLD-MASTER-CHECKLIST.md` — final production/enterprise release gates.
-- `roadmap.json` — machine-readable roadmap for automation/project tooling.
-- `SHA256SUMS.txt` — integrity hashes.
+## Core architecture
 
-The roadmap intentionally distinguishes scaffolding from verified production readiness. A capability is complete only after implementation, tests, security/reliability review, documentation, and release evidence.
-
-
-A production-ready, reusable GitHub repository template for starting new projects with consistent engineering, security, documentation, automation, and release practices.
+User
+→ Intent Router
+→ Task Decomposer
+→ Risk / Confirmation Gate
+→ Tool Router
+→ Specialist Mode(s)
+→ Executor
+→ Critic / Validator
+→ Artifact Builder
+→ Final Response
 
 ## Included
 
-- Issue and pull request templates
-- CODEOWNERS and repository contribution guidance
-- Security policy and support policy
-- CI workflow baseline
-- CodeQL security scanning
-- Dependency Review for pull requests
-- Dependabot configuration
-- Release workflow and release notes configuration
-- Conventional commit / PR guidance
-- EditorConfig, Git attributes, and Git ignore baseline
-- Community health files
-- Documentation structure
-- Changelog and roadmap templates
-- Implementation checklist
-- Architecture Decision Record (ADR) template
-- Environment example
-- Docker baseline
-- Makefile task entrypoints
+- Master system prompt
+- Intent router
+- 20 specialist modes
+- Deep Research protocol
+- Autonomous project loop
+- Image / Movie Poster engine
+- Coding / Debugging / DevOps / Security engines
+- Data / Document / Spreadsheet / Presentation engines
+- Knowledge schema
+- Conversation starters
+- Actions/OpenAPI architecture
+- Example OpenAPI action manifest
+- Output contracts
+- Safety and confirmation gates
+- Evaluation checklist and acceptance tests
+- Deployment/configuration guide
+- Example workflows
 
-## Start from this template
+## Suggested GPT capabilities
 
-1. Use this repository as a GitHub template repository.
-2. Create a new repository from the template.
-3. Replace placeholder project metadata.
-4. Review and customize `.github/CODEOWNERS`, `SECURITY.md`, CI matrices, and release settings.
-5. Add language/framework-specific workflows only when the project needs them.
+Enable, when available:
+- Web search
+- Image generation
+- Code interpreter / data analysis
+- File handling / knowledge
 
-## Repository structure
+Use Actions only when you have an external API you control and can secure properly.
 
-```text
-.github/
-  ISSUE_TEMPLATE/
-  workflows/
-  CODEOWNERS
-  CONTRIBUTING.md
-  PULL_REQUEST_TEMPLATE.md
-  dependabot.yml
-  release.yml
-  SUPPORT.md
-docs/
-  adr/
-  architecture.md
-  development.md
-  release.md
-.env.example
-.editorconfig
-.gitattributes
-.gitignore
-CHANGELOG.md
-CODE_OF_CONDUCT.md
-Dockerfile
-IMPLEMENTATION-CHECKLIST.md
-LICENSE
-Makefile
-README.md
-ROADMAP.md
-SECURITY.md
-```
+## Start here
 
-## Principles
+1. Put `prompts/MASTER_SYSTEM.prompt.md` into the GPT Instructions field.
+2. Add the files under `knowledge/` as reference documents if useful.
+3. Configure conversation starters from `conversation-starters.json`.
+4. Enable the capabilities you want.
+5. If using external Actions, adapt `actions/openapi-template.yaml`.
+6. Test with `evals/acceptance-tests.md`.
 
-- Secure by default
-- Least privilege for GitHub Actions
-- Reproducible automation
-- Small, reviewable pull requests
-- Documentation as part of delivery
-- No weakening of security gates to make CI green
-- Explicit release and rollback practices
+## Design philosophy
 
-## License
+Anything v2 is not one giant “answer everything” persona. It is a routing and execution system that activates the minimum specialist set required by each request.
 
-MIT. See `LICENSE`.
+## Version
+
+2.0.0

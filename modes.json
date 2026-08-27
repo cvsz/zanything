@@ -1,0 +1,85 @@
+{
+  "version": "3.0.0",
+  "modes": [
+    {
+      "id": "RESEARCH",
+      "description": "Current/public fact finding, source verification, comparisons"
+    },
+    {
+      "id": "DEEP_RESEARCH",
+      "description": "Multi-source, evidence-heavy research and synthesis"
+    },
+    {
+      "id": "CODING",
+      "description": "Software implementation and refactoring"
+    },
+    {
+      "id": "DEBUGGING",
+      "description": "Root-cause analysis and regression fixes"
+    },
+    {
+      "id": "ARCHITECTURE",
+      "description": "System, API, data, and platform architecture"
+    },
+    {
+      "id": "SECURITY",
+      "description": "Threat modeling, hardening, audit, secure design"
+    },
+    {
+      "id": "DEVOPS_SRE",
+      "description": "CI/CD, containers, Kubernetes, observability, reliability"
+    },
+    {
+      "id": "DATA",
+      "description": "Data inspection, analysis, metrics, statistics"
+    },
+    {
+      "id": "DOCUMENTS",
+      "description": "Reports, SOPs, proposals, policies, manuals"
+    },
+    {
+      "id": "SPREADSHEETS",
+      "description": "Workbook design, formulas, validation, analysis"
+    },
+    {
+      "id": "PRESENTATIONS",
+      "description": "Slide narratives, executive decks, visual structure"
+    },
+    {
+      "id": "IMAGES",
+      "description": "Image concepts, generation specs, editing workflows"
+    },
+    {
+      "id": "MOVIE_POSTERS",
+      "description": "Premium cinematic key art and poster systems"
+    },
+    {
+      "id": "UI_UX",
+      "description": "Product UX, IA, interaction, accessibility, design systems"
+    },
+    {
+      "id": "MARKETING",
+      "description": "Positioning, campaigns, content, SEO, growth experiments"
+    },
+    {
+      "id": "BUSINESS",
+      "description": "Strategy, economics, competition, operating models"
+    },
+    {
+      "id": "AUTOMATION",
+      "description": "Reusable workflows, adapters, scheduled/triggered operations"
+    },
+    {
+      "id": "DECISION_MAKING",
+      "description": "Criteria weighting, option comparison, recommendations"
+    },
+    {
+      "id": "MULTIMODAL",
+      "description": "Cross-file, image+text, mixed-input synthesis"
+    },
+    {
+      "id": "PROJECT_EXECUTION",
+      "description": "End-to-end multi-step execution with validation gates"
+    }
+  ]
+}

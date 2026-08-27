@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Anything Enterprise</title>
+<style>
+:root{color-scheme:dark;--bg:#090b0f;--panel:#11151b;--line:#242933;--muted:#9ca6b6;--text:#f6f8fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+header{height:64px;padding:0 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:#0d1015}
+main{max-width:1260px;margin:auto;padding:28px}.grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}.muted{color:var(--muted)}
+textarea{width:100%;min-height:240px;background:#0b0e13;color:#fff;border:1px solid #353c48;border-radius:12px;padding:14px;resize:vertical}
+button{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{background:#fff;color:#111}.secondary{background:#222936;color:#fff}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border:1px solid #36404d;border-radius:999px;margin:3px;background:#1a2028}
+.step{display:inline-block;padding:5px 9px;border-radius:8px;background:#151b22;margin:3px}.status{font-weight:800}
+pre{white-space:pre-wrap;word-break:break-word;color:#dce3ed}.small{font-size:13px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><strong>Anything Enterprise</strong><span class="muted">Universal AI Operator Console</span></header>
+<main>
+<div class="grid">
+<section class="card">
+<h2>Execute any goal</h2>
+<p class="muted">Research, deep research, coding, debugging, architecture, security, DevOps/SRE, data, documents, spreadsheets, presentations, images, movie posters, UI/UX, marketing, business, automation, decisions, multimodal work, and end-to-end projects.</p>
+<textarea id="objective" placeholder="Describe the outcome you want..."></textarea>
+<div class="row" style="margin-top:12px">
+<label class="small"><input id="dry" type="checkbox"> Dry run / plan only</label>
+<label class="small"><input id="verify" type="checkbox" checked> Require verification</label>
+<button class="primary" onclick="run()">Run</button>
+<button class="secondary" onclick="showCaps()">Capabilities</button>
+</div>
+</section>
+<aside class="card">
+<h3>Platform</h3>
+<div id="health" class="status">Checking…</div>
+<h3>Modes</h3><div id="modes" class="muted">None yet</div>
+<h3>Workflow</h3><div id="flow" class="muted">Waiting</div>
+</aside>
+</div>
+<section class="card" style="margin-top:20px"><h3>Result</h3><pre id="result">Ready.</pre></section>
+</main>
+<script>
+async function checkHealth(){
+  try{const r=await fetch("/healthz");const j=await r.json();health.textContent=j.status}
+  catch(e){health.textContent="offline"}
+}
+async function showCaps(){
+  const r=await fetch("/v1/capabilities");const j=await r.json();result.textContent=JSON.stringify(j,null,2)
+}
+async function run(){
+  const objective=document.getElementById("objective").value.trim();if(!objective)return;
+  const payload={objective,dry_run:dry.checked,require_verification:verify.checked};
+  result.textContent="Running…";
+  try{
+    const r=await fetch("/v1/execute",{method:"POST",headers:{"Content-Type":"application/json","X-Request-ID":crypto.randomUUID()},body:JSON.stringify(payload)});
+    const j=await r.json();result.textContent=JSON.stringify(j,null,2);
+    modes.innerHTML=(j.modes||[]).map(x=>`<span class="badge">${x}</span>`).join("");
+    flow.innerHTML=(j.workflow||[]).map(x=>`<span class="step">${x}</span>`).join(" → ");
+  }catch(e){result.textContent=String(e)}
+}
+checkHealth();
+</script>
+</body></html>

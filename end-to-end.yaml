@@ -1,0 +1,28 @@
+name: universal-enterprise-project
+version: 1
+stages:
+  - discover
+  - research
+  - deep_research
+  - architecture
+  - implementation
+  - testing
+  - security_hardening
+  - deployment
+  - observability
+  - acceptance
+  - release
+  - post_release_review
+quality_gates:
+  - correctness
+  - security
+  - reliability
+  - maintainability
+  - observability
+  - usability
+  - verification
+stop_conditions:
+  - complete
+  - required_approval
+  - unavailable_capability
+  - genuine_blocker

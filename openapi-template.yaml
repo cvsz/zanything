@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Anything v2 External Actions
+  version: 1.0.0
+  description: >
+    Template for controlled external actions. Replace example endpoints
+    with APIs you own and secure.
+servers:
+  - url: https://api.example.com
+paths:
+  /tasks:
+    post:
+      operationId: createTask
+      summary: Create an external task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '200':
+          description: Created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+  /tasks/{taskId}:
+    get:
+      operationId: getTask
+      summary: Get task state
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+components:
+  schemas:
+    CreateTaskRequest:
+      type: object
+      additionalProperties: false
+      required: [title, instruction]
+      properties:
+        title:
+          type: string
+        instruction:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+    Task:
+      type: object
+      additionalProperties: false
+      required: [id, status]
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum: [queued, running, succeeded, failed]
+        result:
+          type: string
+        error:
+          type: string
+security: []

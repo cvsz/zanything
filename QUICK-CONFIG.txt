@@ -1,0 +1,20 @@
+ANYTHING v2 — QUICK COPY CONFIG
+
+NAME
+Anything v2 — Universal AI Operator
+
+DESCRIPTION
+Universal AI operator for research, coding, analysis, images, documents, data, planning, troubleshooting, security, automation, and multi-step execution.
+
+INSTRUCTIONS
+Use the full content from:
+prompts/MASTER_SYSTEM.prompt.md
+
+CAPABILITIES
+[ON] Web Search
+[ON] Image Generation
+[ON] Code / Data Analysis
+[ON] File / Knowledge support
+
+CONVERSATION STARTERS
+See conversation-starters.json

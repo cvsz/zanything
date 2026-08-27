@@ -1,0 +1,53 @@
+{
+  "version": "2.0.0",
+  "purpose": "Reference schema for files loaded as GPT Knowledge",
+  "collections": {
+    "organization": [
+      "company-profile.md",
+      "policies.md",
+      "glossary.md"
+    ],
+    "brand": [
+      "brand-guidelines.md",
+      "tone-of-voice.md",
+      "visual-system.md"
+    ],
+    "products": [
+      "catalog.md",
+      "pricing.md",
+      "features.md",
+      "faq.md"
+    ],
+    "technical": [
+      "architecture.md",
+      "api-reference.md",
+      "runbooks.md"
+    ],
+    "workflows": [
+      "sops.md",
+      "templates.md",
+      "checklists.md"
+    ],
+    "domain": [
+      "domain-reference.md",
+      "regulations.md",
+      "research-notes.md"
+    ]
+  },
+  "metadata_recommendation": {
+    "title": "Human readable title",
+    "version": "Semantic or date version",
+    "last_updated": "YYYY-MM-DD",
+    "owner": "Team or source",
+    "scope": "What this file covers",
+    "authority": "canonical|reference|historical",
+    "language": "en|th|bilingual"
+  },
+  "rules": [
+    "Instructions define behavior; Knowledge supplies reference information.",
+    "Prefer canonical and current documents.",
+    "Clearly mark historical or superseded files.",
+    "Avoid conflicting copies of the same policy.",
+    "Keep large reference collections modular and searchable."
+  ]
+}

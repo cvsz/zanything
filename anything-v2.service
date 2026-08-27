@@ -1,0 +1,28 @@
+[Unit]
+Description=Anything Enterprise Universal Operator
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=anything
+Group=anything
+WorkingDirectory=/opt/anything-v2
+EnvironmentFile=-/etc/anything-v2/anything.env
+ExecStart=/opt/anything-v2/venv/bin/uvicorn api.app:app --host 0.0.0.0 --port 8080 --proxy-headers
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

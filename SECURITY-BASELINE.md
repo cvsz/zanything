@@ -1,0 +1,21 @@
+# Enterprise Security Baseline
+
+- TLS at ingress/reverse proxy.
+- Enterprise identity provider before public exposure.
+- Deny-by-default authorization.
+- Per-tenant isolation.
+- Secrets from a secret manager or protected environment.
+- Non-root containers.
+- Read-only root filesystem.
+- Drop all Linux capabilities.
+- RuntimeDefault seccomp.
+- Resource limits.
+- Request-size limits and timeouts.
+- Edge rate limiting.
+- Explicit CORS allow-list.
+- Audit high-impact actions.
+- Dependency/SAST/container/IaC/secret scanning.
+- SBOM generation.
+- Signed artifacts where supported.
+- Separate dev/staging/prod credentials.
+- No production side effects from untrusted branches.
