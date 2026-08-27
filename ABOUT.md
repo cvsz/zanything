@@ -1,111 +1,75 @@
-# About cvsz
+# About zanything
 
-`cvsz` is a builder focused on AI-first software, developer platforms, automation, infrastructure, and production-grade systems.
+`zanything` is the implementation repository for **Anything Enterprise Universal Operator**: a universal AI operator platform intended to unify research, engineering, security, operations, data, office artifacts, visual creation, product design, business workflows, automation, multimodal work and end-to-end project execution behind shared enterprise controls.
 
-## Focus areas
+## Scope
 
-- AI coding tools and autonomous/agentic systems
-- AI application platforms and OpenAI-compatible integrations
-- Developer platforms, APIs, SDKs, and internal tooling
-- Platform engineering, infrastructure automation, CI/CD, and DevOps
-- Security-aware architecture, repository hardening, and engineering quality gates
-- Workflow automation, bots, social automation, and commerce integrations
-- Payment, wallet, ledger, and financial-system architecture
-- Media, streaming, multimodal, speech, image, OCR, and search systems
-- Gaming and interactive application infrastructure
-- OpenAPI tooling and service integration
+The target capability set includes:
 
-## Current engineering interests
+- Research and Deep Research
+- Coding and Debugging
+- Architecture and Security
+- DevOps / SRE
+- Data analysis and data workflows
+- Documents, Spreadsheets and Presentations
+- Images and Movie Posters
+- UI/UX and design-system workflows
+- Marketing and Business strategy
+- Automation and external integrations
+- Decision Making
+- Multimodal execution
+- End-to-end Project Execution
 
-### AI and agents
+## Enterprise target architecture
 
-Building practical AI systems that combine coding agents, tool use, model routing, multimodal capabilities, automation, and production infrastructure.
+`Enterprise GUI → API Gateway → Identity/OIDC → Tenant Context → RBAC/ABAC + Policy/Confirmation → Intent Router → Planner/Orchestrator → Durable Task Store → Queue/Workers → Provider & Integration Fabric → Specialist Engines → Artifact Runtime → Audit/Event Stream → Observability → Release Gates`
 
-Areas of interest include:
+## Engineering principles
 
-- coding assistants and autonomous coding workflows
-- multi-agent orchestration
-- tool and API integrations
-- OpenAI-compatible model providers
-- model fallback and routing strategies
-- text, image, speech, embeddings, OCR, search, and video capabilities
-- reusable agent and project generators
-
-### Platform engineering
-
-Designing reusable foundations for products and services with an emphasis on:
-
-- modular service architecture
-- APIs and SDKs
-- containerized development and deployment
-- CI/CD automation
-- observability
-- security scanning
-- dependency automation
-- reproducible environments
-- scalable infrastructure
-
-### Automation and integrations
-
-Projects and experiments include automation around platforms and services such as:
-
-- LINE
-- TikTok Shop
-- social and commerce workflows
-- OpenAPI-based services
-- bots and event-driven automation
-
-### Payments and financial systems
-
-Interest in robust financial architecture including:
-
-- wallets
-- ledgers
-- accounting-style transaction models
-- payment services
-- auditability
-- safe transaction processing
-
-### Engineering philosophy
-
-Projects should aim to be:
+zanything should be:
 
 - secure by default
+- deny-by-default at authorization boundaries
+- tenant-aware and tenant-isolated
 - automation-first
-- modular and reusable
-- easy to operate
-- observable
-- testable
-- documented
-- production-oriented
-- friendly to incremental improvement
+- observable and auditable
+- durable and recoverable
+- testable and evidence-driven
+- upgradeable and rollback-safe
+- modular, extensible and provider-neutral where practical
+- accessible and responsive at the GUI layer
+- explicit about uncertainty, failed verification and incomplete production readiness
 
-Security and quality checks should be fixed rather than bypassed. Infrastructure, CI, documentation, and operational readiness are treated as part of the product rather than afterthoughts.
+Security and quality checks should be fixed rather than bypassed. CI, migrations, backups, release evidence, documentation, observability, operational runbooks and recovery are part of the product rather than afterthoughts.
 
-## Public project themes
+## Implementation system
 
-The `cvsz` GitHub portfolio spans a broad collection of repositories covering areas such as:
+Canonical project execution is defined by:
 
-- AI tools and AI coding systems
-- agent generators and agent platforms
-- platform and infrastructure projects
-- automation and bot systems
-- payment and wallet systems
-- OpenAPI tooling
-- media and streaming projects
-- gaming projects
-- security, tracking, and operational tooling
-- general developer utilities
+- `prompts/MASTER-IMPLEMENTATION.prompt.md`
+- `exec-planning.md`
+- `ROADMAP-TO-GOLD-MASTER.md`
+- `GOLD-MASTER-CHECKLIST.md`
+- `prompts/phases/`
+- `prompts/specialists/`
 
-## Preferred project direction
+The execution loop is:
 
-The goal of this repository template is to provide a strong starting point for future projects so that new repositories begin with engineering discipline already in place: documentation, security policy, CI, dependency maintenance, release structure, issue/PR workflows, architecture guidance, and a clear implementation checklist.
+`DISCOVER → DESIGN → IMPLEMENT → TEST → HARDEN → VERIFY → DOCUMENT → RELEASE EVIDENCE`
 
-## GitHub
+## Milestones
 
-- Handle: `cvsz`
-- Repository namespace: `github.com/cvsz`
+- v5–v12 — Platform Core
+- v13–v25 — Universal Capability Runtime
+- v26–v40 — Reliability, Security & Governance
+- v41–v55 — Platform Engineering & Distribution
+- v56–v66 — Enterprise GA & Gold Master
 
----
+## Production readiness
 
-This profile intentionally contains only public-safe technical and project information. Personal, private, credential, account, and sensitive identity information should not be added to a public repository template.
+The repository must not describe itself as production-ready solely because scaffolding exists or CI builds. Production readiness requires implementation and evidence for identity, authorization, tenant isolation, durable state/queue, secrets, security gates, observability/SLOs, backup/restore, upgrade/rollback, load/failure testing, DR, documentation/runbooks and the Gold Master exit criteria.
+
+## Repository
+
+- GitHub: `cvsz/zanything`
+- Default branch: `main`

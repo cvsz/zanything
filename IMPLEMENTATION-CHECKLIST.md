@@ -1,70 +1,70 @@
-# Implementation Checklist
+# zanything Implementation Checklist
 
-Use this checklist after creating a repository from `ztemplate`.
+This checklist tracks repository/project foundations that must remain synchronized with the canonical implementation ledger in `exec-planning.md`.
 
 ## Repository identity
+- [x] Repository name and project description aligned to `zanything`.
+- [x] Canonical README points to implementation prompts and Gold Master roadmap.
+- [ ] Confirm repository topics, description, homepage, and public metadata match the enterprise operator scope.
 
-- [ ] Replace `ztemplate` references with the real project name.
-- [ ] Replace template descriptions and badges.
-- [ ] Confirm license ownership and year.
-- [ ] Configure repository topics, description, homepage, and template status.
-
-## Ownership and governance
-
-- [ ] Update `.github/CODEOWNERS`.
-- [ ] Review `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md`.
-- [ ] Configure branch protection or repository rulesets.
-- [ ] Require pull request review where appropriate.
-- [ ] Require passing status checks before merge.
+## Governance
+- [ ] Review `.github/CODEOWNERS` for current ownership.
+- [x] Contribution and code-of-conduct documents exist.
+- [ ] Confirm branch protection/rulesets require appropriate pull request and status checks.
+- [ ] Confirm required reviews/approvals for protected production changes.
 
 ## Security
+- [x] `SECURITY.md` exists.
+- [x] CodeQL workflow exists.
+- [x] Dependency Review workflow exists.
+- [x] Dependabot configuration exists.
+- [x] CI performs a basic tracked-secret filename guard.
+- [ ] Confirm secret scanning/push protection repository settings where available.
+- [ ] Add stack-specific SAST/SCA/container/IaC/SBOM gates as implementation becomes real.
+- [ ] Keep Actions permissions least-privilege.
 
-- [ ] Review `SECURITY.md` and configure private vulnerability reporting.
-- [ ] Enable Dependabot alerts and security updates.
-- [ ] Review CodeQL language detection/support for the actual stack.
-- [ ] Keep dependency review enabled for pull requests where supported.
-- [ ] Configure secret scanning and push protection where available.
-- [ ] Add stack-specific SAST, container, IaC, and SBOM checks as needed.
-- [ ] Confirm Actions permissions follow least privilege.
-
-## Development
-
-- [ ] Select the language/runtime and package manager.
-- [ ] Add formatter and linter configuration.
-- [ ] Add unit, integration, and end-to-end tests as appropriate.
-- [ ] Replace placeholder Makefile targets with real commands.
-- [ ] Replace or remove the placeholder Dockerfile.
-- [ ] Populate `.env.example` with safe non-secret keys only.
+## Project execution
+- [x] `exec-planning.md` is the canonical bounded implementation ledger.
+- [x] `ROADMAP-TO-GOLD-MASTER.md` tracks v5 → v66 milestones.
+- [x] `GOLD-MASTER-CHECKLIST.md` defines final enterprise/production exit gates.
+- [x] `prompts/MASTER-IMPLEMENTATION.prompt.md` defines the implementation contract.
+- [x] Phase implementation prompts exist for v5 → v66.
+- [x] Specialist implementation prompts exist for all universal capability groups.
+- [ ] Execute v5 onward in dependency order with evidence-backed completion.
 
 ## CI/CD
-
-- [ ] Customize CI for the selected stack.
-- [ ] Pin runtime versions and define supported-version matrices.
-- [ ] Add build and package validation.
-- [ ] Add artifact retention settings where needed.
-- [ ] Configure environments, approvals, and deployment protections.
-- [ ] Verify workflows from forks do not receive unsafe credentials.
+- [x] Baseline CI workflow exists.
+- [x] CodeQL workflow exists.
+- [x] Dependency Review workflow exists.
+- [ ] CI must run successfully on the active implementation PR before merge.
+- [ ] Add real build/test/package jobs as implementation code lands.
+- [ ] Add deployment environments, approvals and release protections before production deployment.
 
 ## Release
-
-- [ ] Decide on Semantic Versioning or another explicit versioning policy.
-- [ ] Configure changelog and release-note generation.
-- [ ] Configure package/container publishing only when needed.
-- [ ] Add provenance, signing, and attestations for production artifacts where appropriate.
-- [ ] Document rollback procedures.
+- [ ] Confirm semantic versioning/release policy.
+- [ ] Synchronize `CHANGELOG.md` with implementation releases.
+- [ ] Add SBOM/provenance/signing/attestation gates before Gold Master.
+- [ ] Prove install, upgrade, backup/restore and rollback before production-ready claims.
 
 ## Documentation
+- [x] README is aligned to zanything.
+- [x] Roadmap is aligned to enterprise implementation.
+- [ ] Keep `ARCHITECTURE.md`, `DEPLOYMENT.md`, `SECURITY.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, GitHub templates and runbooks synchronized with implementation changes.
+- [ ] Add operator/admin/user/API/integration documentation as the corresponding runtime is implemented.
 
-- [ ] Complete `docs/architecture.md`.
-- [ ] Complete `docs/development.md`.
-- [ ] Complete `docs/release.md`.
-- [ ] Add ADRs for material architectural decisions.
-- [ ] Document operational ownership and support expectations.
+## Merge readiness
+- [ ] Branch is current with `main` and conflict-free.
+- [ ] Required CI/security workflows actually ran and are green.
+- [ ] Review threads are resolved.
+- [ ] Documentation and project ledgers match the proposed change.
+- [ ] No unsupported production-ready claim is introduced.
 
-## Final verification
-
-- [ ] Fresh clone works with documented bootstrap steps.
-- [ ] CI passes on `main` and pull requests.
-- [ ] No secrets or private information are committed.
-- [ ] Security checks are enabled and passing.
-- [ ] A release can be created and rolled back according to documentation.
+## Final Gold Master verification
+- [ ] Fresh clean install proven.
+- [ ] Production identity/tenant/RBAC proven.
+- [ ] Durable DB/queue and secret management proven.
+- [ ] Security/reliability/eval/test gates pass.
+- [ ] Observability/SLOs operational.
+- [ ] Backup/restore/DR proven.
+- [ ] Upgrade/rollback proven.
+- [ ] Gold Master evidence archived.
