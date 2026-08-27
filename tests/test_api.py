@@ -154,3 +154,18 @@ def test_governance_slo_endpoint(client: TestClient) -> None:
     assert data["name"] == "Availability"
     assert data["actual_pct"] == 99.95
     assert data["status"] == "healthy"
+
+
+def test_execute_stream_endpoint(client: TestClient) -> None:
+    """Verify POST /v1/execute/stream streams SSE execution events."""
+    r = client.post(
+        "/v1/execute/stream",
+        json={"objective": "deploy security update", "dry_run": True},
+    )
+    assert r.status_code == 200
+    assert "text/event-stream" in r.headers["content-type"]
+    text = r.text
+    assert "started" in text
+    assert "intent_routed" in text
+    assert "stage_active" in text
+    assert "finished" in text
