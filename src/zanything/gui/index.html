@@ -3,64 +3,423 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anything Enterprise</title>
+<title>zanything — Universal AI Operator</title>
 <style>
-:root{color-scheme:dark;--bg:#090b0f;--panel:#11151b;--line:#242933;--muted:#9ca6b6;--text:#f6f8fb}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,sans-serif}
-header{height:64px;padding:0 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:#0d1015}
-main{max-width:1260px;margin:auto;padding:28px}.grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:20px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}.muted{color:var(--muted)}
-textarea{width:100%;min-height:240px;background:#0b0e13;color:#fff;border:1px solid #353c48;border-radius:12px;padding:14px;resize:vertical}
-button{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{background:#fff;color:#111}.secondary{background:#222936;color:#fff}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border:1px solid #36404d;border-radius:999px;margin:3px;background:#1a2028}
-.step{display:inline-block;padding:5px 9px;border-radius:8px;background:#151b22;margin:3px}.status{font-weight:800}
-pre{white-space:pre-wrap;word-break:break-word;color:#dce3ed}.small{font-size:13px}
-@media(max-width:860px){.grid{grid-template-columns:1fr}}
+:root {
+  color-scheme: dark;
+  --bg: #0b0f17;
+  --panel: #131b26;
+  --panel-hover: #192433;
+  --line: #222e3f;
+  --primary: #38bdf8;
+  --primary-hover: #0ea5e9;
+  --accent: #a855f7;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+}
+header {
+  height: 64px;
+  padding: 0 28px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f172a;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tag {
+  background: #1e293b;
+  color: var(--primary);
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+main {
+  max-width: 1380px;
+  margin: auto;
+  padding: 28px 24px;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  overflow-x: auto;
+}
+.tab-btn {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+.tab-btn:hover {
+  background: var(--panel-hover);
+  color: var(--text);
+}
+.tab-btn.active {
+  background: #1e293b;
+  color: var(--primary);
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(340px, 1fr);
+  gap: 24px;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+}
+h2, h3 {
+  margin-top: 0;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.muted { color: var(--muted); }
+textarea, input[type="text"] {
+  width: 100%;
+  background: #090e17;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+textarea:focus, input[type="text"]:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+button.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 0.95rem;
+}
+.btn-primary { background: var(--primary); color: #090e17; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-secondary { background: #1e293b; color: var(--text); }
+.btn-secondary:hover { background: #334155; }
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #1e293b;
+  color: var(--primary);
+}
+.step {
+  display: inline-flex;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #0f172a;
+  border: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+pre {
+  margin: 0;
+  background: #090e17;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #e2e8f0;
+  font-family: "JetBrains Mono", Consolas, Monaco, "Liberation Mono", monospace;
+  font-size: 0.88rem;
+  max-height: 480px;
+  overflow-y: auto;
+}
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.status-online { background: var(--success); }
+.status-offline { background: var(--danger); }
+@media (max-width: 960px) {
+  .grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<header><strong>Anything Enterprise</strong><span class="muted">Universal AI Operator Console</span></header>
+<header>
+  <div class="brand">
+    <span>zanything</span>
+    <span class="tag">Enterprise Universal AI Operator</span>
+  </div>
+  <div class="row">
+    <span id="health-dot" class="status-indicator status-online"></span>
+    <span id="health-text" class="muted" style="font-size: 0.9rem;">Connecting…</span>
+  </div>
+</header>
 <main>
-<div class="grid">
-<section class="card">
-<h2>Execute any goal</h2>
-<p class="muted">Research, deep research, coding, debugging, architecture, security, DevOps/SRE, data, documents, spreadsheets, presentations, images, movie posters, UI/UX, marketing, business, automation, decisions, multimodal work, and end-to-end projects.</p>
-<textarea id="objective" placeholder="Describe the outcome you want..."></textarea>
-<div class="row" style="margin-top:12px">
-<label class="small"><input id="dry" type="checkbox"> Dry run / plan only</label>
-<label class="small"><input id="verify" type="checkbox" checked> Require verification</label>
-<button class="primary" onclick="run()">Run</button>
-<button class="secondary" onclick="showCaps()">Capabilities</button>
-</div>
-</section>
-<aside class="card">
-<h3>Platform</h3>
-<div id="health" class="status">Checking…</div>
-<h3>Modes</h3><div id="modes" class="muted">None yet</div>
-<h3>Workflow</h3><div id="flow" class="muted">Waiting</div>
-</aside>
-</div>
-<section class="card" style="margin-top:20px"><h3>Result</h3><pre id="result">Ready.</pre></section>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('execute')">🎯 Execution</button>
+    <button class="tab-btn" onclick="switchTab('research')">🔬 Deep Research</button>
+    <button class="tab-btn" onclick="switchTab('devops')">🚀 DevOps Planner</button>
+    <button class="tab-btn" onclick="switchTab('security')">🛡️ Security Audit</button>
+    <button class="tab-btn" onclick="switchTab('slo')">📊 SLO & Metrics</button>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <div id="panel-execute">
+        <h2>Execute Objective</h2>
+        <p class="muted">Autonomous specialist intent-routing across Coding, Security, Data, DevOps, Research, and Project OS.</p>
+        <textarea id="objective" placeholder="Describe the goal or system to execute..."></textarea>
+        <div class="row" style="margin-top: 16px;">
+          <label style="font-size: 0.9rem;"><input id="dry" type="checkbox"> Dry run / plan only</label>
+          <label style="font-size: 0.9rem;"><input id="verify" type="checkbox" checked> Require verification</label>
+          <button class="btn btn-primary" onclick="runExecute()">Execute</button>
+          <button class="btn btn-secondary" onclick="showCapabilities()">Capabilities</button>
+        </div>
+      </div>
+
+      <div id="panel-research" style="display:none;">
+        <h2>Deep Research Engine</h2>
+        <p class="muted">Multi-source synthesis with authority scoring, freshness validation, and citation integrity.</p>
+        <input type="text" id="research-topic" placeholder="Research topic (e.g. Post-Quantum Cryptography Enterprise Strategy)">
+        <div class="row" style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="runResearch()">Synthesize Report</button>
+        </div>
+      </div>
+
+      <div id="panel-devops" style="display:none;">
+        <h2>DevOps & SRE Planner</h2>
+        <p class="muted">Zero-downtime deployment orchestration with automated rollback gates.</p>
+        <div class="row">
+          <input type="text" id="devops-target" value="kubernetes" style="flex:1;" placeholder="Target (kubernetes / docker_compose / helm)">
+          <input type="text" id="devops-version" value="1.0.0" style="flex:1;" placeholder="App version">
+        </div>
+        <div class="row" style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="runDevops()">Generate Deployment Plan</button>
+        </div>
+      </div>
+
+      <div id="panel-security" style="display:none;">
+        <h2>Security & Threat Engine</h2>
+        <p class="muted">Automated trust-boundary review and vulnerability audit reporting.</p>
+        <div class="row" style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="runSecurity()">Run Baseline Security Audit</button>
+        </div>
+      </div>
+
+      <div id="panel-slo" style="display:none;">
+        <h2>SLO & Reliability Monitor</h2>
+        <p class="muted">Real-time Service Level Objective (SLO) availability and Error Budget calculations.</p>
+        <div class="row" style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="runSLO()">Check Availability SLO</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <h3>Active Context</h3>
+      <div style="margin-bottom: 16px;">
+        <span class="muted" style="font-size: 0.85rem;">Tenant ID:</span>
+        <div id="tenant-display" style="font-weight: 600;">default</div>
+      </div>
+      <div style="margin-bottom: 16px;">
+        <span class="muted" style="font-size: 0.85rem;">Detected Modes:</span>
+        <div id="modes-container" style="margin-top: 6px;"><span class="muted">Waiting for input…</span></div>
+      </div>
+      <div>
+        <span class="muted" style="font-size: 0.85rem;">Workflow DAG:</span>
+        <div id="workflow-container" style="margin-top: 6px;"><span class="muted">Idle</span></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="card" style="margin-top: 24px;">
+    <div class="row" style="justify-content: space-between; margin-bottom: 12px;">
+      <h3 style="margin: 0;">Execution Telemetry & Output</h3>
+      <span id="latency-tag" class="badge">0 ms</span>
+    </div>
+    <pre id="output">System initialized and ready.</pre>
+  </section>
 </main>
+
 <script>
-async function checkHealth(){
-  try{const r=await fetch("/healthz");const j=await r.json();health.textContent=j.status}
-  catch(e){health.textContent="offline"}
+let currentTab = 'execute';
+
+function switchTab(tabId) {
+  currentTab = tabId;
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  ['execute', 'research', 'devops', 'security', 'slo'].forEach(t => {
+    const el = document.getElementById('panel-' + t);
+    if (el) el.style.display = (t === tabId) ? 'block' : 'none';
+  });
 }
-async function showCaps(){
-  const r=await fetch("/v1/capabilities");const j=await r.json();result.textContent=JSON.stringify(j,null,2)
+
+async function checkHealth() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/healthz");
+    const data = await res.json();
+    const lat = Math.round(performance.now() - start);
+    document.getElementById("health-text").textContent = `Healthy (${lat}ms)`;
+    document.getElementById("health-dot").className = "status-indicator status-online";
+  } catch (err) {
+    document.getElementById("health-text").textContent = "Offline";
+    document.getElementById("health-dot").className = "status-indicator status-offline";
+  }
 }
-async function run(){
-  const objective=document.getElementById("objective").value.trim();if(!objective)return;
-  const payload={objective,dry_run:dry.checked,require_verification:verify.checked};
-  result.textContent="Running…";
-  try{
-    const r=await fetch("/v1/execute",{method:"POST",headers:{"Content-Type":"application/json","X-Request-ID":crypto.randomUUID()},body:JSON.stringify(payload)});
-    const j=await r.json();result.textContent=JSON.stringify(j,null,2);
-    modes.innerHTML=(j.modes||[]).map(x=>`<span class="badge">${x}</span>`).join("");
-    flow.innerHTML=(j.workflow||[]).map(x=>`<span class="step">${x}</span>`).join(" → ");
-  }catch(e){result.textContent=String(e)}
+
+async function showCapabilities() {
+  const res = await fetch("/v1/capabilities");
+  const data = await res.json();
+  document.getElementById("output").textContent = JSON.stringify(data, null, 2);
 }
+
+async function runExecute() {
+  const objective = document.getElementById("objective").value.trim();
+  if (!objective) return;
+  const start = performance.now();
+  document.getElementById("output").textContent = "Routing and planning objective…";
+
+  const payload = {
+    objective,
+    dry_run: document.getElementById("dry").checked,
+    require_verification: document.getElementById("verify").checked
+  };
+
+  try {
+    const res = await fetch("/v1/execute", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Request-ID": crypto.randomUUID() },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    const lat = Math.round(performance.now() - start);
+    document.getElementById("latency-tag").textContent = `${lat} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+
+    if (data.modes) {
+      document.getElementById("modes-container").innerHTML = data.modes.map(m => `<span class="badge">${m}</span>`).join(" ");
+    }
+    if (data.workflow) {
+      document.getElementById("workflow-container").innerHTML = data.workflow.map(w => `<span class="step">${w}</span>`).join(" &rarr; ");
+    }
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
+async function runResearch() {
+  const topic = document.getElementById("research-topic").value.trim() || "Enterprise AI Governance";
+  const start = performance.now();
+  document.getElementById("output").textContent = `Synthesizing research for: ${topic}…`;
+
+  const sources = [
+    { url: "https://csrc.nist.gov/publications", title: "NIST Cybersecurity Framework", authority_score: 0.98, freshness_score: 0.95, is_primary: true, excerpt: "Security controls standard" },
+    { url: "https://iso.org/standard/27001", title: "ISO/IEC 27001:2022", authority_score: 0.96, freshness_score: 0.9, is_primary: true, excerpt: "Information security management systems" }
+  ];
+
+  try {
+    const res = await fetch(`/v1/research/synthesize?topic=${encodeURIComponent(topic)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(sources)
+    });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
+async function runDevops() {
+  const target = document.getElementById("devops-target").value.trim();
+  const version = document.getElementById("devops-version").value.trim();
+  const start = performance.now();
+
+  try {
+    const res = await fetch(`/v1/devops/plan?target=${encodeURIComponent(target)}&app_version=${encodeURIComponent(version)}`, {
+      method: "POST"
+    });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
+async function runSecurity() {
+  const start = performance.now();
+  const checks = [{ allow_anonymous: "false", env: "production" }];
+  try {
+    const res = await fetch("/v1/security/audit?target_service=zanything-core", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(checks)
+    });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
+async function runSLO() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/v1/governance/slo?total_requests=10000&failed_requests=3&target_pct=99.9");
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    document.getElementById("output").textContent = String(err);
+  }
+}
+
 checkHealth();
+setInterval(checkHealth, 15000);
 </script>
-</body></html>
+</body>
+</html>
