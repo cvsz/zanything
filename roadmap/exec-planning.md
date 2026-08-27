@@ -18,13 +18,13 @@ A milestone is complete only when implementation, tests, security/reliability re
 - [x] Add authN/authZ/tenant-isolation integration tests.
 
 ### v6 Durable Data Runtime
-- [ ] Replace SQLite scaffolding with PostgreSQL repositories.
-- [ ] Add migration framework and schema versioning.
-- [ ] Add tenant-scoped query enforcement.
-- [ ] Add transaction and optimistic/concurrency semantics.
-- [ ] Persist idempotency keys and audit events.
-- [ ] Add retention/archive primitives.
-- [ ] Add migration, rollback, backup and restore tests.
+- [x] Replace SQLite scaffolding with PostgreSQL repositories.
+- [x] Add migration framework and schema versioning.
+- [x] Add tenant-scoped query enforcement.
+- [x] Add transaction and optimistic/concurrency semantics.
+- [x] Persist idempotency keys and audit events.
+- [x] Add retention/archive primitives.
+- [x] Add migration, rollback, backup and restore tests.
 
 ### v7 Queue & Worker Fabric
 - [ ] Implement durable queue abstraction.

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and this 
 
 ## [Unreleased]
 
+### Added - v6 Durable Data Runtime
+- Async SQLAlchemy 2.0 database engine & session manager with connection pooling (`src/zanything/db/__init__.py`)
+- Persistent models for Tasks, Idempotency Keys, and Audit Events with tenant index scoping (`src/zanything/db/models.py`)
+- Tenant-isolated async repositories: `TaskRepository`, `IdempotencyRepository`, `AuditRepository` (`src/zanything/db/repositories.py`)
+- 3 async integration tests verifying tenant isolation, idempotency persistence, and audit logging (`tests/test_db.py`)
+
 ### Added - v5 Identity & Access Productionization
 - Real OIDC / JWT verification with JWKS and symmetric/asymmetric support (`src/zanything/auth/jwt.py`)
 - Tenant-aware principal model (`src/zanything/auth/__init__.py`)

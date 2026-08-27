@@ -29,6 +29,9 @@ class Settings(BaseSettings):
         default_factory=lambda: ["http://localhost:8080"]
     )
 
+    # Durable Data Runtime (PostgreSQL / SQLite fallback for local test)
+    database_url: str = "sqlite+aiosqlite:///./zanything.db"
+
     # Security & Authentication (OIDC / JWT)
     allow_anonymous: bool = (
         True  # Allows unauthenticated requests to public endpoints if enabled
