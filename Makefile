@@ -1,26 +1,32 @@
 SHELL := /bin/sh
-
-.PHONY: help setup format lint test build security ci
+.PHONY: help setup format lint typecheck test build security ci clean
 
 help:
-	@printf '%s\n' 'Targets: setup format lint test build security ci'
+	@printf '%s\n' 'Targets: setup format lint typecheck test build security ci clean'
 
 setup:
-	@echo 'Replace with project bootstrap command.'
+	python3 -m venv .venv
+	.venv/bin/pip install -e ".[dev]"
 
 format:
-	@echo 'Replace with project formatter command.'
+	ruff format src/ tests/
 
 lint:
-	@echo 'Replace with project lint command.'
+	ruff check src/ tests/
+
+typecheck:
+	mypy src/
 
 test:
-	@echo 'Replace with project test command.'
+	pytest tests/ -v --tb=short
 
 build:
-	@echo 'Replace with project build command.'
+	docker build -f deploy/docker/Dockerfile -t zanything:local .
 
 security:
-	@echo 'Use repository security workflows and add stack-specific scanners.'
+	ruff check src/ tests/ --select S
 
-ci: lint test build security
+ci: lint typecheck test build
+
+clean:
+	rm -rf .venv dist *.egg-info .mypy_cache .pytest_cache .ruff_cache __pycache__

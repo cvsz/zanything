@@ -13,11 +13,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Lint
+        run: ruff check src/ tests/
+
+      - name: Format check
+        run: ruff format --check src/ tests/
+
+      - name: Type check
+        run: mypy src/
+
+      - name: Test
+        run: pytest tests/ -v --tb=short
+
+      - name: Import validation
+        run: python -c "from zanything.app import app; print(f'OK: {app.title}')"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Docker build
+        run: docker build -f deploy/docker/Dockerfile -t zanything:ci .
+
   repository-baseline:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
 
       - name: Validate required project files
         shell: bash
@@ -30,11 +68,7 @@ jobs:
             SECURITY.md
             CODE_OF_CONDUCT.md
             CHANGELOG.md
-            ROADMAP.md
-            ROADMAP-TO-GOLD-MASTER.md
-            GOLD-MASTER-CHECKLIST.md
-            IMPLEMENTATION-CHECKLIST.md
-            exec-planning.md
+            roadmap/exec-planning.md
             prompts/MASTER-IMPLEMENTATION.prompt.md
             .github/PULL_REQUEST_TEMPLATE.md
             .github/dependabot.yml
@@ -43,16 +77,11 @@ jobs:
             test -f "$path" || { echo "Missing required file: $path"; exit 1; }
           done
 
-      - name: Check for common secret file names
+      - name: Check for tracked secrets
         shell: bash
         run: |
           set -euo pipefail
-          if git ls-files | grep -E '(^|/)(\.env|id_rsa|id_ed25519|.*\.pem|.*\.key)$' | grep -v '^\.env\.example$'; then
+          if git ls-files | grep -E '(^|/)(\.env|id_rsa|id_ed25519|.*\.pem|.*\.key)$' | grep -v '\.example$'; then
             echo 'Potential secret-bearing file is tracked.'
             exit 1
           fi
-
-      - name: Validate YAML syntax
-        shell: bash
-        run: |
-          ruby -e 'require "yaml"; Dir.glob(".github/**/*.{yml,yaml}").each { |f| YAML.load_file(f); puts "ok #{f}" }'

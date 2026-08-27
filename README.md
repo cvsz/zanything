@@ -1,46 +1,64 @@
-# zanything — Anything Enterprise Universal Operator
+# zanything
 
-zanything is the implementation repository for a universal enterprise AI operator spanning Research, Deep Research, Coding, Debugging, Architecture, Security, DevOps/SRE, Data, Documents, Spreadsheets, Presentations, Images, Movie Posters, UI/UX, Marketing, Business, Automation, Decision Making, Multimodal workflows, and end-to-end Project Execution.
+Enterprise Universal AI Operator — routes user intent across 20+ specialist modes (research, coding, security, data, documents, images, and more), plans execution workflows, and delivers verified outcomes.
 
-## Canonical implementation entry points
+## Current Status
 
-1. `prompts/MASTER-IMPLEMENTATION.prompt.md` — master implementation contract.
-2. `exec-planning.md` — v5 → v66 canonical execution ledger.
-3. `ROADMAP-TO-GOLD-MASTER.md` — release roadmap and milestone framing.
-4. `GOLD-MASTER-CHECKLIST.md` — final Production/Enterprise Gold Master exit gates.
-5. `prompts/phases/` — phase-level implementation prompts.
-6. `prompts/specialists/` — specialist implementation prompts.
-7. Existing architecture, deployment, security, eval, installer and workflow files remain supporting technical constraints and evidence sources.
+> **v0.1.0 — Foundation.** Keyword-based routing is implemented. No production execution, persistence, authentication, or queue system exists yet. See [`roadmap/exec-planning.md`](roadmap/exec-planning.md) for the v5–v66 implementation ledger.
 
-## Target architecture
+## Quick Start
 
-`Enterprise GUI → API Gateway → Identity/OIDC → Tenant Context → RBAC/ABAC + Policy/Confirmation → Intent Router → Planner/Orchestrator → Durable Task Store → Queue/Workers → Provider & Integration Fabric → Specialist Engines → Artifact Runtime → Audit/Event Stream → Observability → Release Gates`
+```bash
+# Clone and install
+git clone https://github.com/cvsz/zanything.git && cd zanything
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
 
-## Execution method
+# Validate
+pytest tests/ -v
+ruff check src/ tests/
+mypy src/
 
-For each bounded implementation slice:
+# Run locally
+uvicorn zanything.app:app --reload --port 8080
 
-`DISCOVER → DESIGN → IMPLEMENT → TEST → HARDEN → VERIFY → DOCUMENT → RELEASE EVIDENCE`
+# Docker
+docker build -f deploy/docker/Dockerfile -t zanything:local .
+docker run -p 8080:8080 zanything:local
+```
 
-Always inspect `exec-planning.md`, select the highest-priority incomplete item with satisfied dependencies, execute only that bounded slice, and mark it complete only when implementation, tests, security/reliability review, documentation/runbooks, migration/rollback notes where applicable, and release evidence are complete.
+## Repository Layout
 
-## Enterprise Gold Master milestones
+```
+src/zanything/      Python package (FastAPI application)
+tests/              Pytest test suite
+deploy/             Docker, Kubernetes, Helm, systemd, installer scripts
+docs/               Architecture, development, deployment documentation
+prompts/            System prompts, specialist definitions, phase directives
+roadmap/            Execution planning, milestones, checklists
+```
 
-- **v5–v12:** Platform Core
-- **v13–v25:** Universal Capability Runtime
-- **v26–v40:** Reliability, Security & Governance
-- **v41–v55:** Platform Engineering & Distribution
-- **v56–v66:** Enterprise GA & Gold Master
+## Endpoints
 
-## Production-ready definition
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/healthz` | Liveness probe |
+| `GET` | `/readyz` | Readiness probe (no dependency checks yet) |
+| `GET` | `/version` | Service name and version |
+| `GET` | `/v1/capabilities` | Available routing modes and features |
+| `POST` | `/v1/execute` | Route objective → modes → workflow plan |
 
-Do not call zanything production-ready merely because code builds. Production readiness requires proven clean installation, production identity/tenant/RBAC, durable DB/queue, externally managed secrets, integration safety controls, green test/security gates, operational observability/SLOs, backup/restore, upgrade/rollback, capacity/failure testing, DR evidence, completed runbooks/docs, and archived Gold Master release evidence.
+## Roadmap
 
-## Pull request / release policy
+See [`roadmap/exec-planning.md`](roadmap/exec-planning.md) for the canonical v5–v66 implementation ledger.
 
-- PRs must be current with `main` before merge.
-- Required CI and security checks must pass; missing check execution is not equivalent to success.
-- Resolve review threads and merge conflicts before merge.
-- Dependency major-version PRs require compatibility review and green CI.
-- Documentation, examples, release notes, GitHub templates and project ledgers must be updated when a change affects them.
-- Prefer squash merge for bounded implementation slices unless repository policy requires another method.
+**Next milestone:** v5 — Identity & Access Productionization (OIDC/JWT).
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). All PRs require CI green (tests, lint, type check, Docker build).
+
+## License
+
+See [LICENSE](LICENSE).
