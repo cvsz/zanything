@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     )
 
     # Durable Data Runtime (PostgreSQL / SQLite fallback for local test)
-    database_url: str = "sqlite+aiosqlite:///./zanything.db"
+    database_url: str = "sqlite+aiosqlite:////tmp/zanything.db"
 
     # Security & Authentication (OIDC / JWT)
     allow_anonymous: bool = True

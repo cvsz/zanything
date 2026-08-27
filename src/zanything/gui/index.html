@@ -538,10 +538,13 @@ code#output {
   <!-- Navigation Tabs -->
   <div class="tabs-container">
     <button class="tab-btn active" onclick="switchTab('execute')"><i data-lucide="play-circle" style="width:18px; height:18px;"></i> Realtime Execute</button>
+    <button class="tab-btn" onclick="switchTab('history')"><i data-lucide="history" style="width:18px; height:18px;"></i> Task History</button>
+    <button class="tab-btn" onclick="switchTab('ai_models')"><i data-lucide="cpu" style="width:18px; height:18px;"></i> Multi-AI Connectors</button>
     <button class="tab-btn" onclick="switchTab('research')"><i data-lucide="search" style="width:18px; height:18px;"></i> Deep Research</button>
     <button class="tab-btn" onclick="switchTab('devops')"><i data-lucide="rocket" style="width:18px; height:18px;"></i> DevOps Planner</button>
     <button class="tab-btn" onclick="switchTab('security')"><i data-lucide="shield-alert" style="width:18px; height:18px;"></i> Security Audit</button>
     <button class="tab-btn" onclick="switchTab('slo')"><i data-lucide="bar-chart-2" style="width:18px; height:18px;"></i> SLO & Metrics</button>
+    <button class="tab-btn" onclick="switchTab('metrics')"><i data-lucide="activity" style="width:18px; height:18px;"></i> Prometheus</button>
     <button class="tab-btn" onclick="switchTab('admin')"><i data-lucide="users" style="width:18px; height:18px;"></i> Admin & Roles</button>
     <button class="tab-btn" onclick="switchTab('diagnostics')"><i data-lucide="stethoscope" style="width:18px; height:18px;"></i> Diagnostics</button>
   </div>
@@ -560,6 +563,48 @@ code#output {
           <button class="btn btn-stream" onclick="runExecuteStream()"><i data-lucide="zap" style="width:18px; height:18px;"></i> Realtime Stream</button>
           <button class="btn btn-primary" onclick="runExecute()"><i data-lucide="play" style="width:18px; height:18px;"></i> Execute</button>
           <button class="btn btn-secondary" onclick="showCapabilities()"><i data-lucide="layers" style="width:18px; height:18px;"></i> Capabilities</button>
+        </div>
+      </div>
+
+      <!-- Task History Tab -->
+      <div id="panel-history" style="display:none;">
+        <h2><i data-lucide="history" style="color:var(--primary);"></i> Durable Task Execution History</h2>
+        <p class="desc-text">Query persistent execution tasks and replay audit records from durable database (SQLite / PostgreSQL).</p>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="loadTaskHistory()"><i data-lucide="refresh-cw" style="width:18px; height:18px;"></i> Fetch Recent Tasks (/v1/tasks)</button>
+        </div>
+      </div>
+
+      <!-- Multi-AI Connectors Tab -->
+      <div id="panel-ai_models" style="display:none;">
+        <h2><i data-lucide="cpu" style="color:var(--accent-purple);"></i> Multi-Model AI Router & Telemetry</h2>
+        <p class="desc-text">Execute prompt across Claude 3.7 Sonnet, Gemini 2.5 Pro, and GPT-4o with automatic failover and cost tracking.</p>
+        <textarea id="ai-prompt" placeholder="Enter inference prompt for multi-model execution..."></textarea>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:12px;">
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Model Selection</label>
+            <select id="ai-model-select">
+              <option value="claude-3-7-sonnet">Claude 3.7 Sonnet (Anthropic)</option>
+              <option value="gemini-2.5-pro">Gemini 2.5 Pro (Google)</option>
+              <option value="gpt-4o">GPT-4o (OpenAI)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Cost & Token Telemetry</label>
+            <button class="btn btn-secondary" style="width:100%; margin-top:0;" onclick="loadProviderCosts()"><i data-lucide="dollar-sign" style="width:18px; height:18px;"></i> View Spend & Rates</button>
+          </div>
+        </div>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="runAIGenerate()"><i data-lucide="send" style="width:18px; height:18px;"></i> Run Multi-AI Inference</button>
+        </div>
+      </div>
+
+      <!-- Prometheus Tab -->
+      <div id="panel-metrics" style="display:none;">
+        <h2><i data-lucide="activity" style="color:var(--success);"></i> Enterprise Prometheus Metrics Exporter</h2>
+        <p class="desc-text">OpenMetrics / Prometheus telemetry stream ready for scrape by Prometheus & Grafana.</p>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="loadPrometheusMetrics()"><i data-lucide="terminal" style="width:18px; height:18px;"></i> Scrape /metrics Stream</button>
         </div>
       </div>
 
@@ -776,12 +821,71 @@ function switchTab(tabId) {
   currentTab = tabId;
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   event.target.closest('.tab-btn').classList.add('active');
-  ['execute', 'research', 'devops', 'security', 'slo', 'admin', 'diagnostics'].forEach(t => {
+  ['execute', 'history', 'ai_models', 'metrics', 'research', 'devops', 'security', 'slo', 'admin', 'diagnostics'].forEach(t => {
     const el = document.getElementById('panel-' + t);
     if (el) el.style.display = (t === tabId) ? 'block' : 'none';
   });
   if (window.lucide) {
     lucide.createIcons();
+  }
+}
+
+async function loadTaskHistory() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/v1/tasks", { headers: getAuthHeaders() });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    updateOutputCode(data, 'json');
+    showNotification(`Loaded ${data.count} durable execution tasks`);
+  } catch (err) {
+    updateOutputCode({ error: String(err) }, 'json');
+  }
+}
+
+async function runAIGenerate() {
+  const prompt = document.getElementById("ai-prompt").value.trim() || "Explain enterprise resilience patterns";
+  const model = document.getElementById("ai-model-select").value;
+  const start = performance.now();
+  updateOutputCode(`Routing prompt to AI model [${model}] with fallback priority…`, 'bash');
+
+  try {
+    const res = await fetch(`/v1/providers/generate?prompt=${encodeURIComponent(prompt)}&model=${encodeURIComponent(model)}`, {
+      method: "POST",
+      headers: getAuthHeaders()
+    });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    updateOutputCode(data, 'json');
+    showNotification(`AI Inference Completed via ${data.provider}`);
+  } catch (err) {
+    updateOutputCode({ error: String(err) }, 'json');
+  }
+}
+
+async function loadProviderCosts() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/v1/providers/costs", { headers: getAuthHeaders() });
+    const data = await res.json();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    updateOutputCode(data, 'json');
+    showNotification("AI Provider Token & Cost Telemetry Loaded");
+  } catch (err) {
+    updateOutputCode({ error: String(err) }, 'json');
+  }
+}
+
+async function loadPrometheusMetrics() {
+  const start = performance.now();
+  try {
+    const res = await fetch("/metrics");
+    const data = await res.text();
+    document.getElementById("latency-tag").textContent = `${Math.round(performance.now() - start)} ms`;
+    updateOutputCode(data, 'bash');
+    showNotification("Prometheus OpenMetrics Stream scraped");
+  } catch (err) {
+    updateOutputCode(String(err), 'bash');
   }
 }
 
