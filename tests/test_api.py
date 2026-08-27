@@ -121,3 +121,36 @@ def test_routing_coding_workflow(client: TestClient) -> None:
     assert "CODING" in body["modes"]
     assert "TEST" in body["workflow"]
     assert "HARDEN" in body["workflow"]
+
+
+def test_research_synthesis_endpoint(client: TestClient) -> None:
+    """Verify POST /v1/research/synthesize endpoint executes deep research synthesis."""
+    sources = [
+        {
+            "url": "https://gov.example/filing",
+            "title": "Gov Baseline",
+            "authority_score": 0.95,
+            "freshness_score": 0.9,
+            "is_primary": True,
+            "excerpt": "Verified data",
+        }
+    ]
+    r = client.post(
+        "/v1/research/synthesize?topic=Quantum+Computing",
+        json=sources,
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["topic"] == "Quantum Computing"
+    assert data["overall_confidence"] == 0.95
+    assert len(data["findings"]) == 1
+
+
+def test_governance_slo_endpoint(client: TestClient) -> None:
+    """Verify GET /v1/governance/slo endpoint calculates real-time SLO metrics."""
+    r = client.get("/v1/governance/slo?total_requests=10000&failed_requests=5")
+    assert r.status_code == 200
+    data = r.json()
+    assert data["name"] == "Availability"
+    assert data["actual_pct"] == 99.95
+    assert data["status"] == "healthy"

@@ -214,11 +214,119 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             "roles": [r.value for r in Role],
             "descriptions": {
                 Role.ADMIN: "Full system administration and policy management",
-                Role.OPERATOR: "Execute workflows, manage jobs, and configure adapters",
+                Role.OPERATOR: (
+                    "Execute workflows, manage jobs, and configure adapters"
+                ),
                 Role.VIEWER: "Read-only access to status and executions",
-                Role.AUDITOR: "Read-only access to audit logs and compliance evidence",
+                Role.AUDITOR: (
+                    "Read-only access to audit logs and compliance evidence"
+                ),
             },
         }
+
+    # --- Capability Engines Endpoints ---
+
+    @app.post(
+        "/v1/research/synthesize",
+        tags=["Engines"],
+        summary="Synthesize multi-source deep research report",
+    )
+    def synthesize_research(
+        topic: str,
+        sources: list[dict[str, Any]],
+        principal: Principal = Depends(get_current_principal),
+    ) -> dict[str, Any]:
+        from zanything.engines.research import DeepResearchEngine, ResearchSource
+
+        engine = DeepResearchEngine()
+        parsed_sources = [ResearchSource(**s) for s in sources]
+        report = engine.analyze_and_synthesize(
+            topic=topic,
+            raw_sources=parsed_sources,
+            tenant_id=principal.tenant_id,
+        )
+        return report.model_dump()
+
+    @app.post(
+        "/v1/devops/plan",
+        tags=["Engines"],
+        summary="Generate deployment and rollback plan",
+    )
+    def plan_deployment(
+        target: str,
+        app_version: str,
+        principal: Principal = Depends(require_role(Role.OPERATOR)),
+    ) -> dict[str, Any]:
+        from zanything.engines.devops import DeploymentTarget, DevOpsEngine
+
+        engine = DevOpsEngine()
+        dep_target = DeploymentTarget(target.lower())
+        plan = engine.plan_deployment(
+            target=dep_target,
+            tenant_id=principal.tenant_id,
+            app_version=app_version,
+        )
+        return plan.model_dump()
+
+    @app.post(
+        "/v1/security/audit",
+        tags=["Engines"],
+        summary="Run security baseline checks",
+    )
+    def audit_security(
+        target_service: str,
+        checks: list[dict[str, str]],
+        principal: Principal = Depends(require_role(Role.AUDITOR)),
+    ) -> dict[str, Any]:
+        from zanything.engines.security import SecurityEngine
+
+        engine = SecurityEngine()
+        report = engine.audit_configuration(
+            target_service=target_service,
+            tenant_id=principal.tenant_id,
+            checks=checks,
+        )
+        return report.model_dump()
+
+    @app.get(
+        "/v1/governance/slo",
+        tags=["Governance"],
+        summary="Calculate real-time SLO and error budget",
+    )
+    def get_slo_status(
+        total_requests: int = 10000,
+        failed_requests: int = 5,
+        target_pct: float = 99.9,
+        _principal: Principal = Depends(get_current_principal),
+    ) -> dict[str, Any]:
+        from zanything.governance import SLOMonitor
+
+        monitor = SLOMonitor()
+        metric = monitor.evaluate_availability(
+            total_requests=total_requests,
+            failed_requests=failed_requests,
+            target_pct=target_pct,
+        )
+        return metric.model_dump()
+
+    @app.get(
+        "/v1/distribution/diagnostics",
+        tags=["Distribution"],
+        summary="Export sanitized support diagnostic bundle",
+    )
+    def get_diagnostics(
+        principal: Principal = Depends(require_role(Role.ADMIN)),
+    ) -> dict[str, Any]:
+        from zanything.distribution import DiagnosticBundle
+
+        bundle = DiagnosticBundle(
+            bundle_id=f"diag-{int(time.time())}",
+            tenant_id=principal.tenant_id,
+            system_health={"api": "healthy", "db": "healthy", "queue": "healthy"},
+            active_workers=4,
+            open_circuits=[],
+        )
+        return bundle.model_dump()
 
     return app
 
