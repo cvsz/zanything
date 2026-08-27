@@ -563,8 +563,18 @@ pre#output {
             <label style="font-size:0.85rem; font-weight:600; color:var(--text-muted); display:block; margin-bottom:6px;">Target Platform</label>
             <select id="devops-target">
               <option value="kubernetes">Kubernetes (k8s)</option>
-              <option value="docker_compose">Docker Compose</option>
               <option value="helm">Helm Chart</option>
+              <option value="argocd">ArgoCD (GitOps)</option>
+              <option value="terraform">Terraform (IaC)</option>
+              <option value="ansible">Ansible Playbook</option>
+              <option value="docker_compose">Docker Compose</option>
+              <option value="aws_ecs">AWS ECS (Blue/Green)</option>
+              <option value="gcp_cloudrun">GCP Cloud Run (Serverless)</option>
+              <option value="azure_container_apps">Azure Container Apps</option>
+              <option value="cloudflare_workers">Cloudflare Workers (Edge)</option>
+              <option value="nomad">HashiCorp Nomad</option>
+              <option value="serverless">Serverless Framework / Lambda</option>
+              <option value="systemd">Linux Systemd Service</option>
             </select>
           </div>
           <div>
