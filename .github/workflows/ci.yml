@@ -42,7 +42,8 @@ jobs:
         run: pytest tests/ -v --tb=short
 
       - name: Import validation
-        run: python -c "from zanything.app import app; print(f'OK: {app.title}')"
+        run: |
+          python -c "from zanything.app import app; print(f'OK: {app.title}')"
 
   docker:
     runs-on: ubuntu-latest
