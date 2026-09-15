@@ -37,7 +37,8 @@ install -m 0644 "$BASE_DIR/deploy/systemd/anything-v2.service" /etc/systemd/syst
 chown -R "$APP_USER:$APP_USER" "$APP_DIR"
 
 systemctl daemon-reload
-systemctl enable --now anything-v2.service
+systemctl enable anything-v2.service
+systemctl restart anything-v2.service
 
 for _ in {1..20}; do
   if curl -fsS http://127.0.0.1:8080/healthz >/dev/null 2>&1; then
