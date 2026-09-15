@@ -23,20 +23,17 @@ if ! id "$APP_USER" >/dev/null 2>&1; then
 fi
 
 install -d -m 0755 "$APP_DIR" "$ETC_DIR"
-rm -rf "$APP_DIR/api" "$APP_DIR/gui"
-cp -a "$BASE_DIR/enterprise/api" "$APP_DIR/"
-cp -a "$BASE_DIR/enterprise/gui" "$APP_DIR/"
-
+rm -rf "$APP_DIR/venv"
 python3 -m venv "$APP_DIR/venv"
 "$APP_DIR/venv/bin/pip" install --upgrade pip
-"$APP_DIR/venv/bin/pip" install -r "$APP_DIR/api/requirements.txt"
+"$APP_DIR/venv/bin/pip" install "$BASE_DIR"
 
 if [[ ! -f "$ETC_DIR/anything.env" ]]; then
-  cp "$BASE_DIR/enterprise/config/anything.env.example" "$ETC_DIR/anything.env"
+  cp "$BASE_DIR/deploy/config/anything.env.example" "$ETC_DIR/anything.env"
   chmod 0600 "$ETC_DIR/anything.env"
 fi
 
-install -m 0644 "$BASE_DIR/enterprise/deploy/systemd/anything-v2.service" /etc/systemd/system/anything-v2.service
+install -m 0644 "$BASE_DIR/deploy/systemd/anything-v2.service" /etc/systemd/system/anything-v2.service
 chown -R "$APP_USER:$APP_USER" "$APP_DIR"
 
 systemctl daemon-reload
