@@ -39,8 +39,12 @@ jobs:
           /tmp/zanything-gm-venv/bin/pip install dist/*.whl
           /tmp/zanything-gm-venv/bin/python -c "from zanything.app import app; print(app.title)"
 
-      - name: Run security regression tests
-        run: pytest tests/test_gold_master_auth.py tests/test_auth.py -v --tb=short
+      - name: Run Gold Master security boundary regressions
+        run: |
+          pytest \
+            tests/test_gold_master_auth.py \
+            tests/test_auth.py \
+            -v --tb=short
 
       - name: Generate CycloneDX SBOM
         run: |
