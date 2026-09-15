@@ -6,9 +6,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 concurrency:
   group: gold-master-evidence-${{ github.ref }}
   cancel-in-progress: true
@@ -16,6 +13,8 @@ concurrency:
 jobs:
   repository-evidence:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v7
 
@@ -59,3 +58,27 @@ jobs:
           path: |
             dist/*
           if-no-files-found: error
+
+  attest-provenance:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: repository-evidence
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - name: Download verified release evidence
+        uses: actions/download-artifact@v5
+        with:
+          name: gold-master-repository-evidence
+          path: evidence
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: |
+            evidence/*.whl
+            evidence/*.tar.gz
+            evidence/zanything.cdx.json
+            evidence/SHA256SUMS
