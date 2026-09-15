@@ -44,6 +44,7 @@ jobs:
           pytest \
             tests/test_gold_master_auth.py \
             tests/test_auth.py \
+            tests/test_db.py \
             -v --tb=short
 
       - name: Generate CycloneDX SBOM
