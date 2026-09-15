@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write
-      attestations: write
     steps:
       - uses: actions/checkout@v7
 
@@ -53,16 +51,6 @@ jobs:
       - name: Generate artifact checksums
         run: sha256sum dist/* | tee dist/SHA256SUMS
 
-      - name: Attest build provenance
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/attest-build-provenance@v3
-        with:
-          subject-path: |
-            dist/*.whl
-            dist/*.tar.gz
-            dist/zanything.cdx.json
-            dist/SHA256SUMS
-
       - name: Upload release evidence
         uses: actions/upload-artifact@v4
         with:
@@ -70,3 +58,27 @@ jobs:
           path: |
             dist/*
           if-no-files-found: error
+
+  attest-provenance:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: repository-evidence
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - name: Download verified release evidence
+        uses: actions/download-artifact@v5
+        with:
+          name: gold-master-repository-evidence
+          path: evidence
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: |
+            evidence/*.whl
+            evidence/*.tar.gz
+            evidence/zanything.cdx.json
+            evidence/SHA256SUMS
