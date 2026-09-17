@@ -11,8 +11,8 @@ def read_script(name: str) -> str:
 def test_install_is_fail_fast_and_health_verified():
     script = read_script("install.sh")
     assert "set -Eeuo pipefail" in script
-    assert 'systemctl restart anything-v2.service' in script
-    assert 'curl -fsS http://127.0.0.1:8080/healthz' in script
+    assert "systemctl restart anything-v2.service" in script
+    assert "curl -fsS http://127.0.0.1:8080/healthz" in script
     assert 'die "Health verification failed."' in script
 
 
